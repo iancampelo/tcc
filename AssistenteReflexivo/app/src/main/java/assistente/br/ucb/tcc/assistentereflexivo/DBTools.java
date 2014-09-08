@@ -17,6 +17,7 @@ public class DBTools extends SQLiteOpenHelper{
         super(context, "myApp.db", null,DB_VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "create table logins (userId Integer primary key autoincrement, "+
