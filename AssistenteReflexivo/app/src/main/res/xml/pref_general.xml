@@ -12,8 +12,8 @@
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"
         android:inputType="textCapWords"
-        android:key="example_text"
-        android:maxLines="1"
+        android:key="example_text
+        android:maxLines="1""
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_display_name" />
