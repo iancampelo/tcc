@@ -5,7 +5,7 @@
     <header
         android:fragment="assistente.br.ucb.tcc.assistentereflexivo.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
-
+    <!--@TODO Exclude the Notifications part-->
     <header
         android:fragment="assistente.br.ucb.tcc.assistentereflexivo.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
