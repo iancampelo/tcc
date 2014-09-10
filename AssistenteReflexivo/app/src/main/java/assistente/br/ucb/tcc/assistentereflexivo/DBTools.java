@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBTools extends SQLiteOpenHelper{
 
-    private final static int    DB_VERSION = 10;
+    private final static int DB_VERSION = 10;
 
     public DBTools(Context context) {
         super(context, "myApp.db", null,DB_VERSION);
@@ -41,7 +41,6 @@ public class DBTools extends SQLiteOpenHelper{
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // super.onDowngrade(db, oldVersion, newVersion);
         System.out.println("DOWNGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
     }
 
