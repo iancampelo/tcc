@@ -35,7 +35,6 @@ import java.util.List;
 
 /**
  * A login screen that offers login via email/password.
-
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
@@ -166,7 +165,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            final int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             mLoginFormView.animate().setDuration(shortAnimTime).alpha(
@@ -271,14 +270,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                 dbTools = new DBTools(mContext);
                 myUser = dbTools.getUser(mEmail);
 
-                if (myUser.userId > 0) {
+                if (myUser.getUserId() > 0) {
                     // Account exists, check password.
-                    if (myUser.password.equals(mPassword))
+                    if (myUser.getPassword().equals(mPassword))
                         return true;
                     else
                         return false;
                 } else {
-                    myUser.password = mPassword;
+                    myUser.setPassword(mPassword);
                     return true;
                 }
             } finally {
@@ -293,7 +292,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
 
             if (success) {
-                if (myUser.userId > 0) {
+                if (myUser.getUserId() > 0) {
                     finish();
                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivity(myIntent);
