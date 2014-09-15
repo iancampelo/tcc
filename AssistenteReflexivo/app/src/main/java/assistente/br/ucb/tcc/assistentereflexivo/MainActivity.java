@@ -14,6 +14,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        TextView txtMain = new TextView(this);
+//        txtMain.findViewById(R.id.txtMain);
+//        txtMain.setText("Welcome, Ian Campelo");
     }
 
     @Override
