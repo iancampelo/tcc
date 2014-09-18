@@ -1,0 +1,25 @@
+package br.com.ucb.dao;
+
+import br.com.ucb.factory.ConnectionFactory;
+import br.com.ucb.modelo.Projeto;
+
+public class ProjetoDao extends ConnectionFactory{
+
+	private static ProjetoDao instancia = null;
+	private Projeto projeto = null;
+	
+	public static ProjetoDao getInstancia(){
+		if (instancia == null){
+			instancia = new ProjetoDao();
+		}
+		return instancia;
+	}
+	
+	public boolean inserir (Projeto proj){
+		
+		Connection conn = getConexao();
+				
+		
+		return true
+	}
+}
