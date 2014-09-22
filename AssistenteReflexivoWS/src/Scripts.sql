@@ -10,13 +10,20 @@ create table usuario(
    primary key (id));
 
    
-create table projeto(
+create table atividade(
    id int not null auto_increment,
    uid int not null,
    nome varchar(100) not null,
    tempo_estimado float not null,
-   tempo_gasto float,
+   predicao varchar(30),
+   estrategia varchar(200),
+   recursos varchar(200),
+   grau_atencao varchar(10),
+   comprensao varchar(200),
+   objetivo varchar(200),
+   anotacoes varchar(200),
    kma float,
+   tempo_gasto float,
    kmb float,
    primary key (id),
    foreign key (uid) references usuario(id) 

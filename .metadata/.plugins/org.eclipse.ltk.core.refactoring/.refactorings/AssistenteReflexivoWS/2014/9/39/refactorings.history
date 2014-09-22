@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;projetos&apos; in &apos;br.com.ucb.modelo.Usuario&apos; to &apos;atividades&apos;&#x0D;&#x0A;- Original project: &apos;AssistenteReflexivoWS&apos;&#x0D;&#x0A;- Original element: &apos;br.com.ucb.modelo.Usuario.projetos&apos;&#x0D;&#x0A;- Renamed element: &apos;br.com.ucb.modelo.Usuario.atividades&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;projetos&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;br.com.ucb.modelo{Usuario.java[Usuario^projetos" name="atividades" references="true" setter="false" stamp="1411391147723" textual="false" version="1.0"/>
+</session>

@@ -9,7 +9,7 @@ public class Usuario {
 	private String nome;
 	private String nascimento;
 	private String funcao;
-	private ArrayList<Projeto> projetos;
+	private ArrayList<Atividade> atividades;
 	
 	public int getId() {
 		return id;
@@ -41,33 +41,27 @@ public class Usuario {
 	public void setFuncao(String funcao) {
 		this.funcao = funcao;
 	}
-	public ArrayList<Projeto> getProjetos() {
-		return projetos;
+	public ArrayList<Atividade> getAtividades() {
+		return atividades;
 	}
-	public void setProjetos(ArrayList<Projeto> projetos) {
-		this.projetos = projetos;
+	public void setAtividades(ArrayList<Atividade> atividades) {
+		this.atividades = atividades;
 	}
-	
-	public String toString() {
-		return "Usuario [id=" + id + ", senha=" + senha + ", nome=" + nome
-				+ ", nascimento=" + nascimento + ", funcao=" + funcao
-				+ ", projetos=" + projetos + "]";
-	}
-	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((atividades == null) ? 0 : atividades.hashCode());
 		result = prime * result + ((funcao == null) ? 0 : funcao.hashCode());
 		result = prime * result + id;
 		result = prime * result
 				+ ((nascimento == null) ? 0 : nascimento.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result
-				+ ((projetos == null) ? 0 : projetos.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		return result;
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -76,6 +70,11 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
+		if (atividades == null) {
+			if (other.atividades != null)
+				return false;
+		} else if (!atividades.equals(other.atividades))
+			return false;
 		if (funcao == null) {
 			if (other.funcao != null)
 				return false;
@@ -93,11 +92,6 @@ public class Usuario {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (projetos == null) {
-			if (other.projetos != null)
-				return false;
-		} else if (!projetos.equals(other.projetos))
-			return false;
 		if (senha == null) {
 			if (other.senha != null)
 				return false;
@@ -105,4 +99,11 @@ public class Usuario {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", senha=" + senha + ", nome=" + nome
+				+ ", nascimento=" + nascimento + ", funcao=" + funcao
+				+ ", atividades=" + atividades + "]";
+	}
+	
 }

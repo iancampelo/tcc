@@ -1,0 +1,51 @@
+package br.com.ucb.modelo;
+
+import java.util.ArrayList;
+
+public class Usuario {
+	
+	private int id;
+	private String senha;
+	private String nome;
+	private String nascimento;
+	private String funcao;
+	private ArrayList<Atividade> atividades;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getNascimento() {
+		return nascimento;
+	}
+	public void setNascimento(String nascimento) {
+		this.nascimento = nascimento;
+	}
+	public String getFuncao() {
+		return funcao;
+	}
+	public void setFuncao(String funcao) {
+		this.funcao = funcao;
+	}
+	public ArrayList<Atividade> getAtividades() {
+		return atividades;
+	}
+	public void setAtividades(ArrayList<Atividade> atividades) {
+		this.atividades = atividades;
+	}
+	
+}
