@@ -14,8 +14,8 @@ public class AtividadeDao extends ConnectionFactory {
 	private static AtividadeDao instancia = null;
 
 	/**
-	 * Método responsável por criar uma estancia da classe seguindo o padrão
-	 * singleton
+	 * Método responsável por criar uma instancia da classe seguindo o padrão
+	 * singleton'
 	 * 
 	 * @return AtividadeDao
 	 */
@@ -27,7 +27,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por inserir um Atividade no banco de dados
+	 * Método responsável por inserir uma atividade no banco de dados
 	 * 
 	 * @param Usuario
 	 * @param Atividade
@@ -67,7 +67,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por excluir um registro do banco de dados
+	 * Método responsável por excluir uma atividade do banco de dados
 	 * 
 	 * @param Atividade
 	 * @return boolean
@@ -96,7 +96,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por consultar um registro no banco de dados
+	 * Método responsável por consultar uma atividade no banco de dados
 	 * 
 	 * @param Atividade
 	 * @return Atividade
@@ -138,7 +138,7 @@ public class AtividadeDao extends ConnectionFactory {
 				return null;
 			}
 		} catch (Exception e) {
-			System.out.println("Erro ao excluir Atividade: " + e);
+			System.out.println("Erro ao consultar atividade: " + e);
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -147,7 +147,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por listar todos os Atividades do usuário
+	 * Método responsável por listar todos as atividades do usuário
 	 * 
 	 * @param Usuario
 	 * @return ArrayList<Atividade>
@@ -237,7 +237,7 @@ public class AtividadeDao extends ConnectionFactory {
 			return ps.executeUpdate() > 0 ? true : false;
 
 		} catch (Exception e) {
-			System.out.println("Erro ao inserir Atividade: " + e);
+			System.out.println("Erro ao atualizar atividade: " + e);
 			e.printStackTrace();
 			return false;
 		} finally {

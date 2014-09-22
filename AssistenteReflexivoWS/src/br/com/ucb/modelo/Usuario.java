@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Usuario {
 	
 	private int id;
+	private String usuario;
 	private String senha;
 	private String nome;
 	private String nascimento;
@@ -16,6 +17,12 @@ public class Usuario {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	public String getSenha() {
 		return senha;
@@ -48,6 +55,12 @@ public class Usuario {
 		this.atividades = atividades;
 	}
 	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", usuario=" + usuario + ", senha="
+				+ senha + ", nome=" + nome + ", nascimento=" + nascimento
+				+ ", funcao=" + funcao + ", atividades=" + atividades + "]";
+	}
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -59,6 +72,7 @@ public class Usuario {
 				+ ((nascimento == null) ? 0 : nascimento.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 	@Override
@@ -97,13 +111,11 @@ public class Usuario {
 				return false;
 		} else if (!senha.equals(other.senha))
 			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", senha=" + senha + ", nome=" + nome
-				+ ", nascimento=" + nascimento + ", funcao=" + funcao
-				+ ", atividades=" + atividades + "]";
-	}
-	
 }

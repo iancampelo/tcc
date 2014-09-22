@@ -1,0 +1,22 @@
+package br.com.ucb.dao;
+
+import br.com.ucb.factory.ConnectionFactory;
+
+public class UsuarioDao extends ConnectionFactory{
+
+	private static UsuarioDao instancia = null;
+
+	/**
+	 * Método responsável por criar uma estancia da classe seguindo o padrão
+	 * singleton
+	 * 
+	 * @return AtividadeDao
+	 */
+	public static AtividadeDao getInstancia() {
+		if (instancia == null) {
+			instancia = new UsuarioDao();
+		}
+		return instancia;
+	}
+	
+}
