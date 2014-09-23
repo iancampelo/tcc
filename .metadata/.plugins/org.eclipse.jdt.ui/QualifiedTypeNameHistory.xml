@@ -5,7 +5,6 @@
 <fullyQualifiedTypeName name="br.com.ucb.factory.ConnectionFactory"/>
 <fullyQualifiedTypeName name="br.com.ucb.dao.ProjetoDao"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
-<fullyQualifiedTypeName name="br.com.ucb.modelo.Usuario"/>
 <fullyQualifiedTypeName name="com.mysql.jdbc.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.DriverManager"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
@@ -13,4 +12,8 @@
 <fullyQualifiedTypeName name="java.lang.Float"/>
 <fullyQualifiedTypeName name="br.com.ucb.modelo.Projeto"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="br.com.ucb.dao.UsuarioDao"/>
+<fullyQualifiedTypeName name="br.com.ucb.modelo.Usuario"/>
 </qualifiedTypeNameHistroy>
