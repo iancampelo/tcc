@@ -1,8 +1,5 @@
 package br.com.ucb.modelo;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Atividade{
 	private int    id;
 	private String nome;

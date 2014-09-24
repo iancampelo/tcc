@@ -2,9 +2,6 @@ package br.com.ucb.modelo;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Usuario {
 	
 	private int id;
