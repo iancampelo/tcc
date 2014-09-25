@@ -1,0 +1,34 @@
+<resources>
+
+    <string name="action_logout">Logout</string>
+    <string name="action_settings">Configurações</string>
+    <string name="action_sign_in">Logar ou registrar</string>
+    <string name="action_sign_in_short">Logar</string>
+    <string name="app_name">Assistente Reflexivo</string>
+    <string name="confirm_registry">Email não encontrado. Você deseja criar um novo usuário com esse email e senha?</string>
+    <string name="error_field_required">Esse campo é obrigatório</string>
+    <string name="error_incorrect_password">Senha incorreta</string>
+    <string name="error_invalid_email">Email incorreto</string>
+    <string name="error_invalid_password">Senha muito curta</string>
+    <string name="hello_world">Olá mundo!</string>
+    <string name="no">Não</string>
+    <string name="pref_header_general">Geral</string>
+    <string name="pref_header_notifications">Notificações</string>
+    <string name="pref_ringtone_silent">Silencioso</string>
+    <string name="pref_title_add_friends_to_messages">Adicionar amigos para mensagens</string>
+    <string name="pref_title_display_name">Mostrar nome</string>
+    <string name="pref_title_new_message_notifications">Notificações de novas mensagens</string>
+    <string name="pref_title_ringtone">Toque de celular</string>
+    <string name="pref_title_social_recommendations">Ativar recomendações sociais</string>
+    <string name="pref_title_sync_frequency">Frequência de sincronia</string>
+    <string name="pref_title_system_sync_settings">Configurações de sincronia</string>
+    <string name="pref_title_vibrate">Vibrar</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Senha</string>
+    <string name="title_activity_login">Logar</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="main_title_kma">Média KMA dos projetos</string>
+    <string name="main_average_value">Valor médio:</string>
+    <string name="btn_new_act">Adicionar atividade</string>
+    <string name="btn_statistics">Estatísticas</string>
+</resources>

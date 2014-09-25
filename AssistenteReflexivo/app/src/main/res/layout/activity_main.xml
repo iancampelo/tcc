@@ -9,9 +9,45 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtViewHello" />
+        android:text="@string/main_title_kma"
+        android:id="@+id/txtMainKMA"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_average_value"
+        android:id="@+id/txtKMAStatus"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/txtMainKMA" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtAvgMain"
+        android:layout_toEndOf="@+id/txtKMAStatus"
+        android:layout_alignTop="@+id/txtKMAStatus"
+        android:layout_alignEnd="@+id/txtMainKMA"
+        android:singleLine="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_new_act"
+        android:id="@+id/btnNewAct"
+        android:layout_below="@+id/txtKMAStatus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_statistics"
+        android:id="@+id/btnStats"
+        android:layout_below="@+id/btnNewAct"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 </RelativeLayout>

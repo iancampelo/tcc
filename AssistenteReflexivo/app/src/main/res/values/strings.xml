@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Reflective Assistant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -8,4 +7,8 @@
     <string name="confirm_registry">Email not found. You want to create a new user with that email and password?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="main_title_kma">Project\'s average KMA</string>
+    <string name="main_average_value">Average value:</string>
+    <string name="btn_new_act">Add activity</string>
+    <string name="btn_statistics">Statistics</string>
 </resources>
