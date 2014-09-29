@@ -31,4 +31,8 @@
     <string name="main_average_value">Valor médio:</string>
     <string name="btn_new_act">Adicionar atividade</string>
     <string name="btn_statistics">Estatísticas</string>
+    <string name="create_nm_act">Nome da atividade</string>
+    <string name="name">Nome</string>
+    <string name="prediction">Predição</string>
+    <string name="prediction_time">Tempo previsto</string>
 </resources>

@@ -1,27 +1,24 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 
-public class MainActivity extends Activity {
+public class CreateActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       TextView txtMain = (TextView)findViewById(R.id.txtAvgMain);
-       txtMain.setText("PESSIMISTA");
+        setContentView(R.layout.activity_create);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.create, menu);
         return true;
     }
 
@@ -31,18 +28,9 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if(id == R.id.action_logout){
-            //TODO Implementar um Logout real, que não volte para a Activity anterior
-            Intent logout = new Intent(MainActivity.this, LoginActivity.class);
-            MainActivity.this.startActivity(logout);
-        }
         if (id == R.id.action_settings) {
-            Intent settings = new Intent(MainActivity.this,SettingsActivity.class);
-            MainActivity.this.startActivity(settings);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //@TODO Se existe outros projetos tornar a visibilidade do btnStats ativo. Senão deixar inativa. (Não só a visibilidade como a ação)
-
 }

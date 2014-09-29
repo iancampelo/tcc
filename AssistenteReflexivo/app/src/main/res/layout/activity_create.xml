@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="assistente.br.ucb.tcc.assistentereflexivo.CreateActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_nm_act"
+        android:id="@+id/txtNomeAct"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/inpName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/inpName"
+        android:layout_below="@+id/txtNomeAct"
+        android:layout_centerHorizontal="true"
+        android:editable="true"
+        android:hint="@string/name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtPredict"
+        android:layout_below="@+id/inpName"
+        android:layout_alignStart="@+id/inpName"
+        android:layout_marginTop="48dp"
+        android:text="@string/prediction" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nmHour"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/txtPredict" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nmMin"
+        android:layout_alignTop="@+id/nmHour"
+        android:layout_toEndOf="@+id/nmHour" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nmSec"
+        android:layout_alignTop="@+id/nmMin"
+        android:layout_toEndOf="@+id/nmMin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtTempo"
+        android:text="@string/prediction_time"
+        android:layout_above="@+id/nmHour"
+        android:layout_alignStart="@+id/nmHour" />
+
+</RelativeLayout>

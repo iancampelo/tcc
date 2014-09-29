@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Reflective Assistant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -11,4 +12,10 @@
     <string name="main_average_value">Average value:</string>
     <string name="btn_new_act">Add activity</string>
     <string name="btn_statistics">Statistics</string>
+    <string name="title_activity_create">CreateActivity</string>
+    <string name="create_nm_act">Activity's name</string>
+    <string name="name">Name</string>
+    <string name="prediction">Prediction</string>
+    <string name="prediction_time">Time prediction</string>
+
 </resources>
