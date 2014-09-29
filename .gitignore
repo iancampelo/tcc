@@ -3,6 +3,7 @@
 .LSOverride
 .DS_Store?
 ._*
+.RemoteSystemsTempFiles/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
