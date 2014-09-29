@@ -14,6 +14,7 @@ Thumbs.db
 *.classpath
 *.metadata
 .metadata/
+.metadata
 *.com
 *.class
 *.dll
@@ -55,5 +56,4 @@ config.codekit
 .metadata/.plugins/org.eclipse.pde.core/.cache/clean-cache.properties
 
 .metadata/.plugins/org.eclipse.wst.sse.core/task-tags.properties
-*.snap
 *.snap
