@@ -13,7 +13,7 @@ public class UsuarioDao extends ConnectionFactory{
 	private static UsuarioDao instancia = null;
 
 	/**
-	 * Método responsável por criar uma estancia da classe seguindo o padrão
+	 * Mï¿½todo responsï¿½vel por criar uma estancia da classe seguindo o padrï¿½o
 	 * singleton
 	 * 
 	 * @return AtividadeDao
@@ -26,7 +26,7 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 	
 	/**
-	 * Método responsável por inserir um usuario no banco de dados
+	 * Mï¿½todo responsï¿½vel por inserir um usuario no banco de dados
 	 * 
 	 * @param Usuario
 	 * @param Usuario
@@ -62,7 +62,7 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 
 	/**
-	 * Método responsável por excluir uma usuario do banco de dados
+	 * Mï¿½todo responsï¿½vel por excluir uma usuario do banco de dados
 	 * 
 	 * @param Usuario
 	 * @return boolean
@@ -91,23 +91,23 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 
 	/**
-	 * Método responsável por consultar um usuario no banco de dados
+	 * Mï¿½todo responsï¿½vel por consultar um usuario no banco de dados
 	 * 
 	 * @param ID do usuario
 	 * @return Usuario
 	 */
-	public Usuario consultar(int id) {
+	public Usuario consultar(String usuario) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Usuario user = null;
 
-		String sql = "select * from usuario where id = ?";
+		String sql = "select * from usuario where usuario = ?";
 
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setString(1, usuario);
 
 			rs = ps.executeQuery();
 
@@ -118,7 +118,7 @@ public class UsuarioDao extends ConnectionFactory{
 				user.setUsuario   (rs.getString("usuario"));
 				user.setSenha     (rs.getString("senha"));
 				user.setNome      (rs.getString("nome"));
-				user.setNascimento(rs.getDate("nascimento").toString());
+				user.setNascimento(rs.getDate  ("nascimento").toString());
 				user.setFuncao    (rs.getString("funcao"));
 	
 				return user;
@@ -135,7 +135,7 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 
 	/**
-	 * Método responsável por atualizar um usuario
+	 * Mï¿½todo responsï¿½vel por atualizar um usuario
 	 * 
 	 * @param Usuario
 	 * @return boolean
