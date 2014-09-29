@@ -14,7 +14,7 @@ public class AtividadeDao extends ConnectionFactory {
 	private static AtividadeDao instancia = null;
 
 	/**
-	 * Método responsável por criar uma instancia da classe seguindo o padrão
+	 * Mï¿½todo responsï¿½vel por criar uma instancia da classe seguindo o padrï¿½o
 	 * singleton'
 	 * 
 	 * @return AtividadeDao
@@ -27,7 +27,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por inserir uma atividade no banco de dados
+	 * Mï¿½todo responsï¿½vel por inserir uma atividade no banco de dados
 	 * 
 	 * @param Usuario
 	 * @param Atividade
@@ -67,7 +67,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por excluir uma atividade do banco de dados
+	 * Mï¿½todo responsï¿½vel por excluir uma atividade do banco de dados
 	 * 
 	 * @param Atividade
 	 * @return boolean
@@ -96,7 +96,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por consultar uma atividade no banco de dados
+	 * Mï¿½todo responsï¿½vel por consultar uma atividade no banco de dados
 	 * 
 	 * @param Atividade
 	 * @return Atividade
@@ -127,7 +127,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setGrauAtencao	 (rs.getString("grau_atencao"));
 				ativ.setComprensao	 (rs.getString("comprensao"));
 				ativ.setObjetivo	 (rs.getString("objetivo"));
-				ativ.setAnotações	 (rs.getString("anotacoes"));
+				ativ.setAnotacoes	 (rs.getString("anotacoes"));
 				ativ.setTempoGasto	 (!Float.isNaN(rs.getFloat("tempo_gasto")) ? 
 						              rs.getFloat("tempo_gasto") : 0); // se o resultado for nulo coloca 0
 				ativ.setKma			 (!Float.isNaN(rs.getFloat("kma")) ? rs.getFloat("kma") : 0);
@@ -147,7 +147,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por listar todos as atividades do usuário
+	 * Mï¿½todo responsï¿½vel por listar todos as atividades do usuï¿½rio
 	 * 
 	 * @param Usuario
 	 * @return ArrayList<Atividade>
@@ -180,7 +180,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setGrauAtencao	 (rs.getString("grau_atencao"));
 				ativ.setComprensao	 (rs.getString("comprensao"));
 				ativ.setObjetivo	 (rs.getString("objetivo"));
-				ativ.setAnotações	 (rs.getString("anotacoes"));
+				ativ.setAnotacoes	 (rs.getString("anotacoes"));
 				ativ.setTempoGasto	 (!Float.isNaN(rs.getFloat("tempo_gasto")) ? 
 						              rs.getFloat("tempo_gasto") : 0); // se o resultado for nulo coloca 0
 				ativ.setKma			 (!Float.isNaN(rs.getFloat("kma")) ? rs.getFloat("kma") : 0);
@@ -201,7 +201,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Método responsável por atualizar um Atividade
+	 * Mï¿½todo responsï¿½vel por atualizar um Atividade
 	 * 
 	 * @param Usuario
 	 * @param Atividade
@@ -228,7 +228,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setString(6,  ativ.getGrauAtencao());
 			ps.setString(7,  ativ.getComprensao());
 			ps.setString(8,  ativ.getObjetivo());
-			ps.setString(9,  ativ.getAnotações());
+			ps.setString(9,  ativ.getAnotacoes());
 			ps.setFloat (10, ativ.getTempoGasto());
 			ps.setFloat (11, ativ.getKma());
 			ps.setFloat (12, ativ.getKmb());

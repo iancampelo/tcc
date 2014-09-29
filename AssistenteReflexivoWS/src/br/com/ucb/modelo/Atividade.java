@@ -13,7 +13,7 @@ public class Atividade{
 	private String grauAtencao;
 	private String comprensao;
 	private String objetivo;
-	private String anotações;
+	private String anotacoes;
 	private float  kma;
 	private float  tempoGasto;
 	
@@ -91,11 +91,11 @@ public class Atividade{
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
 	}
-	public String getAnotações() {
-		return anotações;
+	public String getAnotacoes() {
+		return anotacoes;
 	}
-	public void setAnotações(String anotações) {
-		this.anotações = anotações;
+	public void setAnotacoes(String anotacoes) {
+		this.anotacoes = anotacoes;
 	}
 	
 	@Override
@@ -104,16 +104,15 @@ public class Atividade{
 				+ tempoEstimado + ", predicao=" + predicao + ", estrategia="
 				+ estrategia + ", recursos=" + recursos + ", grauAtencao="
 				+ grauAtencao + ", comprensao=" + comprensao + ", objetivo="
-				+ objetivo + ", anotações=" + anotações + ", kma=" + kma
+				+ objetivo + ", anotacoes=" + anotacoes + ", kma=" + kma
 				+ ", tempoGasto=" + tempoGasto + ", kmb=" + kmb + "]";
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((anotações == null) ? 0 : anotações.hashCode());
+				+ ((anotacoes == null) ? 0 : anotacoes.hashCode());
 		result = prime * result
 				+ ((comprensao == null) ? 0 : comprensao.hashCode());
 		result = prime * result
@@ -134,7 +133,6 @@ public class Atividade{
 		result = prime * result + Float.floatToIntBits(tempoGasto);
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -144,10 +142,10 @@ public class Atividade{
 		if (getClass() != obj.getClass())
 			return false;
 		Atividade other = (Atividade) obj;
-		if (anotações == null) {
-			if (other.anotações != null)
+		if (anotacoes == null) {
+			if (other.anotacoes != null)
 				return false;
-		} else if (!anotações.equals(other.anotações))
+		} else if (!anotacoes.equals(other.anotacoes))
 			return false;
 		if (comprensao == null) {
 			if (other.comprensao != null)
@@ -198,4 +196,5 @@ public class Atividade{
 			return false;
 		return true;
 	}
+	
 }
