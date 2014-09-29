@@ -42,21 +42,25 @@
         android:layout_height="wrap_content"
         android:id="@+id/nmHour"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/txtPredict" />
+        android:layout_alignStart="@+id/txtPredict"
+        android:clickable="true"
+        android:baselineAligned="true" />
 
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/nmMin"
         android:layout_alignTop="@+id/nmHour"
-        android:layout_toEndOf="@+id/nmHour" />
+        android:layout_toEndOf="@+id/nmHour"
+        android:baselineAligned="true" />
 
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/nmSec"
         android:layout_alignTop="@+id/nmMin"
-        android:layout_toEndOf="@+id/nmMin" />
+        android:layout_toEndOf="@+id/nmMin"
+        android:baselineAligned="true" />
 
     <TextView
         android:layout_width="wrap_content"

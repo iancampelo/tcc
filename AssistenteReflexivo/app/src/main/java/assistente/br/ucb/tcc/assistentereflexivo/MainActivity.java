@@ -5,7 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+//
+//import com.ikovac.timepickerwithseconds.view.MyTimePickerDialog;
+//import com.ikovac.timepickerwithseconds.view.TimePicker;
+//
+//import java.util.Calendar;
 
 
 public class MainActivity extends Activity {
@@ -14,8 +21,28 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       TextView txtMain = (TextView)findViewById(R.id.txtAvgMain);
-       txtMain.setText("PESSIMISTA");
+        TextView txtMain = (TextView)findViewById(R.id.txtAvgMain);
+        txtMain.setText("PESSIMISTA");
+        Button btnAddActivity = (Button) findViewById(R.id.btnNewAct);
+        btnAddActivity.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CreateActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this, new MyTimePickerDialog.OnTimeSetListener() {
+//
+//            @Override
+//            public void onTimeSet(TimePicker view, int hourOfDay, int minute, int seconds) {
+//                // TODO Auto-generated method stub
+//                /*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
+//                        ":" + String.format("%02d", minute) +
+//                        ":" + String.format("%02d", seconds));  */
+//            }
+//        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
+//        mTimePicker.show();
     }
 
     @Override
@@ -42,6 +69,7 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     //@TODO Se existe outros projetos tornar a visibilidade do btnStats ativo. Senão deixar inativa. (Não só a visibilidade como a ação)
 
