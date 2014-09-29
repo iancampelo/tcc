@@ -9,15 +9,12 @@
     <string name="no">No</string>
     <string name="main_title_kma">Project\'s average KMA</string>
     <string name="main_average_value">Average value:</string>
-<<<<<<< HEAD
     <string name="btn_new_act">Add activity</string>
     <string name="btn_statistics">Statistics</string>
     <string name="title_activity_create">CreateActivity</string>
-    <string name="create_nm_act">Activity's name</string>
+    <string name="create_nm_act">Activity\'s name</string>
     <string name="name">Name</string>
     <string name="prediction">Prediction</string>
     <string name="prediction_time">Time prediction</string>
-=======
->>>>>>> FETCH_HEAD
 
 </resources>

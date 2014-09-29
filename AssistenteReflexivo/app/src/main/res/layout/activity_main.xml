@@ -11,7 +11,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:text="@string/main_title_kma"
         android:id="@+id/txtMainKMA"
         android:layout_alignParentTop="true"
@@ -51,10 +50,8 @@
         android:layout_below="@+id/btnNewAct"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
-=======
         android:text="New Text"
         android:id="@+id/txtMainKMA"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
->>>>>>> FETCH_HEAD
 </RelativeLayout>
