@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
             //TODO Implementar um Logout real, que não volte para a Activity anterior
             Intent logout = new Intent(MainActivity.this, LoginActivity.class);
             MainActivity.this.startActivity(logout);
+            finish();
         }
         if (id == R.id.action_settings) {
             Intent settings = new Intent(MainActivity.this,SettingsActivity.class);

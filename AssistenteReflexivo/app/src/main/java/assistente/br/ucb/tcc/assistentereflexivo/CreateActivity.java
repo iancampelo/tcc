@@ -1,6 +1,7 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ public class CreateActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -28,8 +29,15 @@ public class CreateActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if(id == R.id.action_logout){
+            //TODO Implementar um Logout real, que não volte para a Activity anterior
+            Intent logout = new Intent(CreateActivity.this, LoginActivity.class);
+            CreateActivity.this.startActivity(logout);
+            finish();
+        }
         if (id == R.id.action_settings) {
-            return true;
+            Intent settings = new Intent(CreateActivity.this,SettingsActivity.class);
+            CreateActivity.this.startActivity(settings);
         }
         return super.onOptionsItemSelected(item);
     }

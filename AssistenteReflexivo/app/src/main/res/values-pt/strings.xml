@@ -1,5 +1,4 @@
 <resources>
-
     <string name="action_logout">Logout</string>
     <string name="action_settings">Configurações</string>
     <string name="action_sign_in">Logar ou registrar</string>
@@ -35,4 +34,5 @@
     <string name="name">Nome</string>
     <string name="prediction">Predição</string>
     <string name="prediction_time">Tempo previsto</string>
+    <string name="title_activity_create">Criar atividade</string>
 </resources>
