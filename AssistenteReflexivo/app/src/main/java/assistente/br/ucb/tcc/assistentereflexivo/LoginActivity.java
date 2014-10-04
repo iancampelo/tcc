@@ -340,6 +340,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mAuthTask = null;
             showProgress(false);
         }
+//        @Override
+//        public void onBackPressed() {
+//            super.onBackPressed();
+//        }
     }
 }
 

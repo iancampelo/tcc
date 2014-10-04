@@ -25,7 +25,6 @@
         android:id="@+id/inpName"
         android:layout_below="@+id/txtNomeAct"
         android:layout_centerHorizontal="true"
-        android:editable="true"
         android:hint="@string/name" />
 
     <TextView
@@ -37,37 +36,51 @@
         android:layout_marginTop="48dp"
         android:text="@string/prediction" />
 
-    <NumberPicker
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/nmHour"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/txtPredict"
-        android:clickable="true"
-        android:baselineAligned="true" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/nmMin"
-        android:layout_alignTop="@+id/nmHour"
-        android:layout_toEndOf="@+id/nmHour"
-        android:baselineAligned="true" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/nmSec"
-        android:layout_alignTop="@+id/nmMin"
-        android:layout_toEndOf="@+id/nmMin"
-        android:baselineAligned="true" />
+        android:id="@+id/spinner"
+        android:layout_below="@+id/txtPredict"
+        android:layout_alignStart="@+id/txtPredict" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtTempo"
         android:text="@string/prediction_time"
-        android:layout_above="@+id/nmHour"
-        android:layout_alignStart="@+id/nmHour" />
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/txtPredict" />
+
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numHrs"
+        android:layout_alignTop="@+id/numMin"
+        android:layout_toStartOf="@+id/numMin" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numMin"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numSecs"
+        android:layout_alignBottom="@+id/numMin"
+        android:layout_toEndOf="@+id/numMin" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Colocar aqui outro btn"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

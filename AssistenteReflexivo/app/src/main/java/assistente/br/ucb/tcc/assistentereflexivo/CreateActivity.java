@@ -31,6 +31,8 @@ public class CreateActivity extends Activity {
         int id = item.getItemId();
         if(id == R.id.action_logout){
             //TODO Implementar um Logout real, que não volte para a Activity anterior
+            //TODO Implementar pegar as horas com o NumberPicker
+            //TODO usar imagem do botão, assim como está no Wireframe
             Intent logout = new Intent(CreateActivity.this, LoginActivity.class);
             CreateActivity.this.startActivity(logout);
             finish();
