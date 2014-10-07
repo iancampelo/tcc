@@ -1,5 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrlView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:configChanges="orientation|keyboardHidden">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,11 +15,77 @@
     tools:context="assistente.br.ucb.tcc.assistentereflexivo.PreReflectionActivity">
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/create_nm_act"
+        android:id="@+id/txtActPre"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="52dp" />
+        android:layout_alignStart="@+id/inpNamePre" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/inpNamePre"
+        android:layout_below="@+id/txtActPre"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="45dp"
+        android:clickable="false"
+        android:editable="false"
+        android:enabled="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strategy"
+        android:id="@+id/txtStrategy"
+        android:layout_below="@+id/inpNamePre"
+        android:layout_alignStart="@+id/inpNamePre"
+        android:layout_marginTop="41dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/inpStrategy"
+        android:layout_below="@+id/txtStrategy"
+        android:layout_alignStart="@+id/txtStrategy" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resources"
+        android:id="@+id/txtResources"
+        android:layout_below="@+id/inpStrategy"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/inpStrategy" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/inpResources"
+        android:layout_alignStart="@+id/txtResources"
+        android:layout_below="@+id/txtResources"
+        android:layout_alignLeft="@+id/inpStrategy" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/attentionDegree"
+        android:id="@+id/txtAttentionDegree"
+        android:layout_below="@+id/inpResources"
+        android:layout_alignStart="@+id/inpResources"
+        android:layout_marginTop="39dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinAttentionDegree"
+        android:layout_below="@+id/txtAttentionDegree"
+        android:layout_alignStart="@+id/txtAttentionDegree" />
 </RelativeLayout>
+</ScrollView>

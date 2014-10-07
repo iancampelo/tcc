@@ -6,7 +6,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="assistente.br.ucb.tcc.assistentereflexivo.CreateActivity">
+    tools:context="assistente.br.ucb.tcc.assistentereflexivo.CreateActivity"
+    android:configChanges="orientation|keyboardHidden">
 
 
     <TextView
@@ -47,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/prediction_time"
-        android:id="@+id/textView"
+        android:id="@+id/txtStrategy"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/txtPredict" />
 
@@ -63,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/numMin"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/txtStrategy"
         android:layout_centerHorizontal="true" />
 
     <NumberPicker

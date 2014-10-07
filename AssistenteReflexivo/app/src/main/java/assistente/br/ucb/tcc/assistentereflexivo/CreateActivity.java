@@ -10,11 +10,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import java.text.NumberFormat;
+
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
+    public static String nameAct=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +28,16 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
     }
 
     private void load() {
+        Button btnNextCreate = (Button) findViewById(R.id.btnNextCreate);
+        btnNextCreate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
+                nameAct = ((EditText)findViewById(R.id.inpName)).getText().toString();
+                intent.putExtra("nameAct",nameAct);
+                startActivity(intent);
+            }
+        });
         Spinner spinner = (Spinner) findViewById(R.id.spinPrediction);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.predict_options, android.R.layout.simple_spinner_item);
@@ -33,16 +48,19 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         NumberPicker npHrs = (NumberPicker) findViewById(R.id.numHrs);
         npHrs.setMaxValue(23);
         npHrs.setMinValue(0);
+        npHrs.setOnValueChangedListener(this);
 
         //MINUTES
         NumberPicker npMin = (NumberPicker) findViewById(R.id.numMin);
         npMin.setMaxValue(59);
         npMin.setMinValue(0);
+        npMin.setOnValueChangedListener(this);
 
-        //Secs
+        //SECS
         NumberPicker npSec = (NumberPicker) findViewById(R.id.numSecs);
         npSec.setMaxValue(59);
         npSec.setMinValue(0);
+        npSec.setOnValueChangedListener(this);
     }
 
 
@@ -63,9 +81,9 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
             //TODO Implementar um Logout real, que não volte para a Activity anterior
             //TODO Implementar pegar as horas com o NumberPicker
             //TODO usar imagem do botão, assim como está no Wireframe
-            Intent logout = new Intent(CreateActivity.this, LoginActivity.class);
-            CreateActivity.this.startActivity(logout);
-            finish();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
         if (id == R.id.action_settings) {
             Intent settings = new Intent(CreateActivity.this,SettingsActivity.class);

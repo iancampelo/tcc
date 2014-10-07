@@ -40,4 +40,7 @@
     <string name="correct">Correto</string>
     <string name="partially_correct">Parcialmente Correto</string>
     <string name="title_activity_pre_reflection">Pré-Reflexão</string>
+    <string name="strategy">Estratégia</string>
+    <string name="attentionDegree">Grau de atenção</string>
+    <string name="resources">Recursos</string>
 </resources>
