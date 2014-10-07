@@ -43,4 +43,8 @@
     <string name="strategy">Estratégia</string>
     <string name="attentionDegree">Grau de atenção</string>
     <string name="resources">Recursos</string>
+    <string name="title_activity_family">Familiarização</string>
+    <string name="low">Baixo</string>
+    <string name="middle">Médio</string>
+    <string name="high">Alto</string>
 </resources>

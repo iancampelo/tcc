@@ -50,6 +50,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="assistente.br.ucb.tcc.assistentereflexivo.CreateActivity" />
         </activity>
+        <activity
+            android:name=".FamilyActivity"
+            android:label="@string/title_activity_family"
+            android:parentActivityName=".PreReflectionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="assistente.br.ucb.tcc.assistentereflexivo.PreReflectionActivity" />
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

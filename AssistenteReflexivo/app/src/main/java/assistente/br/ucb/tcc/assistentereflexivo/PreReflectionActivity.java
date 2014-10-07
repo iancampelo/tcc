@@ -11,11 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 
 public class PreReflectionActivity extends Activity {
-
+    public static String nameAct=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +37,16 @@ public class PreReflectionActivity extends Activity {
                 R.array.attention_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        Button btn = (Button) findViewById(R.id.btnNextPre);
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), FamilyActivity.class);
+                nameAct = ((EditText)findViewById(R.id.inpNamePre)).getText().toString();
+                intent.putExtra("nameAct",nameAct);
+                startActivity(intent);
+            }
+        });
 
     }
 

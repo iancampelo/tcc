@@ -28,18 +28,20 @@
         <item>@string/correct</item>
     </string-array>
 
-    <string name="title_activity_pre_reflection">Pre-Reflection Activity</string>
+    <string name="title_activity_pre_reflection">Pre-Reflection</string>
     <string name="strategy">Strategy</string>
     <string name="attentionDegree">Attention Degree</string>
     <string name="resources">Resources</string>
-
     <string name="low">Low</string>
     <string name="middle">Middle</string>
     <string name="high">High</string>
+
     <string-array name="attention_options">
         <item>@string/low</item>
         <item>@string/middle</item>
         <item>@string/high</item>
     </string-array>
+
+    <string name="title_activity_family">Familiarization</string>
 
 </resources>
