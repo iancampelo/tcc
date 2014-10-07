@@ -35,4 +35,9 @@
     <string name="prediction">Predição</string>
     <string name="prediction_time">Tempo previsto</string>
     <string name="title_activity_create">Criar atividade</string>
+    <string name="next">Próximo</string>
+    <string name="incorrect">Incorreto</string>
+    <string name="correct">Correto</string>
+    <string name="partially_correct">Parcialmente Correto</string>
+    <string name="title_activity_pre_reflection">Pré-Reflexão</string>
 </resources>

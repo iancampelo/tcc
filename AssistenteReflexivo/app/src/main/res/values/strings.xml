@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Reflective Assistant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -16,4 +17,17 @@
     <string name="name">Name</string>
     <string name="prediction">Prediction</string>
     <string name="prediction_time">Time prediction</string>
+    <string name="next">Next</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="correct">Correct</string>
+    <string name="partially_correct">Partially Correct</string>
+
+    <string-array name="predict_options">
+        <item>@string/incorrect</item>
+        <item>@string/partially_correct</item>
+        <item>@string/correct</item>
+    </string-array>
+
+    <string name="title_activity_pre_reflection">Pre-Reflection Activity</string>
+
 </resources>

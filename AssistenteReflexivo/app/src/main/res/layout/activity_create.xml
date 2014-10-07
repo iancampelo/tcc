@@ -39,7 +39,7 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
+        android:id="@+id/spinPrediction"
         android:layout_below="@+id/txtPredict"
         android:layout_alignStart="@+id/txtPredict" />
 
@@ -77,8 +77,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Colocar aqui outro btn"
-        android:id="@+id/button"
+        android:text="@string/next"
+        android:id="@+id/btnNextCreate"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
