@@ -20,7 +20,7 @@ public class FamilyActivity extends Activity {
         setContentView(R.layout.activity_family);
         load();
     }
-
+//TODO implement Logout
     private void load() {
         EditText txtPreName = (EditText) findViewById(R.id.inpNameFam);
         txtPreName.setHint(getIntent().getExtras().getString("nameAct"));
@@ -30,7 +30,7 @@ public class FamilyActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
-                nameAct = ((EditText)findViewById(R.id.inpNamePre)).getText().toString();
+                nameAct = ((EditText)findViewById(R.id.inpNameFam)).getText().toString();
                 intent.putExtra("nameAct",nameAct);
                 startActivity(intent);
             }
