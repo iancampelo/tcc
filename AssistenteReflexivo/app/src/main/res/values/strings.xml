@@ -45,4 +45,6 @@
     <string name="title_activity_family">Familiarization</string>
     <string name="problem_understand">Problem Understand</string>
     <string name="activity_goal">Activity\'s Goal</string>
+    <string name="title_activity_evaluation">EvaluationActivity</string>
+
 </resources>

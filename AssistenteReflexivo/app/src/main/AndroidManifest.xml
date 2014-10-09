@@ -58,6 +58,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="assistente.br.ucb.tcc.assistentereflexivo.PreReflectionActivity" />
         </activity>
+        <activity
+            android:name=".EvaluationActivity"
+            android:label="@string/title_activity_evaluation"
+            android:parentActivityName=".FamilyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="assistente.br.ucb.tcc.assistentereflexivo.FamilyActivity" />
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

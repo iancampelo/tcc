@@ -74,14 +74,11 @@
         android:layout_alignBottom="@+id/numMin"
         android:layout_toEndOf="@+id/numMin" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <ImageButton
+        android:id="@+id/btnNextCreate"
+        android:src="@drawable/ic_action_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:id="@+id/btnNextCreate"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

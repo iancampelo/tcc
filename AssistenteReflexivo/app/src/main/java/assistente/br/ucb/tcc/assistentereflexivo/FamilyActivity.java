@@ -1,17 +1,41 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 
 public class FamilyActivity extends Activity {
-
+    public static String nameAct=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
+        load();
+    }
+
+    private void load() {
+        EditText txtPreName = (EditText) findViewById(R.id.inpNameFam);
+        txtPreName.setHint(getIntent().getExtras().getString("nameAct"));
+
+        ImageButton btn = (ImageButton) findViewById(R.id.btnNextFam);
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
+                nameAct = ((EditText)findViewById(R.id.inpNamePre)).getText().toString();
+                intent.putExtra("nameAct",nameAct);
+                startActivity(intent);
+            }
+        });
+
     }
 
 

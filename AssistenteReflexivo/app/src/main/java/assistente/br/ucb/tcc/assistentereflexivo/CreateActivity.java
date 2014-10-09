@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
@@ -28,7 +29,7 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
     }
 
     private void load() {
-        Button btnNextCreate = (Button) findViewById(R.id.btnNextCreate);
+        ImageButton btnNextCreate = (ImageButton) findViewById(R.id.btnNextCreate);
         btnNextCreate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

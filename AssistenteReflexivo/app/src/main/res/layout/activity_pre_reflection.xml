@@ -13,7 +13,8 @@
     <ScrollView
         android:id="@+id/ScrlViewPre"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
         <RelativeLayout
             android:id="@+id/container"
             android:layout_width="fill_parent"
@@ -64,7 +65,6 @@
                 android:text="@string/resources"
                 android:id="@+id/txtResources"
                 android:layout_below="@+id/inpStrategy"
-                android:layout_centerVertical="true"
                 android:layout_alignStart="@+id/inpStrategy" />
 
             <EditText
@@ -92,15 +92,15 @@
                 android:id="@+id/spinAttentionDegree"
                 android:layout_below="@+id/txtAttentionDegree"
                 android:layout_alignStart="@+id/txtAttentionDegree" />
+
+            <ImageButton
+                android:id="@+id/btnNextPre"
+                android:src="@drawable/ic_action_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinAttentionDegree"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="58dp"/>
         </RelativeLayout>
     </ScrollView>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:id="@+id/btnNextPre"
-        android:layout_alignBottom="@+id/ScrlViewPre"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>

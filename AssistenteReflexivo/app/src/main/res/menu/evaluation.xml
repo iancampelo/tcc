@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="assistente.br.ucb.tcc.assistentereflexivo.CreateActivity" >
+    tools:context="assistente.br.ucb.tcc.assistentereflexivo.EvaluationActivity" >
     <item android:id="@+id/action_logout"
         android:orderInCategory="100"
         android:showAsAction="never"
