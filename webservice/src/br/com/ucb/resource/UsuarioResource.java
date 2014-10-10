@@ -18,13 +18,6 @@ import com.google.gson.Gson;
 @Path("/usuario")
 public class UsuarioResource {
 	
-	@GET 
-	@Path("/helloworld")
-	@Produces(MediaType.APPLICATION_JSON) 
-	public String showHelloWorld() { 
-		return "Ola Mundo"; 
-	} 
-	
 	@GET
 	@Path("/listarUsuarios")
 	@Produces(MediaType.APPLICATION_JSON)

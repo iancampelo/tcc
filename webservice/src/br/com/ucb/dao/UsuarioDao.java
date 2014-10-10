@@ -152,17 +152,17 @@ public class UsuarioDao extends ConnectionFactory{
 
 		String sql = "update usuario set "+
 				     "senha = ?, nome = ?, nascimento = ?, funcao = ? "+
-				     "where id = ?";
+				     "where usuario = ?";
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
+			
 			ps.setString(1, user.getSenha());
 			ps.setString(2, user.getNome());
 			ps.setDate  (3,  new java.sql.Date(format.parse(user.getNascimento()).getTime()));
 			ps.setString(4, user.getFuncao()); 
-			ps.setInt   (5, user.getId());
+			ps.setString(5, user.getUsuario());
 			
 			return ps.executeUpdate() > 0;
 
