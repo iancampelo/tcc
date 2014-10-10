@@ -73,13 +73,13 @@ public class UsuarioDao extends ConnectionFactory{
 		Connection conn = null;
 		PreparedStatement ps = null;
 
-		String sql = "delete from usuario where id = ?";
+		String sql = "delete from usuario where usuario = ?";
 
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 
-			ps.setInt(1, user.getId());
+			ps.setString(1, user.getUsuario());
 
 			return ps.executeUpdate() > 0;
 			
