@@ -15,7 +15,7 @@ public class UsuarioDao extends ConnectionFactory{
 	private static UsuarioDao instancia = null;
 
 	/**
-	 * M�todo respons�vel por criar uma estancia da classe seguindo o padr�o
+	 * Metodo responsavel por criar uma estancia da classe seguindo o padr�o
 	 * singleton
 	 * 
 	 * @return AtividadeDao
@@ -28,7 +28,7 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 	
 	/**
-	 * M�todo respons�vel por inserir um usuario no banco de dados
+	 * Metodo responsavel por inserir um usuario no banco de dados
 	 * 
 	 * @param Usuario
 	 * @param Usuario
@@ -52,7 +52,7 @@ public class UsuarioDao extends ConnectionFactory{
 			ps.setDate  (4,  new java.sql.Date(format.parse(user.getNascimento()).getTime()));
 			ps.setString(5, user.getFuncao());
 
-			return ps.execute();
+			return ps.executeUpdate() > 0;
 
 		} catch (Exception e) {
 			System.out.println("Erro ao inserir usuario: " + e);
@@ -64,7 +64,7 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 
 	/**
-	 * M�todo respons�vel por excluir uma usuario do banco de dados
+	 * Metodo responsavel por excluir uma usuario do banco de dados
 	 * 
 	 * @param Usuario
 	 * @return boolean
@@ -93,7 +93,7 @@ public class UsuarioDao extends ConnectionFactory{
 	}
 
 	/**
-	 * M�todo respons�vel por consultar um usuario no banco de dados
+	 * Metodo responsavel por consultar um usuario no banco de dados
 	 * 
 	 * @param ID do usuario
 	 * @return Usuario
@@ -122,6 +122,9 @@ public class UsuarioDao extends ConnectionFactory{
 				user.setNome      (rs.getString("nome"));
 				user.setNascimento(rs.getDate  ("nascimento").toString());
 				user.setFuncao    (rs.getString("funcao"));
+				
+				AtividadeDao ativDao = AtividadeDao.getInstancia();
+				user.setAtividades(ativDao.listar(user));
 	
 				return user;
 			} else {
@@ -161,7 +164,7 @@ public class UsuarioDao extends ConnectionFactory{
 			ps.setString(4, user.getFuncao()); 
 			ps.setInt   (5, user.getId());
 			
-			return ps.executeUpdate() > 0 ? true : false;
+			return ps.executeUpdate() > 0;
 
 		} catch (Exception e) {
 			System.out.println("Erro ao atualizar usuario: " + e);
