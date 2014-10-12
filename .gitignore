@@ -17,6 +17,7 @@ Thumbs.db
 .metadata
 *.com
 *.class
+*.project
 *.dll
 *.exe
 *.o
