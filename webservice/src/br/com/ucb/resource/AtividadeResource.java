@@ -1,7 +1,6 @@
 package br.com.ucb.resource;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,19 +8,11 @@ import javax.ws.rs.core.MediaType;
 
 import br.com.ucb.dao.AtividadeDao;
 import br.com.ucb.modelo.Atividade;
-import br.com.ucb.modelo.Usuario;
 
 import com.google.gson.Gson;
 
 @Path("/atividade")
 public class AtividadeResource {
-
-	@GET
-	@Path("/hello")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String hello() { 
-		return "Hello!!!";
-	} 
 	
 	/**
 	 * Metodo responsavel por inserir um atividade
@@ -32,17 +23,16 @@ public class AtividadeResource {
 	@Path("/cadastrarAtividade")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String cadastrarAtividade(String userStr) throws Exception{		
+	public String cadastrarAtividade(String ativStr) throws Exception{		
 		AtividadeDao adao = null;
-		Usuario usuario = new Usuario();
 		Gson gson = new Gson();
 		adao = adao.getInstancia();
 		
-		System.out.println(userStr);
+		System.out.println(ativStr);
 		
-		usuario = gson.fromJson(userStr, Usuario.class);
+		Atividade ativ = gson.fromJson(ativStr, Atividade.class);
 		
-		return adao.inserir(usuario, usuario.getAtividades().get(0)) ? "S":"N";
+		return adao.inserir(ativ) ? "S":"N";
 	}
 	
 	/**

@@ -14,7 +14,7 @@ public class AtividadeDao extends ConnectionFactory {
 	private static AtividadeDao instancia = null;
 
 	/**
-	 * M�todo respons�vel por criar uma instancia da classe seguindo o padr�o
+	 * Metodo responsavel por criar uma instancia da classe seguindo o padrao
 	 * singleton'
 	 * 
 	 * @return AtividadeDao
@@ -27,13 +27,13 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * Metodo respons�vel por inserir uma atividade no banco de dados
+	 * Metodo responsavel por inserir uma atividade no banco de dados
 	 * 
 	 * @param Usuario
 	 * @param Atividade
 	 * @return boolean
 	 */
-	public boolean inserir(Usuario user, Atividade ativ) {
+	public boolean inserir(Atividade ativ) {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -44,7 +44,7 @@ public class AtividadeDao extends ConnectionFactory {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 
-			ps.setInt   (1,  user.getId());
+			ps.setInt   (1,  ativ.getUid());
 			ps.setString(2,  ativ.getNome());
 			ps.setFloat (3,  ativ.getTempoEstimado());
 			ps.setString(4,  ativ.getPredicao());
@@ -67,7 +67,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * M�todo respons�vel por excluir uma atividade do banco de dados
+	 *  Metodo responsavel por excluir uma atividade do banco de dados
 	 * 
 	 * @param Atividade
 	 * @return boolean
@@ -96,7 +96,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * M�todo respons�vel por consultar uma atividade no banco de dados
+	 *  Metodo responsavel por consultar uma atividade no banco de dados
 	 * 
 	 * @param Atividade
 	 * @return Atividade
@@ -118,6 +118,7 @@ public class AtividadeDao extends ConnectionFactory {
 
 			if (rs.next()) {
 				ativ.setId			 (rs.getInt("id"));
+				ativ.setUid          (rs.getInt("uid"));
 				ativ.setNome	     (rs.getString("nome"));
 				ativ.setTempoEstimado(!Float.isNaN(rs.getFloat("tempo_estimado")) ? 
 						              rs.getFloat("tempo_estimado") : 0); // se o resultado for nulo coloca 0
@@ -147,7 +148,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * M�todo respons�vel por listar todos as atividades do usu�rio
+	 *  Metodo responsavel por listar todos as atividades do usu�rio
 	 * 
 	 * @param Usuario
 	 * @return ArrayList<Atividade>
@@ -171,6 +172,7 @@ public class AtividadeDao extends ConnectionFactory {
 			while (rs.next()) {
 				Atividade ativ = new Atividade();
 				ativ.setId			 (rs.getInt("id"));
+				ativ.setUid			 (rs.getInt("uid"));
 				ativ.setNome	     (rs.getString("nome"));
 				ativ.setTempoEstimado(!Float.isNaN(rs.getFloat("tempo_estimado")) ? 
 						              rs.getFloat("tempo_estimado") : 0); // se o resultado for nulo coloca 0
@@ -201,7 +203,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 * M�todo respons�vel por atualizar um Atividade
+	 *  Metodo responsavel por atualizar um Atividade
 	 * 
 	 * @param Usuario
 	 * @param Atividade

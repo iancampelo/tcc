@@ -11,6 +11,7 @@ public class Atividade implements Serializable{
 	 */
 	private static final long serialVersionUID = -8433919224984350110L;
 	private int    id;
+	private int    uid;
 	private String nome;
 	private float  tempoEstimado;
 	private String predicao;
@@ -21,101 +22,124 @@ public class Atividade implements Serializable{
 	private String objetivo;
 	private String anotacoes;
 	private float  kma;
+	private float  kmb;
 	private float  tempoGasto;
 	
 	public Atividade() {
 	}
-	
-	private float kmb;
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public float getTempoEstimado() {
 		return tempoEstimado;
 	}
+
 	public void setTempoEstimado(float tempoEstimado) {
 		this.tempoEstimado = tempoEstimado;
 	}
-	public float getTempoGasto() {
-		return tempoGasto;
-	}
-	public void setTempoGasto(float tempoGasto) {
-		this.tempoGasto = tempoGasto;
-	}
-	public float getKma() {
-		return kma;
-	}
-	public void setKma(float kma) {
-		this.kma = kma;
-	}
-	public float getKmb() {
-		return kmb;
-	}
-	public void setKmb(float kmb) {
-		this.kmb = kmb;
-	}
+
 	public String getPredicao() {
 		return predicao;
 	}
+
 	public void setPredicao(String predicao) {
 		this.predicao = predicao;
 	}
+
 	public String getEstrategia() {
 		return estrategia;
 	}
+
 	public void setEstrategia(String estrategia) {
 		this.estrategia = estrategia;
 	}
+
 	public String getRecursos() {
 		return recursos;
 	}
+
 	public void setRecursos(String recursos) {
 		this.recursos = recursos;
 	}
+
 	public String getGrauAtencao() {
 		return grauAtencao;
 	}
+
 	public void setGrauAtencao(String grauAtencao) {
 		this.grauAtencao = grauAtencao;
 	}
+
 	public String getComprensao() {
 		return comprensao;
 	}
+
 	public void setComprensao(String comprensao) {
 		this.comprensao = comprensao;
 	}
+
 	public String getObjetivo() {
 		return objetivo;
 	}
+
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
 	}
+
 	public String getAnotacoes() {
 		return anotacoes;
 	}
+
 	public void setAnotacoes(String anotacoes) {
 		this.anotacoes = anotacoes;
 	}
-	
-	@Override
-	public String toString() {
-		return "Atividade [id=" + id + ", nome=" + nome + ", tempoEstimado="
-				+ tempoEstimado + ", predicao=" + predicao + ", estrategia="
-				+ estrategia + ", recursos=" + recursos + ", grauAtencao="
-				+ grauAtencao + ", comprensao=" + comprensao + ", objetivo="
-				+ objetivo + ", anotacoes=" + anotacoes + ", kma=" + kma
-				+ ", tempoGasto=" + tempoGasto + ", kmb=" + kmb + "]";
+
+	public float getKma() {
+		return kma;
 	}
+
+	public void setKma(float kma) {
+		this.kma = kma;
+	}
+
+	public float getKmb() {
+		return kmb;
+	}
+
+	public void setKmb(float kmb) {
+		this.kmb = kmb;
+	}
+
+	public float getTempoGasto() {
+		return tempoGasto;
+	}
+
+	public void setTempoGasto(float tempoGasto) {
+		this.tempoGasto = tempoGasto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -140,8 +164,10 @@ public class Atividade implements Serializable{
 				+ ((recursos == null) ? 0 : recursos.hashCode());
 		result = prime * result + Float.floatToIntBits(tempoEstimado);
 		result = prime * result + Float.floatToIntBits(tempoGasto);
+		result = prime * result + uid;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -203,7 +229,20 @@ public class Atividade implements Serializable{
 		if (Float.floatToIntBits(tempoGasto) != Float
 				.floatToIntBits(other.tempoGasto))
 			return false;
+		if (uid != other.uid)
+			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Atividade [id=" + id + ", uid=" + uid + ", nome=" + nome
+				+ ", tempoEstimado=" + tempoEstimado + ", predicao=" + predicao
+				+ ", estrategia=" + estrategia + ", recursos=" + recursos
+				+ ", grauAtencao=" + grauAtencao + ", comprensao=" + comprensao
+				+ ", objetivo=" + objetivo + ", anotacoes=" + anotacoes
+				+ ", kma=" + kma + ", kmb=" + kmb + ", tempoGasto="
+				+ tempoGasto + "]";
 	}
 	
 }
