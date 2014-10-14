@@ -24,4 +24,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.android.support:appcompat-v7:20.0.0'
     compile 'com.android.support:support-v4:20.0.0'
+    compile files('libs/gson-2.1.jar')
+    compile files('libs/gson-2.1-javadoc.jar')
+    compile files('libs/gson-2.1-sources.jar')
 }

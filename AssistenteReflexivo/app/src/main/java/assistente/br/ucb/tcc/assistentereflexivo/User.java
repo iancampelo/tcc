@@ -1,22 +1,45 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 /**
  * Created by ian.campelo on 9/2/14.
  */
-public class User {
+public class User implements Serializable{
+
+
     private long userId;
+    @Expose
+    @SerializedName("usuario")
     private String username;
+    @Expose
+    @SerializedName("senha")
     private String password;
+    @Expose
+    @SerializedName("nome")
     private String name;
+    @Expose
+    @SerializedName("nascimento")
+    private String birthday;
+    @Expose
+    private String funcao;
 
     public User(){}
 
-    public User(long userId, String username, String password, String name){
-
+    public User(long userId, String username, String password, String name, String birthday, String funcao) {
         setUserId(userId);
         setUsername(username);
-        setName(name);
         setPassword(password);
+        setName(name);
+        setBirthday(birthday);
+        setFuncao(funcao);
     }
 
     public long getUserId() {
@@ -49,5 +72,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 }
