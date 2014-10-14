@@ -11,9 +11,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBTools extends SQLiteOpenHelper{
 
-    private final static int DB_VERSION = 10;
+    private final static int DB_VERSION = 11;
     private final static String CREATE_QUERY = "create table logins (userId Integer primary key autoincrement, "+
-            " username text, password text, name text)";
+            " username text, password text, name text, birthday date, funcao text)";
 
     public DBTools(Context context) {
 
@@ -52,6 +52,8 @@ public class DBTools extends SQLiteOpenHelper{
         values.put("username", queryValues.getUsername());
         values.put("password", queryValues.getPassword());
         values.put("name", queryValues.getName());
+        values.put("birthday",queryValues.getBirthday());
+        values.put("funcao",queryValues.getFuncao());
         queryValues.setUserId(database.insert("logins", null, values));
         database.close();
         return queryValues;

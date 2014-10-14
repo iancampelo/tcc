@@ -16,19 +16,14 @@ public class User implements Serializable{
 
 
     private long userId;
-    @Expose
     @SerializedName("usuario")
     private String username;
-    @Expose
     @SerializedName("senha")
     private String password;
-    @Expose
     @SerializedName("nome")
     private String name;
-    @Expose
     @SerializedName("nascimento")
     private String birthday;
-    @Expose
     private String funcao;
 
     public User(){}
