@@ -27,6 +27,8 @@ public class PreReflectionActivity extends Activity {
         //TODO Find how to set the text into the edittext
 
         String txtName = getIntent().getExtras().getString("nameAct");
+        final Act act = (Act)getIntent().getExtras().get("varAct");
+
 
         EditText txtPreName = (EditText) findViewById(R.id.inpNamePre);
         Log.v("NOME ACT",txtName);
@@ -37,6 +39,9 @@ public class PreReflectionActivity extends Activity {
                 R.array.attention_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        act.setGrauAtencao(spinner.getSelectedItem().toString());
+        //act.setRecursos();
+        //act.setEstrategia();
         ImageButton btn = (ImageButton) findViewById(R.id.btnNextPre);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -44,6 +49,7 @@ public class PreReflectionActivity extends Activity {
                 Intent intent = new Intent(view.getContext(), FamilyActivity.class);
                 nameAct = ((EditText)findViewById(R.id.inpNamePre)).getText().toString();
                 intent.putExtra("nameAct",nameAct);
+                intent.putExtra("varAct",act);
                 startActivity(intent);
             }
         });

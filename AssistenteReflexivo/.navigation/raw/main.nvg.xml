@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.navigation.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.PreReflectionActivity">
+        <location        
+          id = "point0"        
+          x = "0"        
+          y = "0"/>
+      </key>
+      <value      
+        x = "3354"      
+        y = "159"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.MainActivity">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "159"      
+        y = "0"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.LoginActivity">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "2182"      
+        y = "2806"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.MenuState"      
+        xmlResourceName = "family">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "1403"      
+        y = "2338"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.SettingsActivity">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "623"      
+        y = "3585"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.FamilyActivity">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "155"      
+        y = "2026"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.CreateActivity">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "1403"      
+        y = "779"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.ActivityState"      
+        className = "assistente.br.ucb.tcc.assistentereflexivo.EvaluationActivity">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "3273"      
+        y = "1714"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.MenuState"      
+        xmlResourceName = "evaluation">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "2338"      
+        y = "2182"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+    <entry>
+      <key      
+        class = "com.android.navigation.MenuState"      
+        xmlResourceName = "main">
+        <location        
+          idref = "point0"/>
+      </key>
+      <value      
+        x = "1768"      
+        y = "100"      
+        class = "com.android.navigation.Point"/>
+    </entry>
+  </locations>
+</navigationModel>

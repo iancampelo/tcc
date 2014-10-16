@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by ian.campelo on 9/2/14.
- */
 public class DBTools extends SQLiteOpenHelper{
 
     private final static int DB_VERSION = 11;
@@ -33,10 +30,10 @@ public class DBTools extends SQLiteOpenHelper{
         try{
             System.out.println("UPGRADE DB oldVersion="+oldVersion+" - newVersion="+newVersion);
             //recreateDb(sqLiteDatabase);
-            if (oldVersion<10){
+           // if (oldVersion<10){
                 String query = CREATE_QUERY;
                 sqLiteDatabase.execSQL(query);
-            }
+           // }
         }
         catch (Exception e){e.printStackTrace();}
     }

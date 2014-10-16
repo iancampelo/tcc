@@ -47,4 +47,5 @@
     <string name="low">Baixo</string>
     <string name="middle">Médio</string>
     <string name="high">Alto</string>
+    <string name="error_numberpicker">Informe um valor para a predição</string>
 </resources>

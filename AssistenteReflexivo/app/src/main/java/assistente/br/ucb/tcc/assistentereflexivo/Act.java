@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by ian.campelo on 10/14/14.
  */
-public class Activity implements Serializable{
+public class Act implements Serializable{
 
     @SerializedName("uid")
     private int userid;
@@ -24,11 +24,11 @@ public class Activity implements Serializable{
     private float   tempoGasto;
     private float   kmb;
 
-    public Activity() {}
+    public Act() {}
 
-    public Activity(String nome, float tempoEstimado, String predicao, String estrategia,
-                    String recursos, String grauAtencao, String comprensao, String objetivo,
-                    String anotacoes, float kma, float tempoGasto, float kmb, int uid) {
+    public Act(String nome, float tempoEstimado, String predicao, String estrategia,
+               String recursos, String grauAtencao, String comprensao, String objetivo,
+               String anotacoes, float kma, float tempoGasto, float kmb, int uid) {
 
         setNome(nome);
         setTempoEstimado(tempoEstimado);

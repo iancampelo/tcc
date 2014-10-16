@@ -46,5 +46,6 @@
     <string name="problem_understand">Problem Understand</string>
     <string name="activity_goal">Activity\'s Goal</string>
     <string name="title_activity_evaluation">EvaluationActivity</string>
+    <string name="error_numberpicker">Time prediction required</string>
 
 </resources>

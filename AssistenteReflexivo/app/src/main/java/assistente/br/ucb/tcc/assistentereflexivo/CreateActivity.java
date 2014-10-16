@@ -3,6 +3,7 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,52 +14,90 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
-    public static String nameAct=null;
-
+    private static Act act = null;
+    public EditText inpName;
+    public Spinner spinner;
+    public NumberPicker npHrs;
+    public NumberPicker npMin;
+    public NumberPicker npSec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         load();
     }
-
-    private void load() {
+    //TODO: search for global variable, to access user in all the application
+    public void load() {
         ImageButton btnNextCreate = (ImageButton) findViewById(R.id.btnNextCreate);
-        btnNextCreate.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
-                nameAct = ((EditText)findViewById(R.id.inpName)).getText().toString();
-                intent.putExtra("nameAct",nameAct);
-                startActivity(intent);
-            }
-        });
-        Spinner spinner = (Spinner) findViewById(R.id.spinPrediction);
+
+        inpName = (EditText) findViewById(R.id.inpName);
+        spinner = (Spinner) findViewById(R.id.spinPrediction);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.predict_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         //HOURS
-        NumberPicker npHrs = (NumberPicker) findViewById(R.id.numHrs);
+        npHrs = (NumberPicker) findViewById(R.id.numHrs);
         npHrs.setMaxValue(23);
         npHrs.setMinValue(0);
         npHrs.setOnValueChangedListener(this);
 
         //MINUTES
-        NumberPicker npMin = (NumberPicker) findViewById(R.id.numMin);
+        npMin = (NumberPicker) findViewById(R.id.numMin);
         npMin.setMaxValue(59);
         npMin.setMinValue(0);
         npMin.setOnValueChangedListener(this);
 
         //SECS
-        NumberPicker npSec = (NumberPicker) findViewById(R.id.numSecs);
+        npSec = (NumberPicker) findViewById(R.id.numSecs);
         npSec.setMaxValue(59);
         npSec.setMinValue(0);
         npSec.setOnValueChangedListener(this);
+
+        btnNextCreate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(!checkFields()){
+                    return;
+                }
+                act = new Act();
+                act.setNome(inpName.getText().toString());
+                act.setPredicao(spinner.getSelectedItem().toString());
+//                act.setTempoEstimado();
+                Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
+
+                intent.putExtra("nameAct", ((EditText) findViewById(R.id.inpName)).getText().toString());
+                intent.putExtra("varAct",act);
+                startActivity(intent);
+            }
+        });
+    }
+    //TODO: get spinner text and hours from number pickers
+    private boolean checkFields() {
+        inpName.setError(null);
+        String name = inpName.getText().toString();
+
+        View focus = null;
+        boolean valid = true;
+
+        if(TextUtils.isEmpty(name)){
+            inpName.setError(getString(R.string.error_field_required));
+            focus=inpName;
+            focus.requestFocus();
+            valid = false;
+        }
+        if((npMin.getValue()==0)&&(npHrs.getValue()==0)&&(npSec.getValue()==0)){
+            Toast myToast = Toast.makeText(this, R.string.error_numberpicker, Toast.LENGTH_SHORT);
+            myToast.show();
+            valid = false;
+        }
+        return valid;
+
     }
 
 
