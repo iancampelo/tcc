@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by ian.campelo on 10/14/14.
  */
-public class Act implements Serializable{
+public class Act extends User implements Serializable{
 
     @SerializedName("uid")
     private int userid;

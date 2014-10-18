@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBTools extends SQLiteOpenHelper{
 
-    private final static int DB_VERSION = 11;
+    private final static int DB_VERSION = 9;
     private final static String CREATE_QUERY = "create table logins (userId Integer primary key autoincrement, "+
             " username text, password text, name text, birthday date, funcao text)";
 

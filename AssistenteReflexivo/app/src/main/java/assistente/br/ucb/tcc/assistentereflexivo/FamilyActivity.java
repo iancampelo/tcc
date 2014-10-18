@@ -3,6 +3,7 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,47 +12,84 @@ import android.widget.ImageButton;
 
 
 public class FamilyActivity extends Activity {
-    public static String nameAct=null;
+    public EditText inpActFam,inpProblem,inpObjv;
+    private static Act act;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
         load();
     }
+
+
 //TODO implement Logout
     private void load() {
-        EditText txtPreName = (EditText) findViewById(R.id.inpNameFam);
-        txtPreName.setHint(getIntent().getExtras().getString("nameAct"));
+        act = (Act)getApplicationContext();
 
+        inpActFam = (EditText) findViewById(R.id.inpNameFam);
+        inpProblem = (EditText)findViewById(R.id.inpProblem);
+        inpObjv = (EditText)findViewById(R.id.inpActGoal);
+        inpActFam.setHint(act.getNome());
         ImageButton btn = (ImageButton) findViewById(R.id.btnNextFam);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
-                nameAct = ((EditText)findViewById(R.id.inpNameFam)).getText().toString();
-                intent.putExtra("nameAct",nameAct);
+                if(!checkFields()){
+                    return;
+                }
+                act.setObjetivo(inpObjv.getText().toString());
+                act.setComprensao(inpProblem.getText().toString());
+                Intent intent = new Intent(view.getContext(), ProductionActivity.class);
                 startActivity(intent);
             }
         });
 
     }
 
+    private boolean checkFields() {
+        inpObjv.setError(null);
+        inpProblem.setError(null);
+        View focus = null;
+        boolean valid = true;
+
+        if(TextUtils.isEmpty(inpProblem.getText().toString())){
+            inpProblem.setError(getString(R.string.error_field_required));
+            focus=inpProblem;
+            focus.requestFocus();
+            valid = false;
+        }
+        if(TextUtils.isEmpty(inpObjv.getText().toString())){
+            inpObjv.setError(getString(R.string.error_field_required));
+            focus=inpObjv;
+            focus.requestFocus();
+            valid = false;
+        }
+        return valid;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.family, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            Intent settings = new Intent(FamilyActivity.this,SettingsActivity.class);
+            FamilyActivity.this.startActivity(settings);
+
+        }
+        if(id == R.id.action_logout){
+            //TODO Implementar um Logout real, que não volte para a Activity anterior
+            //TODO Implementar pegar as horas com o NumberPicker
+            //TODO usar imagem do botão, assim como está no Wireframe
+            Intent logout = new Intent(FamilyActivity.this, LoginActivity.class);
+            FamilyActivity.this.startActivity(logout);
+            finish();
         }
         return super.onOptionsItemSelected(item);
+
     }
 }

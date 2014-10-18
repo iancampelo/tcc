@@ -8,11 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-//
-//import com.ikovac.timepickerwithseconds.view.MyTimePickerDialog;
-//import com.ikovac.timepickerwithseconds.view.TimePicker;
-//
-//import java.util.Calendar;
 
 
 public class MainActivity extends Activity {
@@ -22,6 +17,15 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView txtMain = (TextView)findViewById(R.id.txtAvgMain);
+        //TODO Fazer método que pega todas as atividade do usuário e faz a média, do status das atividades
+        //TODO O nível KMB não pode ser String, pois temos que ver em qual nível ele esta, então a comparação de níveis vai ser
+        //TODO if(nivel == 0 /*pessimista*/)
+        //TODO switch(qntAtividades)
+        //TODO case: >2 {nível 1}
+        //TODO case: >4 {nível 2}
+        //TODO case: >5 {nível 3}
+        //TODO case: >6 {nivel 4}
+        //TODO default: nível 0
         txtMain.setText("PESSIMISTA");
         Button btnAddActivity = (Button) findViewById(R.id.btnNewAct);
         btnAddActivity.setOnClickListener(new View.OnClickListener(){

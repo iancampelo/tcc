@@ -3,6 +3,7 @@
     package="assistente.br.ucb.tcc.assistentereflexivo" >
 
     <application
+        android:name=".Act"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -59,12 +60,36 @@
                 android:value="assistente.br.ucb.tcc.assistentereflexivo.PreReflectionActivity" />
         </activity>
         <activity
-            android:name=".EvaluationActivity"
-            android:label="@string/title_activity_evaluation"
+            android:name=".ProductionActivity"
+            android:label="@string/title_activity_production"
             android:parentActivityName=".FamilyActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="assistente.br.ucb.tcc.assistentereflexivo.FamilyActivity" />
+        </activity>
+        <activity
+            android:name=".EvaluationActivity"
+            android:label="@string/title_activity_evaluation"
+            android:parentActivityName=".ProductionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="assistente.br.ucb.tcc.assistentereflexivo.ProductionActivity" />
+        </activity>
+        <activity
+            android:name=".PostReflectionActivity"
+            android:label="@string/title_activity_post_reflection"
+            android:parentActivityName=".EvaluationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="assistente.br.ucb.tcc.assistentereflexivo.EvaluationActivity" />
+        </activity>
+        <activity
+            android:name=".StatsActivity"
+            android:label="@string/title_activity_stats"
+            android:parentActivityName=".PostReflectionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="assistente.br.ucb.tcc.assistentereflexivo.PostReflectionActivity" />
         </activity>
     </application>
 

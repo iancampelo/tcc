@@ -3,6 +3,7 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +15,10 @@ import android.widget.Spinner;
 
 
 public class PreReflectionActivity extends Activity {
-    public static String nameAct=null;
+    private static Act act = null;
+    public Spinner spinAtt;
+    public EditText txtStrategy,txtResource,txtPreName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,34 +30,55 @@ public class PreReflectionActivity extends Activity {
     private void load() {
         //TODO Find how to set the text into the edittext
 
-        String txtName = getIntent().getExtras().getString("nameAct");
-        final Act act = (Act)getIntent().getExtras().get("varAct");
-
-
-        EditText txtPreName = (EditText) findViewById(R.id.inpNamePre);
-        Log.v("NOME ACT",txtName);
-        txtPreName.setHint(txtName);
+        act = (Act)getApplicationContext();
+        txtStrategy = (EditText)findViewById(R.id.inpStrategy);
+        txtResource = (EditText)findViewById(R.id.inpResources);
+        txtPreName = (EditText) findViewById(R.id.inpNamePre);
+        Log.v("NOME ACT",act.getNome());
+        txtPreName.setHint(act.getNome());
         //Spinner Attention
-        Spinner spinner = (Spinner) findViewById(R.id.spinAttentionDegree);
+        spinAtt = (Spinner) findViewById(R.id.spinAttentionDegree);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.attention_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        act.setGrauAtencao(spinner.getSelectedItem().toString());
-        //act.setRecursos();
-        //act.setEstrategia();
+        spinAtt.setAdapter(adapter);
+
         ImageButton btn = (ImageButton) findViewById(R.id.btnNextPre);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                if(!checkFields()){
+                    return;
+                }
+                act.setGrauAtencao(spinAtt.getSelectedItem().toString());
+                act.setRecursos(txtResource.getText().toString());
+                act.setEstrategia(txtStrategy.getText().toString());
                 Intent intent = new Intent(view.getContext(), FamilyActivity.class);
-                nameAct = ((EditText)findViewById(R.id.inpNamePre)).getText().toString();
-                intent.putExtra("nameAct",nameAct);
-                intent.putExtra("varAct",act);
                 startActivity(intent);
             }
         });
 
+    }
+
+    private boolean checkFields() {
+        txtStrategy.setError(null);
+        txtResource.setError(null);
+        View focus = null;
+        boolean valid = true;
+
+        if(TextUtils.isEmpty(txtStrategy.getText().toString())){
+            txtStrategy.setError(getString(R.string.error_field_required));
+            focus=txtStrategy;
+            focus.requestFocus();
+            valid = false;
+        }
+        if(TextUtils.isEmpty(txtResource.getText().toString())){
+            txtResource.setError(getString(R.string.error_field_required));
+            focus=txtStrategy;
+            focus.requestFocus();
+            valid = false;
+        }
+        return valid;
     }
 
     @Override

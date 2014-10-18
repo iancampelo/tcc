@@ -16,6 +16,8 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
     private static Act act = null;
@@ -65,14 +67,14 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 if(!checkFields()){
                     return;
                 }
-                act = new Act();
+//                User us = (User)getApplicationContext();
+                act = (Act)getApplicationContext();
                 act.setNome(inpName.getText().toString());
                 act.setPredicao(spinner.getSelectedItem().toString());
+                long finalTime = TimeUnit.HOURS.toMinutes(npHrs.getValue())+TimeUnit.MINUTES.toMinutes(npMin.getValue())+
+                                    TimeUnit.SECONDS.toMinutes(npSec.getValue());
 //                act.setTempoEstimado();
                 Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
-
-                intent.putExtra("nameAct", ((EditText) findViewById(R.id.inpName)).getText().toString());
-                intent.putExtra("varAct",act);
                 startActivity(intent);
             }
         });

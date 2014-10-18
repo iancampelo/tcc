@@ -7,12 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class EvaluationActivity extends Activity {
+public class StatsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evaluation);
+        setContentView(R.layout.activity_stats);
     }
 
 
@@ -26,16 +26,16 @@ public class EvaluationActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent settings = new Intent(EvaluationActivity.this,SettingsActivity.class);
-            EvaluationActivity.this.startActivity(settings);
+            Intent settings = new Intent(StatsActivity.this,SettingsActivity.class);
+            StatsActivity.this.startActivity(settings);
 
         }
         if(id == R.id.action_logout){
             //TODO Implementar um Logout real, que não volte para a Activity anterior
             //TODO Implementar pegar as horas com o NumberPicker
             //TODO usar imagem do botão, assim como está no Wireframe
-            Intent logout = new Intent(EvaluationActivity.this, LoginActivity.class);
-            EvaluationActivity.this.startActivity(logout);
+            Intent logout = new Intent(StatsActivity.this, LoginActivity.class);
+            StatsActivity.this.startActivity(logout);
             finish();
         }
         return super.onOptionsItemSelected(item);
