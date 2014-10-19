@@ -67,9 +67,9 @@ public class MainActivity extends Activity {
         //switch(act.media)
         //case 1:
         gaugeGreen.setVisibility(View.INVISIBLE);
-        gaugeRed.setVisibility(View.VISIBLE);
-        gaugeBlue.setVisibility(View.INVISIBLE);
-        txtMain.setText("PESSIMISTA");
+        gaugeRed.setVisibility(View.INVISIBLE);
+        gaugeBlue.setVisibility(View.VISIBLE);
+        txtMain.setText("OTIMISTA");
 
     }
 

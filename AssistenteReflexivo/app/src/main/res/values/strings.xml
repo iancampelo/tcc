@@ -47,8 +47,8 @@
     <string name="activity_goal">Activity\'s Goal</string>
     <string name="title_activity_evaluation">Evaluation</string>
     <string name="error_numberpicker">Time prediction required</string>
-    <string name="title_activity_production">Production</string>
     <string name="title_activity_post_reflection">Post-Reflection</string>
+    <string name="title_activity_production">Production</string>
     <string name="elapsed_time">Elapsed time</string>
     <string name="title_activity_stats">Statics</string>
 

@@ -50,4 +50,6 @@
     <string name="high">Alto</string>
     <string name="error_numberpicker">Informe um valor para a predição</string>
     <string name="elapsed_time">Tempo decorrido</string>
+    <string name="title_activity_post_reflection">Pós-Reflexão</string>
+    <string name="title_activity_production">Produção</string>
 </resources>
