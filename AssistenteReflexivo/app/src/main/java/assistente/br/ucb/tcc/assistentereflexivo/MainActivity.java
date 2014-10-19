@@ -7,16 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
 
+    private ImageView gaugeBlue, gaugeRed, gaugeGreen;
+    private TextView txtMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView txtMain = (TextView)findViewById(R.id.txtAvgMain);
         //TODO Fazer método que pega todas as atividade do usuário e faz a média, do status das atividades
         //TODO O nível KMB não pode ser String, pois temos que ver em qual nível ele esta, então a comparação de níveis vai ser
         //TODO if(nivel == 0 /*pessimista*/)
@@ -26,7 +28,11 @@ public class MainActivity extends Activity {
         //TODO case: >5 {nível 3}
         //TODO case: >6 {nivel 4}
         //TODO default: nível 0
-        txtMain.setText("PESSIMISTA");
+        load();
+        setGauge();
+
+        //TODO -PEGAR IMAGEM DE FUNDO COM O GAUGE, E SOBREPOR COM OS INDICADORES, DE ACORDO COM O STATUS DO KMB
+        //TODO -SE FOR -1 OCULTA O 0 E O 1, E POR AI VAI...
         Button btnAddActivity = (Button) findViewById(R.id.btnNewAct);
         btnAddActivity.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -47,6 +53,24 @@ public class MainActivity extends Activity {
 //            }
 //        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
 //        mTimePicker.show();
+    }
+
+    private void load() {
+        txtMain = (TextView)findViewById(R.id.txtAvgMain);
+        gaugeBlue = (ImageView)findViewById(R.id.gaugeBlue);
+        gaugeRed = (ImageView)findViewById(R.id.gaugeRed);
+        gaugeGreen = (ImageView)findViewById(R.id.gaugeGreen);
+    }
+
+    private void setGauge() {
+        //if(Act.media != 0)
+        //switch(act.media)
+        //case 1:
+        gaugeGreen.setVisibility(View.INVISIBLE);
+        gaugeRed.setVisibility(View.VISIBLE);
+        gaugeBlue.setVisibility(View.INVISIBLE);
+        txtMain.setText("PESSIMISTA");
+
     }
 
     @Override
