@@ -28,7 +28,6 @@ public class PreReflectionActivity extends Activity {
     }
 
     private void load() {
-        //TODO Find how to set the text into the edittext
 
         act = (Act)getApplicationContext();
         txtStrategy = (EditText)findViewById(R.id.inpStrategy);

@@ -45,10 +45,11 @@
     <string name="title_activity_family">Familiarization</string>
     <string name="problem_understand">Problem Understand</string>
     <string name="activity_goal">Activity\'s Goal</string>
-    <string name="title_activity_evaluation">EvaluationActivity</string>
+    <string name="title_activity_evaluation">Evaluation</string>
     <string name="error_numberpicker">Time prediction required</string>
-    <string name="title_activity_production">ProductionActivity</string>
-    <string name="title_activity_post_reflection">PostReflectionActivity</string>
-    <string name="title_activity_stats">StatsActivity</string>
+    <string name="title_activity_production">Production</string>
+    <string name="title_activity_post_reflection">Post-Reflection</string>
+    <string name="elapsed_time">Elapsed time</string>
+    <string name="title_activity_stats">Statics</string>
 
 </resources>

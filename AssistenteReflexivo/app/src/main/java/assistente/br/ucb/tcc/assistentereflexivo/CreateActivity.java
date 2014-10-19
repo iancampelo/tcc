@@ -16,6 +16,8 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
@@ -71,9 +73,15 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 act = (Act)getApplicationContext();
                 act.setNome(inpName.getText().toString());
                 act.setPredicao(spinner.getSelectedItem().toString());
-                long finalTime = TimeUnit.HOURS.toMinutes(npHrs.getValue())+TimeUnit.MINUTES.toMinutes(npMin.getValue())+
-                                    TimeUnit.SECONDS.toMinutes(npSec.getValue());
-//                act.setTempoEstimado();
+                Timestamp time = new Timestamp(0);
+                time.setSeconds(npSec.getValue());
+                time.setMinutes(npMin.getValue());
+                time.setHours(npHrs.getValue());
+                act.setTempoEstimado(time);
+
+                Toast myToast = Toast.makeText(getApplicationContext(), time.toString(), Toast.LENGTH_SHORT);
+                myToast.show();
+
                 Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
                 startActivity(intent);
             }

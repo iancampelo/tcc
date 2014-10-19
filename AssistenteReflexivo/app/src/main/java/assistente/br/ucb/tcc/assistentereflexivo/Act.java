@@ -3,6 +3,7 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created by ian.campelo on 10/14/14.
@@ -12,7 +13,8 @@ public class Act extends User implements Serializable{
     @SerializedName("uid")
     private int userid;
     private String  nome;
-    private float   tempoEstimado;
+//    private float   tempoEstimado;
+    private Timestamp tempoEstimado;
     private String  predicao;
     private String  estrategia;
     private String  recursos;
@@ -21,14 +23,15 @@ public class Act extends User implements Serializable{
     private String  objetivo;
     private String  anotacoes;
     private float   kma;
-    private float   tempoGasto;
+//    private float   tempoGasto;
+    private Timestamp tempoGasto;
     private float   kmb;
 
     public Act() {}
 
-    public Act(String nome, float tempoEstimado, String predicao, String estrategia,
+    public Act(String nome, Timestamp tempoEstimado, String predicao, String estrategia,
                String recursos, String grauAtencao, String comprensao, String objetivo,
-               String anotacoes, float kma, float tempoGasto, float kmb, int uid) {
+               String anotacoes, float kma, Timestamp tempoGasto, float kmb, int uid) {
 
         setNome(nome);
         setTempoEstimado(tempoEstimado);
@@ -61,11 +64,11 @@ public class Act extends User implements Serializable{
         this.nome = nome;
     }
 
-    public float getTempoEstimado() {
+    public Timestamp getTempoEstimado() {
         return tempoEstimado;
     }
 
-    public void setTempoEstimado(float tempoEstimado) {
+    public void setTempoEstimado(Timestamp tempoEstimado) {
         this.tempoEstimado = tempoEstimado;
     }
 
@@ -133,11 +136,11 @@ public class Act extends User implements Serializable{
         this.kma = kma;
     }
 
-    public float getTempoGasto() {
+    public Timestamp getTempoGasto() {
         return tempoGasto;
     }
 
-    public void setTempoGasto(float tempoGasto) {
+    public void setTempoGasto(Timestamp tempoGasto) {
         this.tempoGasto = tempoGasto;
     }
 
