@@ -31,9 +31,6 @@ public class PostReflectionActivity extends Activity {
 
         }
         if(id == R.id.action_logout){
-            //TODO Implementar um Logout real, que não volte para a Activity anterior
-            //TODO Implementar pegar as horas com o NumberPicker
-            //TODO usar imagem do botão, assim como está no Wireframe
             Intent logout = new Intent(PostReflectionActivity.this, LoginActivity.class);
             PostReflectionActivity.this.startActivity(logout);
             finish();

@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.sql.Timestamp;
+
 
 public class ProductionActivity extends Activity {
     public EditText inpTimePre, inpTimeElapsed, inpActProd;
@@ -63,10 +65,9 @@ public class ProductionActivity extends Activity {
                 //Pause time
                 timeSwap += timeInMillies;
                 myHandler.removeCallbacks(updateTimerMethod);
-
-                if(!checkFields()){
-                    return;
-                }
+                act.setTempoGasto(getTimeFromField());
+                Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
+                startActivity(intent);
             }
 
 
@@ -81,6 +82,8 @@ public class ProductionActivity extends Activity {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //add note, make
+                                //act.setAnotacoes(variavelComAnotações);
+
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -99,13 +102,9 @@ public class ProductionActivity extends Activity {
 
     }
 
-    private boolean checkFields() {
-        return false;
-
-    }
-
     private Runnable updateTimerMethod = new Runnable() {
 
+        //TODO Add hours in the stopwatch
         public void run() {
             timeInMillies = SystemClock.uptimeMillis() - startTime;
             finalTime = timeSwap + timeInMillies;
@@ -126,6 +125,15 @@ public class ProductionActivity extends Activity {
                 ":"+Integer.toString(act.getTempoEstimado().getSeconds());
     }
 
+    private Timestamp getTimeFromField(){
+        String[] times = inpTimeElapsed.getText().toString().split(":");
+        Timestamp time = new Timestamp(0);
+        time.setSeconds(Integer.parseInt(times[0]));
+        time.setMinutes(Integer.parseInt(times[1]));
+        time.setHours(Integer.parseInt(times[2]));
+        return time;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,9 +150,6 @@ public class ProductionActivity extends Activity {
 
         }
         if(id == R.id.action_logout){
-            //TODO Implementar um Logout real, que não volte para a Activity anterior
-            //TODO Implementar pegar as horas com o NumberPicker
-            //TODO usar imagem do botão, assim como está no Wireframe
             Intent logout = new Intent(ProductionActivity.this, LoginActivity.class);
             ProductionActivity.this.startActivity(logout);
             finish();

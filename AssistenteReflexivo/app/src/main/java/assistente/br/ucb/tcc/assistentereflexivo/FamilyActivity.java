@@ -22,7 +22,6 @@ public class FamilyActivity extends Activity {
     }
 
 
-//TODO implement Logout
     private void load() {
         act = (Act)getApplicationContext();
 
@@ -82,9 +81,6 @@ public class FamilyActivity extends Activity {
 
         }
         if(id == R.id.action_logout){
-            //TODO Implementar um Logout real, que não volte para a Activity anterior
-            //TODO Implementar pegar as horas com o NumberPicker
-            //TODO usar imagem do botão, assim como está no Wireframe
             Intent logout = new Intent(FamilyActivity.this, LoginActivity.class);
             FamilyActivity.this.startActivity(logout);
             finish();

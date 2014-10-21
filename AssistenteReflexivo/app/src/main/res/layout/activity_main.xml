@@ -38,23 +38,25 @@
         android:layout_alignTop="@+id/txtKMAStatus"
         android:layout_alignParentEnd="true" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/ic_action_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_new_act"
         android:id="@+id/btnNewAct"
-        android:layout_below="@+id/txtKMAStatus"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp" />
+        android:layout_marginTop="73dp"
+        android:layout_toStartOf="@+id/txtKMAStatus"
+        android:layout_below="@+id/txtKMAStatus" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/ic_action_graph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_statistics"
         android:id="@+id/btnStats"
-        android:layout_below="@+id/btnNewAct"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:layout_alignTop="@+id/btnNewAct"
+        android:layout_toEndOf="@+id/gaugeBlue" />
 
     <ImageView
         android:layout_width="wrap_content"

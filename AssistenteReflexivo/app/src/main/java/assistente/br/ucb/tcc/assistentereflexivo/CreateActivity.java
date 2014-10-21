@@ -34,7 +34,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         setContentView(R.layout.activity_create);
         load();
     }
-    //TODO: search for global variable, to access user in all the application
     public void load() {
         ImageButton btnNextCreate = (ImageButton) findViewById(R.id.btnNextCreate);
 
@@ -87,7 +86,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
             }
         });
     }
-    //TODO: get spinner text and hours from number pickers
     private boolean checkFields() {
         inpName.setError(null);
         String name = inpName.getText().toString();
@@ -126,8 +124,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         int id = item.getItemId();
         if(id == R.id.action_logout){
             //TODO Implementar um Logout real, que não volte para a Activity anterior
-            //TODO Implementar pegar as horas com o NumberPicker
-            //TODO usar imagem do botão, assim como está no Wireframe
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

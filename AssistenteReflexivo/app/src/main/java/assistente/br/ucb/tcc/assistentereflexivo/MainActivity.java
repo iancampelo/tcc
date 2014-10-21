@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     private ImageView gaugeBlue, gaugeRed, gaugeGreen;
+    private ImageButton btnAddActivity, statsActivity;
     private TextView txtMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,20 @@ public class MainActivity extends Activity {
 
         //TODO -PEGAR IMAGEM DE FUNDO COM O GAUGE, E SOBREPOR COM OS INDICADORES, DE ACORDO COM O STATUS DO KMB
         //TODO -SE FOR -1 OCULTA O 0 E O 1, E POR AI VAI...
-        Button btnAddActivity = (Button) findViewById(R.id.btnNewAct);
+        btnAddActivity = (ImageButton) findViewById(R.id.btnNewAct);
         btnAddActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        statsActivity = (ImageButton) findViewById(R.id.btnNewAct);
+        statsActivity.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), StatsActivity.class);
                 startActivity(intent);
             }
         });
@@ -87,7 +98,6 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_logout){
-            //TODO Implementar um Logout real, que não volte para a Activity anterior
             Intent logout = new Intent(MainActivity.this, LoginActivity.class);
             MainActivity.this.startActivity(logout);
             finish();
