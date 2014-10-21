@@ -2,20 +2,19 @@ use assistentereflexivo;
 
 create table usuario(
    id int not null AUTO_INCREMENT,
-   usuario varchar(50) not null,
+   usuario varchar(50) not null unique key,
    senha varchar(15) not null,
    nome varchar(150) not null,
    nascimento date not null,
    funcao varchar(50),
    primary key (id));
 
-   
 create table atividade(
    id int not null auto_increment,
    uid int not null,
    nome varchar(100) not null,
    tempo_estimado float not null,
-   predicao varchar(30),
+   predicao int not null,
    estrategia varchar(200),
    recursos varchar(200),
    grau_atencao varchar(10),

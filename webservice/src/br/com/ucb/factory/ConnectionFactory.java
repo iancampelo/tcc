@@ -5,7 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-
+/**
+ * Classe responsavel por abrir e fechar as conexoes com a base de dados
+ * @author Jean Silvestre
+ *
+ */
 public class ConnectionFactory {
 	
 	private static final String DRIVER  = "com.mysql.jdbc.Driver";
@@ -13,7 +17,8 @@ public class ConnectionFactory {
 	private static final String USUARIO = "root";
 	private static final String SENHA   = "root";
 	
-	/** Método responsável por criar a conexão com o banco de dados
+	/** 
+	 * Método responsavel por criar a conexao com o banco de dados
 	 * @return Connection
 	 */
 	public static Connection criarConexao() {
@@ -30,7 +35,7 @@ public class ConnectionFactory {
 	}
 	
 	/**
-	 * Método responsável por fechas as conexões com o banco de dados
+	 * Metodo responsavel por fechar as conexoes com o banco de dados
 	 * @param Connection
 	 * @param PreparedStatment
 	 * @param ResultSet

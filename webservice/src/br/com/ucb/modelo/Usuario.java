@@ -5,11 +5,15 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *  Classe que contem os dados de um usuario
+ *  @author Jean Silvestre
+ */
 @XmlRootElement
 public class Usuario implements Serializable{
 	
 	/**
-	 * 
+	 *  Classe que contem os dados de um usuario
 	 */
 	private static final long serialVersionUID = -3555946795178207805L;
 	private int id;

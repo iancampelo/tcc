@@ -11,12 +11,18 @@ import br.com.ucb.modelo.Atividade;
 
 import com.google.gson.Gson;
 
+/**
+ * Classe do Web Service que recebera as informcoes pertinentes a atividades e realizara as operacoes
+ * desejadas na base de dados
+ * @author Jean Silvestre
+ *
+ */
 @Path("/atividade")
 public class AtividadeResource {
 	
 	/**
-	 * Metodo responsavel por inserir um atividade
-	 * @param Json String
+	 * Metodo responsavel por traduzir uma String Json em uma atividade e inserir esta atividade atraves do DAO
+	 * @param Json String (Atividade)
 	 * @throws Exception
 	 */
 	@POST
@@ -36,8 +42,8 @@ public class AtividadeResource {
 	}
 	
 	/**
-	 * Metodo responsavel por alterar uma atividade
-	 * @param Json String
+	 * Metodo responsavel por traduzir uma String Json em uma atividade e alterar esta atividade atraves do DAO
+	 * @param Json String (Atividade)
 	 * @throws Exception
 	 */
 	@POST
@@ -56,8 +62,8 @@ public class AtividadeResource {
 	}
 	
 	/**
-	 * Metodo responsavel por excluir uma atividade
-	 * @param Json String
+	 * Metodo responsavel por traduzir uma String Json em uma atividade e excluir esta atividade atraves do DAO
+	 * @param Json String (Atividade)
 	 * @throws Exception
 	 */
 	@POST
@@ -77,8 +83,8 @@ public class AtividadeResource {
 	}
 	
 	/**
-	 * Metodo responsavel por consultar uma atividade
-	 * @param Json String
+	 * Metodo responsavel por traduzir uma String Json em uma atividade e consultar esta atividade atraves do DAO
+	 * @param Json String (Atividade)
 	 * @throws Exception
 	 */
 	@POST

@@ -9,15 +9,18 @@ import br.com.ucb.factory.ConnectionFactory;
 import br.com.ucb.modelo.Atividade;
 import br.com.ucb.modelo.Usuario;
 
+/**
+ * Classe responsavel por realizar as operacoes na base de dados pertinentes a atividade
+ * @author Jean
+ *
+ */
 public class AtividadeDao extends ConnectionFactory {
 
 	private static AtividadeDao instancia = null;
 
 	/**
-	 * Metodo responsavel por criar uma instancia da classe seguindo o padrao
-	 * singleton'
-	 * 
-	 * @return AtividadeDao
+	 * Metodo responsavel por criar uma instancia da classe seguindo o padrao singleton
+	 * @return instancia
 	 */
 	public static AtividadeDao getInstancia() {
 		if (instancia == null) {
@@ -29,9 +32,8 @@ public class AtividadeDao extends ConnectionFactory {
 	/**
 	 * Metodo responsavel por inserir uma atividade no banco de dados
 	 * 
-	 * @param Usuario
 	 * @param Atividade
-	 * @return boolean
+	 * @return Boolean
 	 */
 	public boolean inserir(Atividade ativ) {
 
@@ -47,7 +49,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setInt   (1,  ativ.getUid());
 			ps.setString(2,  ativ.getNome());
 			ps.setFloat (3,  ativ.getTempoEstimado());
-			ps.setString(4,  ativ.getPredicao());
+			ps.setInt   (4,  ativ.getPredicao());
 			ps.setString(5,  ativ.getEstrategia());
 			ps.setString(6,  ativ.getRecursos());
 			ps.setString(7,  ativ.getGrauAtencao());
@@ -122,7 +124,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setNome	     (rs.getString("nome"));
 				ativ.setTempoEstimado(!Float.isNaN(rs.getFloat("tempo_estimado")) ? 
 						              rs.getFloat("tempo_estimado") : 0); // se o resultado for nulo coloca 0
-				ativ.setPredicao	 (rs.getString("predicao"));
+				ativ.setPredicao	 (rs.getInt   ("predicao"));
 				ativ.setEstrategia	 (rs.getString("estrategia"));
 				ativ.setRecursos	 (rs.getString("recursos"));
 				ativ.setGrauAtencao	 (rs.getString("grau_atencao"));
@@ -148,7 +150,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 *  Metodo responsavel por listar todos as atividades do usu�rio
+	 *  Metodo responsavel por listar todos as atividades do usuario
 	 * 
 	 * @param Usuario
 	 * @return ArrayList<Atividade>
@@ -176,7 +178,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setNome	     (rs.getString("nome"));
 				ativ.setTempoEstimado(!Float.isNaN(rs.getFloat("tempo_estimado")) ? 
 						              rs.getFloat("tempo_estimado") : 0); // se o resultado for nulo coloca 0
-				ativ.setPredicao	 (rs.getString("predicao"));
+				ativ.setPredicao	 (rs.getInt   ("predicao"));
 				ativ.setEstrategia	 (rs.getString("estrategia"));
 				ativ.setRecursos	 (rs.getString("recursos"));
 				ativ.setGrauAtencao	 (rs.getString("grau_atencao"));
@@ -203,7 +205,7 @@ public class AtividadeDao extends ConnectionFactory {
 	}
 
 	/**
-	 *  Metodo responsavel por atualizar um Atividade
+	 *  Metodo responsavel por atualizar uma Atividade
 	 * 
 	 * @param Usuario
 	 * @param Atividade
@@ -224,7 +226,7 @@ public class AtividadeDao extends ConnectionFactory {
 
 			ps.setString(1,  ativ.getNome());
 			ps.setFloat (2,  ativ.getTempoEstimado());
-			ps.setString(3,  ativ.getPredicao());
+			ps.setInt   (3,  ativ.getPredicao());
 			ps.setString(4,  ativ.getEstrategia());
 			ps.setString(5,  ativ.getRecursos());
 			ps.setString(6,  ativ.getGrauAtencao());
@@ -246,4 +248,6 @@ public class AtividadeDao extends ConnectionFactory {
 			fecharConexao(conn, ps, null);
 		}
 	}
+	
+	
 }

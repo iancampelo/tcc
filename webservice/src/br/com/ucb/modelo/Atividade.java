@@ -4,17 +4,20 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *  Classe que contem os dados de uma atividade
+ *  @author Jean Silvestre
+ */
 @XmlRootElement
 public class Atividade implements Serializable{
-	/**
-	 * 
-	 */
+	
+	
 	private static final long serialVersionUID = -8433919224984350110L;
 	private int    id;
 	private int    uid;
 	private String nome;
 	private float  tempoEstimado;
-	private String predicao;
+	private int    predicao;
 	private String estrategia;
 	private String recursos;
 	private String grauAtencao;
@@ -60,11 +63,11 @@ public class Atividade implements Serializable{
 		this.tempoEstimado = tempoEstimado;
 	}
 
-	public String getPredicao() {
+	public int getPredicao() {
 		return predicao;
 	}
 
-	public void setPredicao(String predicao) {
+	public void setPredicao(int predicao) {
 		this.predicao = predicao;
 	}
 
@@ -158,8 +161,7 @@ public class Atividade implements Serializable{
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result
 				+ ((objetivo == null) ? 0 : objetivo.hashCode());
-		result = prime * result
-				+ ((predicao == null) ? 0 : predicao.hashCode());
+		result = prime * result + predicao;
 		result = prime * result
 				+ ((recursos == null) ? 0 : recursos.hashCode());
 		result = prime * result + Float.floatToIntBits(tempoEstimado);
@@ -213,10 +215,7 @@ public class Atividade implements Serializable{
 				return false;
 		} else if (!objetivo.equals(other.objetivo))
 			return false;
-		if (predicao == null) {
-			if (other.predicao != null)
-				return false;
-		} else if (!predicao.equals(other.predicao))
+		if (predicao != other.predicao)
 			return false;
 		if (recursos == null) {
 			if (other.recursos != null)

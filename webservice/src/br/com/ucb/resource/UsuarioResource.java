@@ -1,11 +1,7 @@
 package br.com.ucb.resource;
 
-import java.util.ArrayList;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -15,21 +11,18 @@ import br.com.ucb.modelo.Usuario;
 
 import com.google.gson.Gson;
 
+/**
+ * Classe do Web Service que recebera as informcoes pertinentes a usuarios e realizara as operacoes
+ * desejadas na base de dados
+ * @author Jean Silvestre
+ *
+ */
 @Path("/usuario")
 public class UsuarioResource {
 	
-	@GET
-	@Path("/listarUsuarios")
-	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Usuario> listarTodos() { 
-		UsuarioDao udao = null;
-		udao = udao.getInstancia();
-		return udao.listarTodos();
-	} 
-	
 	/**
-	 * Método responsável por inserir um usuario
-	 * @param Json String
+	 * Metodo responsavel por traduzir uma String Json em um usuario e inserir este usuario atraves do DAO
+	 * @param Json String (Usuario)
 	 * @throws Exception
 	 */
 	@POST
@@ -50,7 +43,7 @@ public class UsuarioResource {
 	}
 	
 	/**
-	 * Método responsável por alterar um usuario
+	 * Metodo responsavel por traduzir uma String Json em um Usuario e alterar este usuario atraves do DAO
 	 * @param Json String
 	 * @throws Exception
 	 */
@@ -70,8 +63,8 @@ public class UsuarioResource {
 	}
 	
 	/**
-	 * Método responsável por excluir um usuario
-	 * @param Json String
+	 * Metodo responsavel por traduzir uma String Json em um Usuario e excluir este  usuario atraves do DAO
+	 * @param Json String (Usuario)
 	 * @throws Exception
 	 */
 	@POST
@@ -91,9 +84,9 @@ public class UsuarioResource {
 	}
 	
 	/**
-	 * Método responsável por consultar um usuario
-	 * @param Json String
-	 * @throws Exception
+	 * Metodo responsavel por traduzir uma String Json em um Usuario e consultar este usuario atraves do DAO
+	 * @param Json String (Usuario)
+	 * @throws Exception 
 	 */
 	@POST
 	@Path("/consultarUsuario")

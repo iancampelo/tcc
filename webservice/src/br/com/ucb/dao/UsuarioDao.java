@@ -3,20 +3,22 @@ package br.com.ucb.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import br.com.ucb.factory.ConnectionFactory;
 import br.com.ucb.modelo.Usuario;
 
+/**
+ * Classe responsavel por realizar as operacoes na base de dados pertinentes a usuario
+ * @author Jean
+ *
+ */
 public class UsuarioDao extends ConnectionFactory{
 
 	private static UsuarioDao instancia = null;
 
 	/**
-	 * Metodo responsavel por criar uma estancia da classe seguindo o padr�o
-	 * singleton
+	 * Metodo responsavel por criar uma instancia da classe seguindo o padrao singleton
 	 * 
 	 * @return AtividadeDao
 	 */
@@ -30,7 +32,6 @@ public class UsuarioDao extends ConnectionFactory{
 	/**
 	 * Metodo responsavel por inserir um usuario no banco de dados
 	 * 
-	 * @param Usuario
 	 * @param Usuario
 	 * @return boolean
 	 */
@@ -95,7 +96,7 @@ public class UsuarioDao extends ConnectionFactory{
 	/**
 	 * Metodo responsavel por consultar um usuario no banco de dados
 	 * 
-	 * @param ID do usuario
+	 * @param Usuario
 	 * @return Usuario
 	 */
 	public Usuario consultar(String usuario) {
@@ -172,45 +173,6 @@ public class UsuarioDao extends ConnectionFactory{
 			return false;
 		} finally {
 			fecharConexao(conn, ps, null);
-		}
-	}
-	
-	public ArrayList<Usuario> listarTodos() {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Usuario user = null;
-		
-		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-
-		String sql = "select * from usuario";
-
-		try {
-			conn = criarConexao();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				user = new Usuario();
-				
-				user.setId        (rs.getInt   ("id"));
-				user.setUsuario   (rs.getString("usuario"));
-				user.setSenha     (rs.getString("senha"));
-				user.setNome      (rs.getString("nome"));
-				user.setNascimento(rs.getDate  ("nascimento").toString());
-				user.setFuncao    (rs.getString("funcao"));
-	
-				usuarios.add(user);
-			}
-			
-			return usuarios;
-			
-		} catch (Exception e) {
-			System.out.println("Erro ao consultar Usuario: " + e);
-			e.printStackTrace();
-			return null;
-		} finally {
-			fecharConexao(conn, ps, rs);
 		}
 	}
 	
