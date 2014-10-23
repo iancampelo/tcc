@@ -41,6 +41,8 @@ public class StatsActivity extends Activity {
         gaugeGreenKmb   = (ImageView)findViewById(R.id.imageViewGreen2);
         gaugeRedKmb     = (ImageView)findViewById(R.id.imageViewRed2);
         btnBackAdd      = (ImageButton)findViewById(R.id.btnBackAdd);
+        btnShowActs = (ImageButton) findViewById(R.id.btnShowActs);
+
         btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +52,6 @@ public class StatsActivity extends Activity {
                 finish();
             }
         });
-        btnShowActs     =(ImageButton)findViewById(R.id.btnShowActs);
         btnShowActs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,9 +69,9 @@ public class StatsActivity extends Activity {
             //if(Act.mediaKma != NULL)
             //switch(act.media)
             //case 1:
-            gaugeGreenKma.setVisibility(View.INVISIBLE);
+            gaugeGreenKma.setVisibility(View.VISIBLE);
             gaugeRedKma.setVisibility(View.INVISIBLE);
-            gaugeBlueKma.setVisibility(View.VISIBLE);
+            gaugeBlueKma.setVisibility(View.INVISIBLE);
             txtStatus.setText(getResources().getString(R.string.optimistic));
         }
         else{
