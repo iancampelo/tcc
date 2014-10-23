@@ -7,6 +7,123 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="assistente.br.ucb.tcc.assistentereflexivo.PostReflectionActivity">
+    <ScrollView
+        android:id="@+id/ScrlViewEval"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_nm_act"
+                android:id="@+id/txtActPost"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/inpActPost" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/inpActPost"
+                android:layout_below="@+id/txtActPost"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="45dp"
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/elapsed_time"
+                android:id="@+id/txtActTime"
+                android:layout_below="@+id/inpActPost"
+                android:layout_alignStart="@+id/inpActPost" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/inpTimeExe"
+                android:ems="10"
+                android:clickable="false"
+                android:editable="false"
+                android:enabled="false"
+                android:text="00:00:00"
+                android:layout_below="@+id/txtActTime"
+                android:layout_alignStart="@+id/txtActTime" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_grade_kmb"
+                android:id="@+id/textView"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="54dp"
+                android:layout_below="@+id/inpTimeExe" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewBlue"
+                android:src="@drawable/gauge_blue"
+                android:layout_toEndOf="@+id/txtActPost"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_below="@+id/inpTimeExe" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewRed"
+                android:src="@drawable/gauge_red"
+                android:layout_toEndOf="@+id/txtActPost"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_below="@+id/textView2" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewGreen"
+                android:src="@drawable/gauge_green"
+                android:layout_toEndOf="@+id/txtActPost"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_below="@+id/textView2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3"
+                android:layout_marginTop="48dp"
+                android:layout_toStartOf="@+id/imageViewBlue"
+                android:layout_below="@+id/textView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textView2"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_marginLeft="36dp"
+                android:layout_below="@+id/inpTimeExe" />
+            <ImageButton
+                android:id="@+id/btnAddNotePost"
+                android:src="@drawable/ic_action_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/inpTimeExe" />
+            <ImageButton
+                android:id="@+id/btnNextPost"
+                android:src="@drawable/ic_action_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/inpTimeExe"
+                android:layout_alignTop="@+id/btnAddNotePost" />
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

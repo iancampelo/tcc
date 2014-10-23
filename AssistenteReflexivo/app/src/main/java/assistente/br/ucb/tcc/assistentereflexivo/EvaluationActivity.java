@@ -28,7 +28,7 @@ public class EvaluationActivity extends Activity {
     }
 
     private void load() {
-
+        act = (Act)getApplicationContext();
         spinEval = (Spinner) findViewById(R.id.spinEvalAct);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.predict_options, android.R.layout.simple_spinner_item);
@@ -46,7 +46,7 @@ public class EvaluationActivity extends Activity {
             public void onClick(View view) {
                 act.setPredicao(spinEval.getSelectedItem().toString());
 
-                Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
+                Intent intent = new Intent(view.getContext(), PostReflectionActivity.class);
                 startActivity(intent);
             }
         });

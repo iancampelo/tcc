@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -242,8 +244,6 @@ public class LoginActivity extends Activity{
                                     try {
                                         //TODO OnValueChange like, to User, when this happens call alter method
                                         finish();
-//                                        dbTools = new DBTools(mContext);
-//                                        myUser = dbTools.insertUser(myUser);
 
                                         Toast myToast = Toast.makeText(mContext, getMyUser().toString(), Toast.LENGTH_SHORT);
                                         myToast.show();
@@ -264,9 +264,48 @@ public class LoginActivity extends Activity{
                         }
                     };
 
+//                    //LinearLayout lpView = new LinearLayout(this.mContext);
+//                    LinearLayout linLayout = new LinearLayout(this.mContext);
+//                    // specifying vertical orientation
+//                    linLayout.setOrientation(LinearLayout.VERTICAL);
+//                    // creating LayoutParams
+//                    LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//                    // set LinearLayout as a root element of the screen
+//                    setContentView(linLayout, linLayoutParam);
+//
+//                    LinearLayout.LayoutParams lpView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//                    EditText inputName = new EditText(this.mContext);
+//                    inputName.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+//                    inputName.setHint(getResources().getString(R.string.name));
+//                    inputName.setLayoutParams(lpView);
+//                    linLayout.addView(inputName);
+//
+//
+//
+//
+//                    EditText inputIdade = new EditText(this.mContext);
+//                    inputIdade.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+//                    inputIdade.setHint(getResources().getString(R.string.birthday));
+//                    inputIdade.setLayoutParams(lpView);
+//                    linLayout.addView(inputIdade);
+//
+//                    EditText inputFuncao = new EditText(this.mContext);
+//                    inputFuncao.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+//                    inputFuncao.setHint(getResources().getString(R.string.function));
+//                    inputFuncao.setLayoutParams(lpView);
+//                    linLayout.addView(inputFuncao);
+
+                    //TODO saber como add mais de um campo no AlertDialog
+                    EditText inputFuncao = new EditText(this.mContext);
+                    inputFuncao.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                    inputFuncao.setHint(getResources().getString(R.string.function));
+
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.mContext);
                     builder.setMessage(R.string.confirm_registry).setPositiveButton(R.string.yes, dialogClickListener)
-                            .setNegativeButton(R.string.no, dialogClickListener).show();
+                            .setNegativeButton(R.string.no, dialogClickListener).setView(inputFuncao).show();
+
                 }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

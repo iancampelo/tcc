@@ -8,9 +8,136 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="assistente.br.ucb.tcc.assistentereflexivo.StatsActivity">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:id="@+id/ScrlViewEval"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_stats_avg"
+                android:id="@+id/txtActStats"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/textView"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/textView3"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/kmb"
+                android:id="@+id/textView4"
+                android:layout_above="@+id/imageViewGreen2"
+                android:layout_alignStart="@+id/txtActStats" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/kma"
+                android:id="@+id/textView5"
+                android:layout_below="@+id/txtActStats"
+                android:layout_alignEnd="@+id/txtActStats" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewBlue"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/gauge_blue"
+                android:layout_above="@+id/textView"
+                android:layout_alignEnd="@+id/textView"
+                android:layout_below="@+id/textView4" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewGreen"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/gauge_green"
+                android:layout_above="@+id/textView"
+                android:layout_alignEnd="@+id/textView"
+                android:layout_below="@+id/textView4" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewRed"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/gauge_red"
+                android:layout_above="@+id/textView"
+                android:layout_alignEnd="@+id/textView"
+                android:layout_below="@+id/textView4" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewBlue2"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/gauge_blue"
+                android:layout_above="@+id/textView"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_below="@+id/textView5" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewGreen2"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/gauge_green"
+                android:layout_above="@+id/textView"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_below="@+id/textView5" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewRed2"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/gauge_red"
+                android:layout_above="@+id/textView"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_below="@+id/textView5" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_view_as_grid"
+                android:layout_marginBottom="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/textView4"
+                android:id="@+id/btnShowActs"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_add_to_queue"
+                android:id="@+id/btnBackAdd"
+                android:layout_alignTop="@+id/btnShowActs"
+                android:layout_alignEnd="@+id/txtActStats" />
+
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

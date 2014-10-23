@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        statsActivity = (ImageButton) findViewById(R.id.btnNewAct);
+        statsActivity = (ImageButton) findViewById(R.id.btnStats);
         statsActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -53,17 +53,6 @@ public class MainActivity extends Activity {
             }
         });
 
-//        MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this, new MyTimePickerDialog.OnTimeSetListener() {
-//
-//            @Override
-//            public void onTimeSet(TimePicker view, int hourOfDay, int minute, int seconds) {
-//                // TODO Auto-generated method stub
-//                /*time.setText(getString(R.string.time) + String.format("%02d", hourOfDay)+
-//                        ":" + String.format("%02d", minute) +
-//                        ":" + String.format("%02d", seconds));  */
-//            }
-//        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), true);
-//        mTimePicker.show();
     }
 
     private void load() {
@@ -80,8 +69,8 @@ public class MainActivity extends Activity {
         gaugeGreen.setVisibility(View.INVISIBLE);
         gaugeRed.setVisibility(View.INVISIBLE);
         gaugeBlue.setVisibility(View.VISIBLE);
-        txtMain.setText("OTIMISTA");
-
+        //TODO Usar R.string.valorAdequado
+        txtMain.setText(getResources().getString(R.string.optimistic));
     }
 
     @Override

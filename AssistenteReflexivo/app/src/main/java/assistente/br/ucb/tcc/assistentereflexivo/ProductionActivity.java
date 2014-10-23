@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ public class ProductionActivity extends Activity {
     long timeInMillies = 0L;
     long timeSwap = 0L;
     long finalTime = 0L;
+    private String note;
     private long startTime = 0L;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class ProductionActivity extends Activity {
                 timeSwap += timeInMillies;
                 myHandler.removeCallbacks(updateTimerMethod);
                 act.setTempoGasto(getTimeFromField());
+                act.setAnotacoes(note);
                 Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
                 startActivity(intent);
             }
@@ -75,28 +78,28 @@ public class ProductionActivity extends Activity {
 
         btnAddNote = (ImageButton) findViewById(R.id.btnAddNote);
         btnAddNote.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle(getResources().getString(R.string.notes));
+
+                final EditText input = new EditText(v.getContext());
+                input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                builder.setView(input);
+                builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //add note, make
-                                //act.setAnotacoes(variavelComAnotações);
-
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //close dialog
-                                break;
-                        }
+                        note = input.getText().toString();
                     }
-                };
+                });
+                builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setMessage(R.string.confirm_registry).setPositiveButton(R.string.yes, dialogClickListener)
-                        .setNegativeButton(R.string.no, dialogClickListener).show();
-
+                builder.show();
             }
         });
 

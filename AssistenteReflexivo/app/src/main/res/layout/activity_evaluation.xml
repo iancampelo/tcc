@@ -77,12 +77,19 @@
                 android:layout_below="@+id/txtActPos"
                 android:layout_alignLeft="@+id/txtActPos"
                 android:text="00:00:00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_evaluate_act"
+                android:id="@+id/txtEvalAct"
+                android:layout_below="@+id/inpTimePos"
+                android:layout_alignStart="@+id/inpTimePos" />
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinEvalAct"
-                android:layout_below="@+id/inpTimePos"
-                android:layout_alignStart="@+id/inpTimePos" />
+                android:layout_below="@+id/txtEvalAct"
+                android:layout_alignStart="@+id/txtEvalAct" />
             <ImageButton
                 android:id="@+id/btnNextEval"
                 android:src="@drawable/ic_action_accept"

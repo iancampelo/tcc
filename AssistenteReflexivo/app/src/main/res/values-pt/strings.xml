@@ -52,4 +52,14 @@
     <string name="elapsed_time">Tempo decorrido</string>
     <string name="title_activity_post_reflection">Pós-Reflexão</string>
     <string name="title_activity_production">Produção</string>
+    <string name="text_grade_kmb">Com base na avaliação,\n para essa atividade,\n sua classificação KMB é:</string>
+    <string name="text_evaluate_act">Avalie o resultado da sua atividade:</string>
+    <string name="cancel">Cancelar</string>
+    <string name="notes">Anotação</string>
+    <string name="birthday">Aniversário</string>
+    <string name="function">Função</string>
+    <string name="text_stats_avg">De acordo com a média de TODAS as atividades,\n suas classificações são:</string>
+    <string name="optimistic">Otimista</string>
+    <string name="pessimistic">Pessimista</string>
+    <string name="realistic">Realista</string>
 </resources>
