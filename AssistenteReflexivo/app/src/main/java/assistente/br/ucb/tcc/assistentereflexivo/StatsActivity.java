@@ -50,6 +50,16 @@ public class StatsActivity extends Activity {
                 finish();
             }
         });
+        btnShowActs     =(ImageButton)findViewById(R.id.btnShowActs);
+        btnShowActs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO CALL POPUP WITH LAYOUT E LISTVIEW DE TODAS AS ATIVIDADES DAQUELE USER
+                //TODO AÇÃO DE DELETAR E AÇÃO DE VER ATIVIDADE, SE FOR VER, PEGA OS DADOS E ATUALIZA ACT
+                //TODO SE FOR DELETAR PEGA O ID E CHAMA A FUNÇÃO
+                finish();
+            }
+        });
 
     }
 
