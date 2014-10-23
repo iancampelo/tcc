@@ -16,65 +16,26 @@ public class Usuario implements Serializable{
 	 *  Classe que contem os dados de um usuario
 	 */
 	private static final long serialVersionUID = -3555946795178207805L;
-	private int id;
+	private int    id;
 	private String usuario;
 	private String senha;
 	private String nome;
 	private String nascimento;
 	private String funcao;
+	private float  kmb;
 	private ArrayList<Atividade> atividades;
 	
 	public Usuario(){
 	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getNascimento() {
-		return nascimento;
-	}
-	public void setNascimento(String nascimento) {
-		this.nascimento = nascimento;
-	}
-	public String getFuncao() {
-		return funcao;
-	}
-	public void setFuncao(String funcao) {
-		this.funcao = funcao;
-	}
-	public ArrayList<Atividade> getAtividades() {
-		return atividades;
-	}
-	public void setAtividades(ArrayList<Atividade> atividades) {
-		this.atividades = atividades;
-	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", usuario=" + usuario + ", senha="
 				+ senha + ", nome=" + nome + ", nascimento=" + nascimento
-				+ ", funcao=" + funcao + ", atividades=" + atividades + "]";
+				+ ", funcao=" + funcao + ", kmb=" + kmb + ", atividades="
+				+ atividades + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,6 +44,7 @@ public class Usuario implements Serializable{
 				+ ((atividades == null) ? 0 : atividades.hashCode());
 		result = prime * result + ((funcao == null) ? 0 : funcao.hashCode());
 		result = prime * result + id;
+		result = prime * result + Float.floatToIntBits(kmb);
 		result = prime * result
 				+ ((nascimento == null) ? 0 : nascimento.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
@@ -90,6 +52,7 @@ public class Usuario implements Serializable{
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -110,6 +73,8 @@ public class Usuario implements Serializable{
 		} else if (!funcao.equals(other.funcao))
 			return false;
 		if (id != other.id)
+			return false;
+		if (Float.floatToIntBits(kmb) != Float.floatToIntBits(other.kmb))
 			return false;
 		if (nascimento == null) {
 			if (other.nascimento != null)
@@ -132,5 +97,69 @@ public class Usuario implements Serializable{
 		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getNascimento() {
+		return nascimento;
+	}
+
+	public void setNascimento(String nascimento) {
+		this.nascimento = nascimento;
+	}
+
+	public String getFuncao() {
+		return funcao;
+	}
+
+	public void setFuncao(String funcao) {
+		this.funcao = funcao;
+	}
+
+	public float getKmb() {
+		return kmb;
+	}
+
+	public void setKmb(float kmb) {
+		this.kmb = kmb;
+	}
+
+	public ArrayList<Atividade> getAtividades() {
+		return atividades;
+	}
+
+	public void setAtividades(ArrayList<Atividade> atividades) {
+		this.atividades = atividades;
 	}
 }

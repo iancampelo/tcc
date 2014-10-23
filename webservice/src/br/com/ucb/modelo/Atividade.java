@@ -1,6 +1,7 @@
 package br.com.ucb.modelo;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,20 +14,20 @@ public class Atividade implements Serializable{
 	
 	
 	private static final long serialVersionUID = -8433919224984350110L;
-	private int    id;
-	private int    uid;
-	private String nome;
-	private float  tempoEstimado;
-	private int    predicao;
-	private String estrategia;
-	private String recursos;
-	private String grauAtencao;
-	private String comprensao;
-	private String objetivo;
-	private String anotacoes;
-	private float  kma;
-	private float  kmb;
-	private float  tempoGasto;
+	private int        id;
+	private int        uid;
+	private String     nome;
+	private Timestamp  tempoEstimado;
+	private int        predicao;
+	private String 	   estrategia;
+	private String     recursos;
+	private String     grauAtencao;
+	private String     comprensao;
+	private String     objetivo;
+	private String     anotacoes;
+	private float      kma;
+	private Timestamp  tempoGasto;
+	private int        resultado;
 	
 	public Atividade() {
 	}
@@ -55,11 +56,11 @@ public class Atividade implements Serializable{
 		this.nome = nome;
 	}
 
-	public float getTempoEstimado() {
+	public Timestamp getTempoEstimado() {
 		return tempoEstimado;
 	}
 
-	public void setTempoEstimado(float tempoEstimado) {
+	public void setTempoEstimado(Timestamp tempoEstimado) {
 		this.tempoEstimado = tempoEstimado;
 	}
 
@@ -127,20 +128,20 @@ public class Atividade implements Serializable{
 		this.kma = kma;
 	}
 
-	public float getKmb() {
-		return kmb;
-	}
-
-	public void setKmb(float kmb) {
-		this.kmb = kmb;
-	}
-
-	public float getTempoGasto() {
+	public Timestamp getTempoGasto() {
 		return tempoGasto;
 	}
 
-	public void setTempoGasto(float tempoGasto) {
+	public void setTempoGasto(Timestamp tempoGasto) {
 		this.tempoGasto = tempoGasto;
+	}
+
+	public int getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(int resultado) {
+		this.resultado = resultado;
 	}
 
 	@Override
@@ -157,15 +158,17 @@ public class Atividade implements Serializable{
 				+ ((grauAtencao == null) ? 0 : grauAtencao.hashCode());
 		result = prime * result + id;
 		result = prime * result + Float.floatToIntBits(kma);
-		result = prime * result + Float.floatToIntBits(kmb);
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result
 				+ ((objetivo == null) ? 0 : objetivo.hashCode());
 		result = prime * result + predicao;
 		result = prime * result
 				+ ((recursos == null) ? 0 : recursos.hashCode());
-		result = prime * result + Float.floatToIntBits(tempoEstimado);
-		result = prime * result + Float.floatToIntBits(tempoGasto);
+		result = prime * result + resultado;
+		result = prime * result
+				+ ((tempoEstimado == null) ? 0 : tempoEstimado.hashCode());
+		result = prime * result
+				+ ((tempoGasto == null) ? 0 : tempoGasto.hashCode());
 		result = prime * result + uid;
 		return result;
 	}
@@ -203,8 +206,6 @@ public class Atividade implements Serializable{
 			return false;
 		if (Float.floatToIntBits(kma) != Float.floatToIntBits(other.kma))
 			return false;
-		if (Float.floatToIntBits(kmb) != Float.floatToIntBits(other.kmb))
-			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -222,11 +223,17 @@ public class Atividade implements Serializable{
 				return false;
 		} else if (!recursos.equals(other.recursos))
 			return false;
-		if (Float.floatToIntBits(tempoEstimado) != Float
-				.floatToIntBits(other.tempoEstimado))
+		if (resultado != other.resultado)
 			return false;
-		if (Float.floatToIntBits(tempoGasto) != Float
-				.floatToIntBits(other.tempoGasto))
+		if (tempoEstimado == null) {
+			if (other.tempoEstimado != null)
+				return false;
+		} else if (!tempoEstimado.equals(other.tempoEstimado))
+			return false;
+		if (tempoGasto == null) {
+			if (other.tempoGasto != null)
+				return false;
+		} else if (!tempoGasto.equals(other.tempoGasto))
 			return false;
 		if (uid != other.uid)
 			return false;
@@ -240,8 +247,8 @@ public class Atividade implements Serializable{
 				+ ", estrategia=" + estrategia + ", recursos=" + recursos
 				+ ", grauAtencao=" + grauAtencao + ", comprensao=" + comprensao
 				+ ", objetivo=" + objetivo + ", anotacoes=" + anotacoes
-				+ ", kma=" + kma + ", kmb=" + kmb + ", tempoGasto="
-				+ tempoGasto + "]";
+				+ ", kma=" + kma + ", tempoGasto=" + tempoGasto
+				+ ", resultado=" + resultado + "]";
 	}
-	
+
 }

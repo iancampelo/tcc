@@ -46,16 +46,16 @@ public class AtividadeDao extends ConnectionFactory {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 
-			ps.setInt   (1,  ativ.getUid());
-			ps.setString(2,  ativ.getNome());
-			ps.setFloat (3,  ativ.getTempoEstimado());
-			ps.setInt   (4,  ativ.getPredicao());
-			ps.setString(5,  ativ.getEstrategia());
-			ps.setString(6,  ativ.getRecursos());
-			ps.setString(7,  ativ.getGrauAtencao());
-			ps.setString(8,  ativ.getComprensao());
-			ps.setString(9,  ativ.getObjetivo());
-			ps.setFloat (10, ativ.getKma());
+			ps.setInt      (1,  ativ.getUid());
+			ps.setString   (2,  ativ.getNome());
+			ps.setTimestamp(3,  ativ.getTempoEstimado());
+			ps.setInt      (4,  ativ.getPredicao());
+			ps.setString   (5,  ativ.getEstrategia());
+			ps.setString   (6,  ativ.getRecursos());
+			ps.setString   (7,  ativ.getGrauAtencao());
+			ps.setString   (8,  ativ.getComprensao());
+			ps.setString   (9,  ativ.getObjetivo());
+			ps.setFloat    (10, ativ.getKma());
 
 			return ps.executeUpdate() > 0;
 
@@ -119,22 +119,20 @@ public class AtividadeDao extends ConnectionFactory {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				ativ.setId			 (rs.getInt("id"));
-				ativ.setUid          (rs.getInt("uid"));
-				ativ.setNome	     (rs.getString("nome"));
-				ativ.setTempoEstimado(!Float.isNaN(rs.getFloat("tempo_estimado")) ? 
-						              rs.getFloat("tempo_estimado") : 0); // se o resultado for nulo coloca 0
-				ativ.setPredicao	 (rs.getInt   ("predicao"));
-				ativ.setEstrategia	 (rs.getString("estrategia"));
-				ativ.setRecursos	 (rs.getString("recursos"));
-				ativ.setGrauAtencao	 (rs.getString("grau_atencao"));
-				ativ.setComprensao	 (rs.getString("comprensao"));
-				ativ.setObjetivo	 (rs.getString("objetivo"));
-				ativ.setAnotacoes	 (rs.getString("anotacoes"));
-				ativ.setTempoGasto	 (!Float.isNaN(rs.getFloat("tempo_gasto")) ? 
-						              rs.getFloat("tempo_gasto") : 0); // se o resultado for nulo coloca 0
-				ativ.setKma			 (!Float.isNaN(rs.getFloat("kma")) ? rs.getFloat("kma") : 0);
-				ativ.setKmb			 (!Float.isNaN(rs.getFloat("kmb")) ? rs.getFloat("kmb") : 0);
+				ativ.setId			 (rs.getInt		 ("id"));
+				ativ.setUid          (rs.getInt		 ("uid"));
+				ativ.setNome	     (rs.getString	 ("nome"));
+				ativ.setTempoEstimado(rs.getTimestamp("tempo_estimado"));
+				ativ.setPredicao	 (rs.getInt   	 ("predicao"));
+				ativ.setEstrategia	 (rs.getString	 ("estrategia"));
+				ativ.setRecursos	 (rs.getString	 ("recursos"));
+				ativ.setGrauAtencao	 (rs.getString	 ("grau_atencao"));
+				ativ.setComprensao	 (rs.getString	 ("comprensao"));
+				ativ.setObjetivo	 (rs.getString	 ("objetivo"));
+				ativ.setAnotacoes	 (rs.getString	 ("anotacoes"));
+				ativ.setTempoGasto	 (rs.getTimestamp("tempo_gasto"));
+				ativ.setKma			 (rs.getFloat    ("kma"));
+				ativ.setResultado	 (rs.getInt("resultado"));
 
 				return ativ;
 			} else {
@@ -173,22 +171,20 @@ public class AtividadeDao extends ConnectionFactory {
 
 			while (rs.next()) {
 				Atividade ativ = new Atividade();
-				ativ.setId			 (rs.getInt("id"));
-				ativ.setUid			 (rs.getInt("uid"));
-				ativ.setNome	     (rs.getString("nome"));
-				ativ.setTempoEstimado(!Float.isNaN(rs.getFloat("tempo_estimado")) ? 
-						              rs.getFloat("tempo_estimado") : 0); // se o resultado for nulo coloca 0
-				ativ.setPredicao	 (rs.getInt   ("predicao"));
-				ativ.setEstrategia	 (rs.getString("estrategia"));
-				ativ.setRecursos	 (rs.getString("recursos"));
-				ativ.setGrauAtencao	 (rs.getString("grau_atencao"));
-				ativ.setComprensao	 (rs.getString("comprensao"));
-				ativ.setObjetivo	 (rs.getString("objetivo"));
-				ativ.setAnotacoes	 (rs.getString("anotacoes"));
-				ativ.setTempoGasto	 (!Float.isNaN(rs.getFloat("tempo_gasto")) ? 
-						              rs.getFloat("tempo_gasto") : 0); // se o resultado for nulo coloca 0
-				ativ.setKma			 (!Float.isNaN(rs.getFloat("kma")) ? rs.getFloat("kma") : 0);
-				ativ.setKmb			 (!Float.isNaN(rs.getFloat("kmb")) ? rs.getFloat("kmb") : 0);
+				ativ.setId			 (rs.getInt		 ("id"));
+				ativ.setUid			 (rs.getInt		 ("uid"));
+				ativ.setNome	     (rs.getString	 ("nome"));
+				ativ.setTempoEstimado(rs.getTimestamp("tempo_estimado"));
+				ativ.setPredicao	 (rs.getInt      ("predicao"));
+				ativ.setEstrategia	 (rs.getString   ("estrategia"));
+				ativ.setRecursos	 (rs.getString   ("recursos"));
+				ativ.setGrauAtencao	 (rs.getString   ("grau_atencao"));
+				ativ.setComprensao	 (rs.getString   ("comprensao"));
+				ativ.setObjetivo	 (rs.getString   ("objetivo"));
+				ativ.setAnotacoes	 (rs.getString   ("anotacoes"));
+				ativ.setTempoGasto	 (rs.getTimestamp("tempo_gasto")); 
+				ativ.setKma			 (rs.getFloat    ("kma"));
+				ativ.setResultado	 (rs.getInt  	 ("resultado"));
 
 				Atividades.add(ativ);
 			}
@@ -218,25 +214,25 @@ public class AtividadeDao extends ConnectionFactory {
 
 		String sql = "update atividade set "+
 				     "nome = ?, tempo_estimado = ?, predicao = ?, estrategia = ?, recursos = ?, grau_atencao = ?, "+
-				     "comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, kmb = ? "+
+				     "comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, resultado = ? "+
 				     "where id = ?";
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 
-			ps.setString(1,  ativ.getNome());
-			ps.setFloat (2,  ativ.getTempoEstimado());
-			ps.setInt   (3,  ativ.getPredicao());
-			ps.setString(4,  ativ.getEstrategia());
-			ps.setString(5,  ativ.getRecursos());
-			ps.setString(6,  ativ.getGrauAtencao());
-			ps.setString(7,  ativ.getComprensao());
-			ps.setString(8,  ativ.getObjetivo());
-			ps.setString(9,  ativ.getAnotacoes());
-			ps.setFloat (10, ativ.getTempoGasto());
-			ps.setFloat (11, ativ.getKma());
-			ps.setFloat (12, ativ.getKmb());
-			ps.setInt	(13, ativ.getId());
+			ps.setString    (1,  ativ.getNome());
+			ps.setTimestamp (2,  ativ.getTempoEstimado());
+			ps.setInt       (3,  ativ.getPredicao());
+			ps.setString	(4,  ativ.getEstrategia());
+			ps.setString	(5,  ativ.getRecursos());
+			ps.setString	(6,  ativ.getGrauAtencao());
+			ps.setString	(7,  ativ.getComprensao());
+			ps.setString	(8,  ativ.getObjetivo());
+			ps.setString	(9,  ativ.getAnotacoes());
+			ps.setTimestamp (10, ativ.getTempoGasto());
+			ps.setFloat 	(11, ativ.getKma());
+			ps.setInt   	(12, ativ.getResultado());
+			ps.setInt		(13, ativ.getId());
 
 			return ps.executeUpdate() > 0 ? true : false;
 
@@ -248,6 +244,5 @@ public class AtividadeDao extends ConnectionFactory {
 			fecharConexao(conn, ps, null);
 		}
 	}
-	
 	
 }
