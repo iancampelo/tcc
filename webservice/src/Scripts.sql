@@ -7,7 +7,6 @@ create table usuario(
    nome       varchar(150) not null,
    nascimento date         not null,
    funcao     varchar(50), 
-   kmb        float,
    primary key (id));
 
 create table atividade(
@@ -25,6 +24,7 @@ create table atividade(
    kma            float,
    tempo_gasto    timestamp,
    resultado      int,
+   kmb            float,
    primary key (id),
    foreign key (uid) references usuario(id) 
 );

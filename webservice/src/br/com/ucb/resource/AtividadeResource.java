@@ -26,7 +26,6 @@ public class AtividadeResource {
 	/**
 	 * Metodo responsavel por traduzir uma String Json em uma atividade e inserir esta atividade atraves do DAO
 	 * @param Json String (Atividade)
-	 * @throws Exception
 	 */
 	@POST
 	@Path("/cadastrarAtividade")
@@ -47,7 +46,6 @@ public class AtividadeResource {
 	/**
 	 * Metodo responsavel por traduzir uma String Json em uma atividade e alterar esta atividade atraves do DAO
 	 * @param Json String (Atividade)
-	 * @throws Exception
 	 */
 	@POST
 	@Path("/alterarAtividade")
@@ -67,7 +65,6 @@ public class AtividadeResource {
 	/**
 	 * Metodo responsavel por traduzir uma String Json em uma atividade e excluir esta atividade atraves do DAO
 	 * @param Json String (Atividade)
-	 * @throws Exception
 	 */
 	@POST
 	@Path("/excluirAtividade")
@@ -89,7 +86,6 @@ public class AtividadeResource {
 	 * Metodo responsavel por traduzir uma String Json em uma atividade e consultar esta atividade atraves do DAO
 	 * @param Json String (Atividade)
 	 * @return atividade
-	 * @throws Exception
 	 */
 	@POST
 	@Path("/consultarAtividade")
@@ -111,9 +107,8 @@ public class AtividadeResource {
 	
 	/**
 	 * Metodo responsavel por definir o indice KMA para uma atividade
-	 * @param Json String (Usuario)
-	 * @return float kma
-	 * @throws Exception
+	 * @param Json String (Atividade)
+	 * @return Atividade kma
 	 */
 	@POST
 	@Path("/getKma")
@@ -168,18 +163,84 @@ public class AtividadeResource {
 	private float calcularKma(float paramA, float paramB, float paramC, float paramD){
 		return ((paramA + paramD) - (paramB + paramC)) / (paramA + paramB + paramC + paramD);
 	}
+	
+	/**
+	 * Metodo responsavel por realizar o calculo do KMB de uma atividade
+	 */
+	@POST
+	@Path("/getKmb")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	private Atividade getKmb (String ativStr){
+		Atividade ativ = null;
+		AtividadeDao adao = null;
+		Gson gson = new Gson();
+		
+		ativ = gson.fromJson(ativStr, Atividade.class);
+		
+		calcularKmb(ativ);
+		
+		adao = adao.getInstancia();
+		
+		adao.atualizar(ativ);
+		
+		return ativ;
+	}
+	
+	/**
+	 * Metodo responsavel por retornar o valor kmb da atividade
+	 * @param atividade
+	 * @return kmb
+	 */
+	private void calcularKmb (Atividade ativ){
+		if(ativ.getPredicao() == -1 && ativ.getResultado() == -1){
+			ativ.setKmb(0);
+		}
+		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 0){ 
+			ativ.setKmb(0.5f);
+		}
+		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 1){ 
+			ativ.setKmb(1);
+		}
+		else if(ativ.getPredicao() == 0 && ativ.getResultado() == -1){ 
+			ativ.setKmb(-0.5f);
+		}
+		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 0){ 
+			ativ.setKmb(0);
+		}
+		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 1){ 
+			ativ.setKmb(0.5f);
+		}
+		else if(ativ.getPredicao() == 1 && ativ.getResultado() == -1){ 
+			ativ.setKmb(-1);
+		}
+		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 0){ 
+			ativ.setKmb(-0.5f);
+		}
+		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 1){ 
+			ativ.setKmb(0);
+		}
+	}
+	
+	/**
+	 * Metodo responsavel por consultar o KMB medio das atividades para o usuario
+	 * @param Json String (Usuario)
+	 * @return Float kma
+	 * @throws Exception
+	 */
+	@POST
+	@Path("/getKmbMedio")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Float getKmbMedio(String usuarioStr){
+		Usuario usuario = null;
+		AtividadeDao adao = null;
+		Gson gson = new Gson();
+		
+		usuario = gson.fromJson(usuarioStr, Usuario.class);
+		
+		adao = adao.getInstancia();
+		
+		return adao.consultarKmbMedio(usuario);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

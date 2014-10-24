@@ -28,6 +28,7 @@ public class Atividade implements Serializable{
 	private float      kma;
 	private Timestamp  tempoGasto;
 	private int        resultado;
+	private float 	   kmb;
 	
 	public Atividade() {
 	}
@@ -144,6 +145,14 @@ public class Atividade implements Serializable{
 		this.resultado = resultado;
 	}
 
+	public float getKmb() {
+		return kmb;
+	}
+
+	public void setKmb(float kmb) {
+		this.kmb = kmb;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,6 +167,7 @@ public class Atividade implements Serializable{
 				+ ((grauAtencao == null) ? 0 : grauAtencao.hashCode());
 		result = prime * result + id;
 		result = prime * result + Float.floatToIntBits(kma);
+		result = prime * result + Float.floatToIntBits(kmb);
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result
 				+ ((objetivo == null) ? 0 : objetivo.hashCode());
@@ -206,6 +216,8 @@ public class Atividade implements Serializable{
 			return false;
 		if (Float.floatToIntBits(kma) != Float.floatToIntBits(other.kma))
 			return false;
+		if (Float.floatToIntBits(kmb) != Float.floatToIntBits(other.kmb))
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -248,7 +260,7 @@ public class Atividade implements Serializable{
 				+ ", grauAtencao=" + grauAtencao + ", comprensao=" + comprensao
 				+ ", objetivo=" + objetivo + ", anotacoes=" + anotacoes
 				+ ", kma=" + kma + ", tempoGasto=" + tempoGasto
-				+ ", resultado=" + resultado + "]";
+				+ ", resultado=" + resultado + ", kmb=" + kmb + "]";
 	}
 
 }

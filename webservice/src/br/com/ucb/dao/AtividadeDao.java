@@ -40,8 +40,8 @@ public class AtividadeDao extends ConnectionFactory {
 		Connection conn = null;
 		PreparedStatement ps = null;
 
-		String sql = "insert into atividade(uid,nome,tempo_estimado,predicao,estrategia,recursos,grau_atencao,comprensao,objetivo,kma) "
-				+ "values (?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into atividade(uid,nome,tempo_estimado,predicao,estrategia,recursos,grau_atencao,comprensao,objetivo) "
+				+ "values (?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
@@ -55,7 +55,6 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setString   (7,  ativ.getGrauAtencao());
 			ps.setString   (8,  ativ.getComprensao());
 			ps.setString   (9,  ativ.getObjetivo());
-			ps.setFloat    (10, ativ.getKma());
 
 			return ps.executeUpdate() > 0;
 
@@ -132,7 +131,8 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setAnotacoes	 (rs.getString	 ("anotacoes"));
 				ativ.setTempoGasto	 (rs.getTimestamp("tempo_gasto"));
 				ativ.setKma			 (rs.getFloat    ("kma"));
-				ativ.setResultado	 (rs.getInt("resultado"));
+				ativ.setResultado	 (rs.getInt      ("resultado"));
+				ativ.setKmb			 (rs.getFloat	 ("kmb"));
 
 				return ativ;
 			} else {
@@ -185,6 +185,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setTempoGasto	 (rs.getTimestamp("tempo_gasto")); 
 				ativ.setKma			 (rs.getFloat    ("kma"));
 				ativ.setResultado	 (rs.getInt  	 ("resultado"));
+				ativ.setKmb          (rs.getFloat	 ("kmb"));
 
 				Atividades.add(ativ);
 			}
@@ -214,7 +215,7 @@ public class AtividadeDao extends ConnectionFactory {
 
 		String sql = "update atividade set "+
 				     "nome = ?, tempo_estimado = ?, predicao = ?, estrategia = ?, recursos = ?, grau_atencao = ?, "+
-				     "comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, resultado = ? "+
+				     "comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, resultado = ? , kmb = ?"+
 				     "where id = ?";
 		try {
 			conn = criarConexao();
@@ -232,7 +233,8 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setTimestamp (10, ativ.getTempoGasto());
 			ps.setFloat 	(11, ativ.getKma());
 			ps.setInt   	(12, ativ.getResultado());
-			ps.setInt		(13, ativ.getId());
+			ps.setFloat 	(13, ativ.getKmb());
+			ps.setInt		(14, ativ.getId());
 
 			return ps.executeUpdate() > 0 ? true : false;
 
@@ -242,6 +244,35 @@ public class AtividadeDao extends ConnectionFactory {
 			return false;
 		} finally {
 			fecharConexao(conn, ps, null);
+		}
+	}
+	
+	/**
+	 *  Metodo responsavel por realizar a consulta do KMB medio nas atividades para o usuario
+	 * @param user
+	 * @return valor
+	 */
+	public Float consultarKmbMedio(Usuario user) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql = "select avg(kmb) qtd from atividade where uid = ?";
+
+		try {
+			conn = criarConexao();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getId());
+			rs = ps.executeQuery();
+
+			return rs.getFloat("qtd");
+
+		} catch (Exception e) {
+			System.out.println("Erro ao consultar kmb medio: " + e);
+			e.printStackTrace();
+			return null;
+		} finally {
+			fecharConexao(conn, ps, rs);
 		}
 	}
 	

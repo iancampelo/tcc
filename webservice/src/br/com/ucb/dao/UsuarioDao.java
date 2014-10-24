@@ -123,7 +123,6 @@ public class UsuarioDao extends ConnectionFactory{
 				user.setNome      (rs.getString("nome"));
 				user.setNascimento(rs.getDate  ("nascimento").toString());
 				user.setFuncao    (rs.getString("funcao"));
-				user.setKmb		  (rs.getFloat("kmb"));
 				
 				AtividadeDao ativDao = AtividadeDao.getInstancia();
 				user.setAtividades(ativDao.listar(user));

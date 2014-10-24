@@ -22,7 +22,6 @@ public class Usuario implements Serializable{
 	private String nome;
 	private String nascimento;
 	private String funcao;
-	private float  kmb;
 	private ArrayList<Atividade> atividades;
 	
 	public Usuario(){
@@ -32,7 +31,7 @@ public class Usuario implements Serializable{
 	public String toString() {
 		return "Usuario [id=" + id + ", usuario=" + usuario + ", senha="
 				+ senha + ", nome=" + nome + ", nascimento=" + nascimento
-				+ ", funcao=" + funcao + ", kmb=" + kmb + ", atividades="
+				+ ", funcao=" + funcao + ", atividades="
 				+ atividades + "]";
 	}
 
@@ -44,7 +43,6 @@ public class Usuario implements Serializable{
 				+ ((atividades == null) ? 0 : atividades.hashCode());
 		result = prime * result + ((funcao == null) ? 0 : funcao.hashCode());
 		result = prime * result + id;
-		result = prime * result + Float.floatToIntBits(kmb);
 		result = prime * result
 				+ ((nascimento == null) ? 0 : nascimento.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
@@ -73,8 +71,6 @@ public class Usuario implements Serializable{
 		} else if (!funcao.equals(other.funcao))
 			return false;
 		if (id != other.id)
-			return false;
-		if (Float.floatToIntBits(kmb) != Float.floatToIntBits(other.kmb))
 			return false;
 		if (nascimento == null) {
 			if (other.nascimento != null)
@@ -145,14 +141,6 @@ public class Usuario implements Serializable{
 
 	public void setFuncao(String funcao) {
 		this.funcao = funcao;
-	}
-
-	public float getKmb() {
-		return kmb;
-	}
-
-	public void setKmb(float kmb) {
-		this.kmb = kmb;
 	}
 
 	public ArrayList<Atividade> getAtividades() {
