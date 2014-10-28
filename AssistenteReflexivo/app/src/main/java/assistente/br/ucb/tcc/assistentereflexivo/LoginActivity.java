@@ -208,8 +208,11 @@ public class LoginActivity extends Activity{
 //                if (getMyUser().getUserId() > 0) {
                 if (getMyUser().getUsername().equals(mEmail)) {
                     // Account exists, check password.
-                    if (getMyUser().getPassword().equals(mPassword))
+                    if (getMyUser().getPassword().equals(mPassword)) {
+                        //TODO Check connection
+                        getMyUser().Asyncs();
                         return true;
+                    }
                     else
                         return false;
                 } else {
@@ -247,6 +250,7 @@ public class LoginActivity extends Activity{
 
                                         Toast myToast = Toast.makeText(mContext, getMyUser().toString(), Toast.LENGTH_SHORT);
                                         myToast.show();
+
                                         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                                         LoginActivity.this.startActivity(myIntent);
                                         finish();
