@@ -20,9 +20,17 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +66,7 @@ public class LoginActivity extends Activity{
             }
         });
 
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -71,6 +80,7 @@ public class LoginActivity extends Activity{
     }
 
     public void attemptLogin() {
+
         if (mAuthTask != null) {
             return;
         }
@@ -202,7 +212,65 @@ public class LoginActivity extends Activity{
 //        }
         @Override
         protected Boolean doInBackground(Void... params) {
-            setMyUser((User)getApplicationContext());
+            setMyUser((User) mContext);
+
+            Gson gson = new Gson();
+
+            String paramUser = gson.toJson(getMyUser());
+
+            RequestParams rp = new RequestParams();
+            rp.add("content",paramUser);
+
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.post(getMyUser().URL_USER,rp,new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+                    String response = bytes.toString();
+                    showProgress(false);
+                    try {
+                        // JSON Object
+                        JSONObject obj = new JSONObject(response);
+                        // When the JSON response has status boolean value assigned with true
+                        if(obj.getBoolean("status")){
+                            Toast.makeText(getApplicationContext(), "You are successfully logged in!" +
+                                    "", Toast.LENGTH_LONG).show();
+                            // Navigate to Home screen
+                        }
+                        // Else display error message
+                        else{
+                            //errorMsg.setText(obj.getString("error_msg"));
+                            Toast.makeText(getApplicationContext(), obj.getString("error_msg" +
+                                    ""), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response " +
+                                "might be invalid]!", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+                    // When Http response code is '404'
+                    if(statusCode == 404){
+                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                    }
+                    // When Http response code is '500'
+                    else if(statusCode == 500){
+                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                    }
+                    // When Http response code other than 404, 500
+                    else{
+                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected " +
+                                "to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
 
             try {
 //                if (getMyUser().getUserId() > 0) {
@@ -210,7 +278,6 @@ public class LoginActivity extends Activity{
                     // Account exists, check password.
                     if (getMyUser().getPassword().equals(mPassword)) {
                         //TODO Check connection
-                        getMyUser().Asyncs();
                         return true;
                     }
                     else

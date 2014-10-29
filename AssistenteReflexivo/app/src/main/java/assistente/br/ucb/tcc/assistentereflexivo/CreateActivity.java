@@ -16,13 +16,18 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import static assistente.br.ucb.tcc.assistentereflexivo.User.*;
+
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
     private static Act act = null;
+    private static User user = null;
     public EditText inpName;
     public Spinner spinner;
     public NumberPicker npHrs;
@@ -33,7 +38,23 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         load();
+        user = (User)getApplicationContext();
+        user.getUsername();
+        Gson gson = new Gson();
+        String contentJson = gson.toJson(getApplicationContext());
+        IntegrateWS client = new IntegrateWS(URL_USER+"cadastrarUsuario");
+        client.AddParam("content", contentJson);
+        //client.AddParam("Passwd", getPassword());
+        String response = client.getResponse();
+
+        try {
+            client.Execute(RequestMethod.POST);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
+
     public void load() {
         ImageButton btnNextCreate = (ImageButton) findViewById(R.id.btnNextCreate);
 
@@ -68,7 +89,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 if(!checkFields()){
                     return;
                 }
-//                User us = (User)getApplicationContext();
                 act = (Act)getApplicationContext();
                 act.setNome(inpName.getText().toString());
                 act.setPredicao(spinner.getSelectedItem().toString());
@@ -77,6 +97,14 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 time.setMinutes(npMin.getValue());
                 time.setHours(npHrs.getValue());
                 act.setTempoEstimado(time);
+
+                user.setUsername("ian@gmail.com");
+                user.setName("Ian Campelo");
+                user.setBirthday("19/08/1992");
+                user.setFuncao("Best Guy");
+                user.setPassword("asenhamaisforte");
+                user.setUserId(3);
+
 
                 Toast myToast = Toast.makeText(getApplicationContext(), time.toString(), Toast.LENGTH_SHORT);
                 myToast.show();

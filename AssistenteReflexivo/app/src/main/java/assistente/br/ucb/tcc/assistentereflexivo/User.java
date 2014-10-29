@@ -1,10 +1,13 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Application;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.loopj.android.http.RequestParams;
 
 import java.io.Serializable;
 
@@ -12,7 +15,7 @@ import java.io.Serializable;
  * Created by ian.campelo on 9/2/14.
  */
 public class User extends Application implements Serializable  {
-    public static final String URL_USER = "http://192.168.1.4:8080/webservice/usuario";
+    public static final String URL_USER = "http://192.168.0.128:8080/webservice/usuario";
 
     private long userId = 1909;
     @SerializedName("usuario")
@@ -96,20 +99,4 @@ public class User extends Application implements Serializable  {
                 '}';
     }
 
-    public void Asyncs(){
-        Gson gson = new Gson();
-        String contentJson = gson.toJson(this);
-        IntegrateWS client = new IntegrateWS(URL_USER+"cadastrarUsuario");
-        client.AddParam("content", contentJson);
-        //client.AddParam("Passwd", getPassword());
-
-        try {
-            client.Execute(RequestMethod.POST);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String response = client.getResponse();
-        Log.e("Connection WS",response);
-    }
 }
