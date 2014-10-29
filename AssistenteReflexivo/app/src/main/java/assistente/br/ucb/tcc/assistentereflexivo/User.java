@@ -96,20 +96,4 @@ public class User extends Application implements Serializable  {
                 '}';
     }
 
-    public void Asyncs(){
-        Gson gson = new Gson();
-        String contentJson = gson.toJson(this);
-        IntegrateWS client = new IntegrateWS(URL_USER+"cadastrarUsuario");
-        client.AddParam("content", contentJson);
-        //client.AddParam("Passwd", getPassword());
-
-        try {
-            client.Execute(RequestMethod.POST);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String response = client.getResponse();
-        Log.e("Connection WS",response);
-    }
 }

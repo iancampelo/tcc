@@ -210,7 +210,6 @@ public class LoginActivity extends Activity{
                     // Account exists, check password.
                     if (getMyUser().getPassword().equals(mPassword)) {
                         //TODO Check connection
-                        getMyUser().Asyncs();
                         return true;
                     }
                     else
