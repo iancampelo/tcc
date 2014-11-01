@@ -1,10 +1,8 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.*;
 
 import java.io.Serializable;
 
@@ -14,9 +12,10 @@ import java.io.Serializable;
 public class User extends Application implements Serializable  {
     public static final String URL_USER = "http://192.168.1.4:8080/webservice/usuario";
 
-    private long userId = 1909;
+    @SerializedName("id")
+    private long userId = 0;
     @SerializedName("usuario")
-    private String username = "ian@gmail.com";
+    private String username = "ian.campelo@gmail.com";
     @SerializedName("senha")
     private String password = "1234567";
     @SerializedName("nome")
@@ -94,6 +93,27 @@ public class User extends Application implements Serializable  {
                 ", birthday='" + birthday + '\'' +
                 ", funcao='" + funcao + '\'' +
                 '}';
+    }
+    public String toJson(){
+        return "{" +
+                "\"id\":"+Long.toString(getUserId())+"," +
+                "\"usuario\":\""+getUsername()+"\"," +
+                "\"senha\":\""+getPassword()+"\"," +
+                "\"nome\":\""+getName()+"\"," +
+                "\"nascimento\":\""+getBirthday()+"\"," +
+                "\"funcao\":\""+getFuncao()+"\"" +
+                "}";
+        /*
+        {
+    "id": 9,
+    "usuario": "ian@gmail.com",
+    "senha": "123456",
+    "nome": "Ian Campelo",
+    "nascimento":"19/08/1992",
+    "funcao":"Gerente de Projetos"
+}
+         */
+
     }
 
 }

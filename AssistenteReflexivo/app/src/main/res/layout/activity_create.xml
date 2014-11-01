@@ -8,77 +8,95 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="assistente.br.ucb.tcc.assistentereflexivo.CreateActivity"
     android:configChanges="orientation|keyboardHidden">
+    <ScrollView
+        android:id="@+id/ScrlViewCreate"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ProgressBar
+                android:id="@+id/create_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_nm_act"
+                android:id="@+id/txtNomeAct"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/inpName" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/inpName"
+                android:layout_below="@+id/txtNomeAct"
+                android:layout_centerHorizontal="true"
+                android:hint="@string/name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtPredict"
+                android:layout_below="@+id/inpName"
+                android:layout_alignStart="@+id/inpName"
+                android:layout_marginTop="48dp"
+                android:text="@string/prediction" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinPrediction"
+                android:layout_below="@+id/txtPredict"
+                android:layout_alignStart="@+id/txtPredict" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prediction_time"
+                android:id="@+id/txtStrategy"
+                android:layout_centerVertical="true"
+                android:layout_alignStart="@+id/txtPredict" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create_nm_act"
-        android:id="@+id/txtNomeAct"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/inpName" />
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numHrs"
+                android:layout_alignTop="@+id/numMin"
+                android:layout_toStartOf="@+id/numMin" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/inpName"
-        android:layout_below="@+id/txtNomeAct"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/name" />
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numMin"
+                android:layout_below="@+id/txtStrategy"
+                android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtPredict"
-        android:layout_below="@+id/inpName"
-        android:layout_alignStart="@+id/inpName"
-        android:layout_marginTop="48dp"
-        android:text="@string/prediction" />
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numSecs"
+                android:layout_alignBottom="@+id/numMin"
+                android:layout_toEndOf="@+id/numMin" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinPrediction"
-        android:layout_below="@+id/txtPredict"
-        android:layout_alignStart="@+id/txtPredict" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prediction_time"
-        android:id="@+id/txtStrategy"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/txtPredict" />
-
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/numHrs"
-        android:layout_alignTop="@+id/numMin"
-        android:layout_toStartOf="@+id/numMin" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/numMin"
-        android:layout_below="@+id/txtStrategy"
-        android:layout_centerHorizontal="true" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/numSecs"
-        android:layout_alignBottom="@+id/numMin"
-        android:layout_toEndOf="@+id/numMin" />
-
-    <ImageButton
-        android:id="@+id/btnNextCreate"
-        android:src="@drawable/ic_action_accept"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+            <ImageButton
+                android:id="@+id/btnNextCreate"
+                android:src="@drawable/ic_action_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

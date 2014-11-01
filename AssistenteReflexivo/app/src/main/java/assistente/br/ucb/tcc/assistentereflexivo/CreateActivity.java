@@ -1,8 +1,13 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +22,13 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpClient;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.HeaderGroup;
+import org.json.*;
+
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -26,6 +38,12 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -33,19 +51,28 @@ import java.util.concurrent.TimeUnit;
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
     private static Act act = null;
+    private static User user = null;
+    private static Context mContext = null;
+    private View mProgressView;
+    private View mScrlViewCreate;
     public EditText inpName;
     public Spinner spinner;
     public NumberPicker npHrs;
     public NumberPicker npMin;
     public NumberPicker npSec;
-    ProgressDialog prgDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        mContext = getApplicationContext();
+        user = (User)mContext;
+        act = (Act)mContext;
         load();
     }
     public void load() {
+        mProgressView = findViewById(R.id.create_progress);
+        mScrlViewCreate = findViewById(R.id.ScrlViewCreate);
+
         ImageButton btnNextCreate = (ImageButton) findViewById(R.id.btnNextCreate);
 
         inpName = (EditText) findViewById(R.id.inpName);
@@ -79,8 +106,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 if(!checkFields()){
                     return;
                 }
-//                User us = (User)getApplicationContext();
-                act = (Act)getApplicationContext();
                 act.setNome(inpName.getText().toString());
                 act.setPredicao(spinner.getSelectedItem().toString());
                 Timestamp time = new Timestamp(0);
@@ -88,11 +113,9 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 time.setMinutes(npMin.getValue());
                 time.setHours(npHrs.getValue());
                 act.setTempoEstimado(time);
-                Gson gson = new Gson();
-                RequestParams params  = new RequestParams();
-                params.add("content", gson.toJson(act.getClass()));
-                invokeWS(params);
-                Toast myToast = Toast.makeText(getApplicationContext(), time.toString(), Toast.LENGTH_SHORT);
+                showProgress(true);
+                invokeWS();
+                Toast myToast = Toast.makeText(mContext, time.toString(), Toast.LENGTH_SHORT);
                 myToast.show();
 
                 Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
@@ -100,61 +123,114 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
             }
         });
     }
-    public void invokeWS(RequestParams params){
+    public void invokeWS(){
         // Show Progress Dialog
         // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.43.17:9999/useraccount/login/dologin",params ,new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
+        try{
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.addHeader("Accept", "application/json");
+            client.addHeader("Content-type", "application/json");
+            RequestParams rp = new RequestParams();
+            rp.add("content",user.toJson());
+            URL url = new URL("http://192.168.0.19:8080/webservice/usuario/cadastrarUsuario");
+            HeaderGroup hg = new HeaderGroup();
+            hg.addHeader(new BasicHeader("Accept", "application/json"));
+            hg.addHeader(new BasicHeader("Content-type", "application/json"));
+            BasicHttpEntity basicHttpEntity = new BasicHttpEntity();
+            basicHttpEntity.setContent(new ByteArrayInputStream(user.toJson().getBytes(StandardCharsets.UTF_8)));
+            client.post(mContext,url.toString(),hg.getAllHeaders(),basicHttpEntity,"application/json", new AsyncHttpResponseHandler() {
+                // When the response returned by REST has Http response code '200'
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
-                String response = bytes.toString();
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+                    String response = new String(bytes);
 
-            // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if(obj.getBoolean("status")){
-                        Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
+                    // Hide Progress Dialog
+                    showProgress(false);
+                    try {
+                        // JSON Object
+                        JSONObject obj = new JSONObject(response);
+                        Gson gson = new Gson();
+                        User newUser = new User();
+                        newUser = gson.fromJson(response,User.class);
+
+                        Toast.makeText(mContext,newUser.toString(), Toast.LENGTH_LONG).show();
+
+
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        Toast.makeText(mContext, "Error Occured [Server's JSON response " +
+                                "might be invalid]!", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+
+                    }catch (Exception e){
+                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                    // Else display error message
-                    else{
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_LONG).show();
+
+                }
+                // When the response returned by REST has Http response code other than '200'
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    // Hide Progress Dialog
+//                    prgDialog.hide();
+                    showProgress(false);
+                    // When Http response code is '404'
+                    if (statusCode == 404) {
+                        Toast.makeText(mContext, "Requested resource not found", Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response " +
-                            "might be invalid]!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-
+                    // When Http response code is '500'
+                    else if (statusCode == 500) {
+                        Toast.makeText(mContext, "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                    }
+                    // When Http response code other than 404, 500
+                    else {
+                        Toast.makeText(mContext, "Unexpected Error occcured! [Most common Error: Device might not be connected " +
+                                "to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-            // When the response returned by REST has Http response code other than '200'
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
-
-                // Hide Progress Dialog
-                prgDialog.hide();
-                // When Http response code is '404'
-                if(statusCode == 404){
-                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                }
-                // When Http response code is '500'
-                else if(statusCode == 500){
-                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                }
-                // When Http response code other than 404, 500
-                else{
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected " +
-                            "to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+            });
+        }catch (Exception e){
+            showProgress(false);
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.e("ERRO_ASYNC_HTTP",e.getMessage());
+        }
     }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            final int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mScrlViewCreate.setVisibility(show ? View.GONE : View.VISIBLE);
+            mScrlViewCreate.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mScrlViewCreate.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mScrlViewCreate.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
     private boolean checkFields() {
         inpName.setError(null);
         String name = inpName.getText().toString();
@@ -193,7 +269,7 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         int id = item.getItemId();
         if(id == R.id.action_logout){
             //TODO Implementar um Logout real, que não volte para a Activity anterior
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(mContext, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
