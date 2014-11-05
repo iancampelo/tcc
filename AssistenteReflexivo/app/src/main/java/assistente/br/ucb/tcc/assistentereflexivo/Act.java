@@ -13,7 +13,6 @@ public class Act extends User implements Serializable{
     @SerializedName("uid")
     private int userid;
     private String  nome;
-//    private float   tempoEstimado;
     private Timestamp tempoEstimado;
     private String  predicao;
     private String  estrategia;
@@ -23,7 +22,6 @@ public class Act extends User implements Serializable{
     private String  objetivo;
     private String  anotacoes;
     private float   kma;
-//    private float   tempoGasto;
     private Timestamp tempoGasto;
     private float   kmb;
 

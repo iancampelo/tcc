@@ -51,13 +51,13 @@ public class FamilyActivity extends Activity {
         View focus = null;
         boolean valid = true;
 
-        if(TextUtils.isEmpty(inpProblem.getText().toString())){
+        if(TextUtils.isEmpty(inpProblem.getText().toString().trim())){
             inpProblem.setError(getString(R.string.error_field_required));
             focus=inpProblem;
             focus.requestFocus();
             valid = false;
         }
-        if(TextUtils.isEmpty(inpObjv.getText().toString())){
+        if(TextUtils.isEmpty(inpObjv.getText().toString().trim())){
             inpObjv.setError(getString(R.string.error_field_required));
             focus=inpObjv;
             focus.requestFocus();

@@ -4,11 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -22,31 +23,10 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpClient;
-import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.HeaderGroup;
-import org.json.*;
-
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.google.gson.GsonBuilder;
 
-import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
@@ -114,89 +94,14 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 time.setHours(npHrs.getValue());
                 act.setTempoEstimado(time);
                 showProgress(true);
-                invokeWS();
-                Toast myToast = Toast.makeText(mContext, time.toString(), Toast.LENGTH_SHORT);
-                myToast.show();
+                //call request
+                ConnectTask connectTask = new ConnectTask(mContext);
+                connectTask.execute((Void) null);
 
-                Intent intent = new Intent(view.getContext(), PreReflectionActivity.class);
-                startActivity(intent);
             }
         });
     }
-    public void invokeWS(){
-        // Show Progress Dialog
-        // Make RESTful webservice call using AsyncHttpClient object
-        try{
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.addHeader("Accept", "application/json");
-            client.addHeader("Content-type", "application/json");
-            RequestParams rp = new RequestParams();
-            rp.add("content",user.toJson());
-            URL url = new URL("http://192.168.0.19:8080/webservice/usuario/cadastrarUsuario");
-            HeaderGroup hg = new HeaderGroup();
-            hg.addHeader(new BasicHeader("Accept", "application/json"));
-            hg.addHeader(new BasicHeader("Content-type", "application/json"));
-            BasicHttpEntity basicHttpEntity = new BasicHttpEntity();
-            basicHttpEntity.setContent(new ByteArrayInputStream(user.toJson().getBytes(StandardCharsets.UTF_8)));
-            client.post(mContext,url.toString(),hg.getAllHeaders(),basicHttpEntity,"application/json", new AsyncHttpResponseHandler() {
-                // When the response returned by REST has Http response code '200'
 
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
-                    String response = new String(bytes);
-
-                    // Hide Progress Dialog
-                    showProgress(false);
-                    try {
-                        // JSON Object
-                        JSONObject obj = new JSONObject(response);
-                        Gson gson = new Gson();
-                        User newUser = new User();
-                        newUser = gson.fromJson(response,User.class);
-
-                        Toast.makeText(mContext,newUser.toString(), Toast.LENGTH_LONG).show();
-
-
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        Toast.makeText(mContext, "Error Occured [Server's JSON response " +
-                                "might be invalid]!", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-
-                    }catch (Exception e){
-                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                }
-                // When the response returned by REST has Http response code other than '200'
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
-
-                    // Hide Progress Dialog
-//                    prgDialog.hide();
-                    showProgress(false);
-                    // When Http response code is '404'
-                    if (statusCode == 404) {
-                        Toast.makeText(mContext, "Requested resource not found", Toast.LENGTH_LONG).show();
-                    }
-                    // When Http response code is '500'
-                    else if (statusCode == 500) {
-                        Toast.makeText(mContext, "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                    }
-                    // When Http response code other than 404, 500
-                    else {
-                        Toast.makeText(mContext, "Unexpected Error occcured! [Most common Error: Device might not be connected " +
-                                "to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }catch (Exception e){
-            showProgress(false);
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.e("ERRO_ASYNC_HTTP",e.getMessage());
-        }
-    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
@@ -204,7 +109,7 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            final int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            final int shortAnimTime = getResources().getInteger(android.R.integer.config_longAnimTime);
 
             mScrlViewCreate.setVisibility(show ? View.GONE : View.VISIBLE);
             mScrlViewCreate.animate().setDuration(shortAnimTime).alpha(
@@ -305,4 +210,80 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 break;
         }
     }
+
+
+    public class ConnectTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final Context mContext;
+        private final User user;
+        private String response;
+
+        public String getResponse() {
+            return response;
+        }
+
+        private void setResponse(String response) {
+            this.response = response;
+        }
+
+        ConnectTask(Context context) {
+            mContext = context;
+            user = (User)context;
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            IntegrateWS client = new IntegrateWS("http://192.168.1.4:8080/webservice/usuario/consultarUsuario");
+            client.AddHeader("Accept", "application/json");
+            client.AddHeader("Content-type", "application/json");
+            client.AddParam("content", user.toJson());
+
+            try {
+                client.Execute(RequestMethod.POST);
+                Looper.prepare();
+                setResponse(client.getResponse());
+                return true;
+            } catch (Exception e) {
+                Log.e("ERROR_CONNECTION", e.getMessage());
+                setResponse("ERROR_"+e.getMessage());
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            try{
+
+                showProgress(false);
+                if(success) {
+                    if(getResponse()!= null){
+                        if (getResponse().isEmpty()) {
+                            inpName.setError(getString(R.string.error_incorrect_password));
+                            inpName.requestFocus();
+                        }
+                        GsonBuilder builder = new GsonBuilder();
+                        builder.setPrettyPrinting().serializeNulls();
+                        Gson gson = builder.create();
+//                        setResponse(getResponse().replace("\n",""));
+                        User ser = gson.fromJson(getResponse(),User.class);
+
+                        Intent intent = new Intent(mContext, PreReflectionActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                else{
+                    inpName.setError(getString(R.string.error_incorrect_password));
+                    inpName.requestFocus();
+                }
+            }catch (Exception e){
+                inpName.setError(getString(R.string.error_incorrect_password));
+                inpName.requestFocus();
+            }
+
+        }
+
+    }
+
 }
+

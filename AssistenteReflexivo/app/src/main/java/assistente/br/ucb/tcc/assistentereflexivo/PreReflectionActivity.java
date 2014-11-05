@@ -65,13 +65,13 @@ public class PreReflectionActivity extends Activity {
         View focus = null;
         boolean valid = true;
 
-        if(TextUtils.isEmpty(txtStrategy.getText().toString())){
+        if(TextUtils.isEmpty(txtStrategy.getText().toString().trim())){
             txtStrategy.setError(getString(R.string.error_field_required));
             focus=txtStrategy;
             focus.requestFocus();
             valid = false;
         }
-        if(TextUtils.isEmpty(txtResource.getText().toString())){
+        if(TextUtils.isEmpty(txtResource.getText().toString().trim())){
             txtResource.setError(getString(R.string.error_field_required));
             focus=txtStrategy;
             focus.requestFocus();

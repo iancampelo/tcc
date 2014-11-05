@@ -1,28 +1,24 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Application;
-
 import com.google.gson.annotations.*;
-
 import java.io.Serializable;
 
 /**
  * Created by ian.campelo on 9/2/14.
  */
 public class User extends Application implements Serializable  {
-    public static final String URL_USER = "http://192.168.1.4:8080/webservice/usuario";
-
     @SerializedName("id")
     private long userId = 0;
     @SerializedName("usuario")
-    private String username = "ian.campelo@gmail.com";
+    private String username;
     @SerializedName("senha")
-    private String password = "1234567";
+    private String password;
     @SerializedName("nome")
-    private String name = "Ian Coelho Campelo Serpa";
+    private String name;
     @SerializedName("nascimento")
-    private String birthday = "19/08/1992";
-    private String funcao = "Gerente";
+    private String birthday;
+    private String funcao;
 
     public User(){}
 

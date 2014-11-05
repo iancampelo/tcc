@@ -80,7 +80,7 @@ public class LoginActivity extends Activity{
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String email = mEmailView.getText().toString().toLowerCase();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -170,6 +170,7 @@ public class LoginActivity extends Activity{
         private final String mPassword;
         private final Context mContext;
         private User myUser,usuario;
+        private String response;
 
         //TODO conectar e trazer o usuário
         //TODO check if isInternetOn()
@@ -179,7 +180,7 @@ public class LoginActivity extends Activity{
             mPassword = password;
             mContext = context;
         }
-//        protected Boolean doInBackground(Void... params) {
+        //        protected Boolean doInBackground(Void... params) {
 //            DBTools dbTools = null;
 //            try {
 //                dbTools = new DBTools(mContext);
@@ -205,25 +206,34 @@ public class LoginActivity extends Activity{
             setMyUser((User)getApplicationContext());
 
             try {
-//                if (getMyUser().getUserId() > 0) {
-                if (getMyUser().getUsername().equals(mEmail)) {
-                    // Account exists, check password.
-                    if (getMyUser().getPassword().equals(mPassword)) {
-                        //TODO Check connection
+
+
+                getMyUser().setUsername("ian.campelo@gmail.com");
+                getMyUser().setPassword("1234567");
+                if(getMyUser().getUsername()!=null){
+
+                    if (getMyUser().getUsername().equals(mEmail)) {
+                        // Account exists, check password.
+                        if (getMyUser().getPassword().equals(mPassword)) {
+                            //TODO Check connection
+                            return true;
+                        }
+                        else
+                            return false;
+                    } else {
+                        getMyUser().setPassword(mPassword);
                         return true;
                     }
-                    else
-                        return false;
-                } else {
-                    getMyUser().setPassword(mPassword);
-                    return true;
+
                 }
+                return false;
             }
             catch (Exception e){
                 Log.e("ERROR_USER",e.getMessage());
                 return false;
             }
         }
+
 
         @Override
         protected void onPostExecute(final Boolean success) {
