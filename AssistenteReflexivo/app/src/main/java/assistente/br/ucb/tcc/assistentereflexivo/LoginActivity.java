@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +24,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,18 +31,21 @@ public class LoginActivity extends Activity{
 
     private final String EMAIL_VALIDATE = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
     private UserLoginTask mAuthTask = null;
-
-    // UI references.
-    private EditText mPasswordView,mEmailView;
+    private EditText mPasswordView,mEmailView,inputName,inputFuncao,inputBirthday;
     private View mProgressView;
     private View mLoginFormView;
+    private static Context mContext = null;
+    private static Act act = null;
+    private static User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mContext = getApplicationContext();
+        user = (User)mContext;
+        act = (Act)mContext;
 
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
@@ -112,8 +115,8 @@ public class LoginActivity extends Activity{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, this);
+            Util.showProgress(true,mContext,mLoginFormView,mProgressView);
+            mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -127,38 +130,7 @@ public class LoginActivity extends Activity{
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            final int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -168,159 +140,159 @@ public class LoginActivity extends Activity{
 
         private final String mEmail;
         private final String mPassword;
-        private final Context mContext;
-        private User myUser,usuario;
-        private String response;
+        private User usuario;
+        private IntegrateWS client = null;
 
-        //TODO conectar e trazer o usuário
         //TODO check if isInternetOn()
 
-        UserLoginTask(String email, String password, Context context) {
+        UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
-            mContext = context;
+            user = (User)mContext;
+            user.setPassword(password);
+            user.setUsername(email);
         }
-        //        protected Boolean doInBackground(Void... params) {
-//            DBTools dbTools = null;
-//            try {
-//                dbTools = new DBTools(mContext);
-//                myUser = dbTools.getUser(mEmail);
-//
-//                if (myUser.getUserId() > 0) {
-//                    // Account exists, check password.
-//                    if (myUser.getPassword().equals(mPassword))
-//                        return true;
-//                    else
-//                        return false;
-//                } else {
-//                    myUser.setPassword(mPassword);
-//                    return true;
-//                }
-//            } finally {
-//                if (dbTools != null)
-//                    dbTools.close();
-//            }
-//        }
         @Override
         protected Boolean doInBackground(Void... params) {
-            setMyUser((User)getApplicationContext());
+            boolean success = false;
 
             try {
 
+                if (user.getUsername() != null) {
+                    client = new IntegrateWS(Util.getUrl(R.string.url_ws_get_user,mContext));
+                    client.AddHeader("Accept", "application/json");
+                    client.AddHeader("Content-type", "application/json");
+                    client.AddParam("content", user.toJson());
 
-                getMyUser().setUsername("ian.campelo@gmail.com");
-                getMyUser().setPassword("1234567");
-                if(getMyUser().getUsername()!=null){
-
-                    if (getMyUser().getUsername().equals(mEmail)) {
-                        // Account exists, check password.
-                        if (getMyUser().getPassword().equals(mPassword)) {
-                            //TODO Check connection
-                            return true;
+                    client.Execute(RequestMethod.POST);
+                    String a = client.getResponse();
+                    client.getErrorMessage();
+                    if (client.getResponseCode() == 200) {
+                        if (a != null) {
+                            usuario = Util.jsonToUser(a);
+                            if(usuario==null)
+                                return false;
+                            if (user.getUsername().equals(usuario.getUsername())) {
+                                if (user.getPassword().equals(usuario.getPassword())) {
+                                    success = true;
+                                } else
+                                    success = false;
+                            } else {
+                                user.setUsername(mEmail);
+                                user.setPassword(mPassword);
+                                return true;
+                            }
                         }
-                        else
-                            return false;
-                    } else {
-                        getMyUser().setPassword(mPassword);
-                        return true;
                     }
-
+                    else
+                        success = false;
                 }
-                return false;
+            }catch (Exception e) {
+                Log.e("ERROR_CONNECTION", e.getMessage());
+                success = false;
             }
-            catch (Exception e){
-                Log.e("ERROR_USER",e.getMessage());
-                return false;
-            }
+            return success;
         }
-
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
+            Util.showProgress(false,mContext,mLoginFormView,mProgressView);
+
 
             if (success) {
-//                if (getMyUser().getUserId() > 0) {
-                if (getMyUser().getUsername().equals(mEmail)) {
-                    finish();
-                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(myIntent);
-                } else {
+                finish();
+                Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+            }else if(client.getResponseCode()==500) {
+                try{
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    DBTools dbTools = null;
                                     try {
                                         //TODO OnValueChange like, to User, when this happens call alter method
-                                        finish();
+                                        if(validateFields()){
+                                            try{
 
-                                        Toast myToast = Toast.makeText(mContext, getMyUser().toString(), Toast.LENGTH_SHORT);
-                                        myToast.show();
+                                                user.setBirthday(inputBirthday.getText().toString());
+                                                user.setFuncao(inputFuncao.getText().toString());
+                                                user.setName(inputName.getText().toString());
 
+                                                client = new IntegrateWS(Util.getUrl(R.string.url_ws_create_user,mContext));
+                                                client.AddHeader("Accept", "application/json");
+                                                client.AddHeader("Content-type", "application/json");
+                                                client.AddParam("content", user.toJson());
+                                                client.Execute(RequestMethod.POST);
+                                                client.getErrorMessage();
+                                                if (client.getResponseCode() == 200) {
+                                                    String res = client.getResponse();
+                                                    if(res.contains("S")) {
+                                                        Toast myToast = Toast.makeText(mContext, getString(R.string.msg_user_create), Toast.LENGTH_LONG);
+                                                        myToast.show();
+                                                    }
+                                                }
+                                            }catch (Exception e){
+                                                String err = (e.getMessage()==null)?getString(R.string.error):e.getMessage();
+                                                Log.e("ERROR_CREATE_USER_ACT", err);
+                                                break;
+                                            }
+                                        }
                                         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                                         LoginActivity.this.startActivity(myIntent);
                                         finish();
-                                    } finally {
-                                        if (dbTools != null)
-                                            dbTools.close();
+                                    } catch (Exception ex) {
+                                        String err = (ex.getMessage()==null)?getString(R.string.error):ex.getMessage();
+                                        Log.e("ERROR_CREATE_USER_ACT", err);
+                                        Toast myToast = Toast.makeText(mContext, err, Toast.LENGTH_SHORT);
+                                        myToast.show();
                                     }
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:
-                                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                                    Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
+                                    myToast.show();
                                     mPasswordView.requestFocus();
                                     break;
                             }
                         }
                     };
 
-//                    //LinearLayout lpView = new LinearLayout(this.mContext);
-//                    LinearLayout linLayout = new LinearLayout(this.mContext);
-//                    // specifying vertical orientation
-//                    linLayout.setOrientation(LinearLayout.VERTICAL);
-//                    // creating LayoutParams
-//                    LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//                    // set LinearLayout as a root element of the screen
-//                    setContentView(linLayout, linLayoutParam);
-//
-//                    LinearLayout.LayoutParams lpView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//                    EditText inputName = new EditText(this.mContext);
-//                    inputName.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-//                    inputName.setHint(getResources().getString(R.string.name));
-//                    inputName.setLayoutParams(lpView);
-//                    linLayout.addView(inputName);
-//
-//
-//
-//
-//                    EditText inputIdade = new EditText(this.mContext);
-//                    inputIdade.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-//                    inputIdade.setHint(getResources().getString(R.string.birthday));
-//                    inputIdade.setLayoutParams(lpView);
-//                    linLayout.addView(inputIdade);
-//
-//                    EditText inputFuncao = new EditText(this.mContext);
-//                    inputFuncao.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-//                    inputFuncao.setHint(getResources().getString(R.string.function));
-//                    inputFuncao.setLayoutParams(lpView);
-//                    linLayout.addView(inputFuncao);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 
-                    //TODO saber como add mais de um campo no AlertDialog
-                    EditText inputFuncao = new EditText(this.mContext);
+                    LinearLayout layout = new LinearLayout(mContext);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+
+                    inputName = new EditText(mContext);
+                    inputName.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                    inputName.setHint(getResources().getString(R.string.name));
+                    inputName.setTextColor(Color.BLACK);
+                    inputName.setHint(getString(R.string.name));
+                    layout.addView(inputName);
+
+                    inputFuncao = new EditText(mContext);
                     inputFuncao.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-                    inputFuncao.setHint(getResources().getString(R.string.function));
+                    inputFuncao.setHint(getString(R.string.function));
+                    inputFuncao.setTextColor(Color.BLACK);
+                    layout.addView(inputFuncao);
 
+                    inputBirthday = new EditText(mContext);
+                    inputBirthday.setTextColor(Color.BLACK);
+                    inputBirthday.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                    inputBirthday.setHint(getResources().getString(R.string.name));
+                    inputBirthday.setHint(getString(R.string.birthday));
+                    layout.addView(inputBirthday);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this.mContext);
-                    builder.setMessage(R.string.confirm_registry).setPositiveButton(R.string.yes, dialogClickListener)
-                            .setNegativeButton(R.string.no, dialogClickListener).setView(inputFuncao).show();
-
+                    builder.setMessage(R.string.confirm_registry);
+                    builder.setPositiveButton(R.string.yes, dialogClickListener);
+                    builder.setNegativeButton(R.string.no, dialogClickListener);
+                    builder.setView(layout).show();
+                }catch(RuntimeException re){
+                    re.getMessage();
+                    re.getCause();
                 }
-            } else {
+            }else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
@@ -329,16 +301,23 @@ public class LoginActivity extends Activity{
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            showProgress(false);
+            Util.showProgress(false,mContext,mLoginFormView,mProgressView);
         }
 
-        public User getMyUser() {
-            return myUser;
+        public Boolean validateFields(){
+            Boolean success = false;
+            if(inputBirthday.getText()!=null||!inputBirthday.getText().toString().trim().isEmpty()){
+                success=true;
+            }
+            if(inputFuncao.getText()!=null||!inputFuncao.getText().toString().trim().isEmpty()){
+                success=true;
+            }
+            if(inputName.getText()!=null||!inputName.getText().toString().trim().isEmpty()){
+                success=true;
+            }
+            return success;
         }
 
-        public void setMyUser(User myUser) {
-            this.myUser = myUser;
-        }
     }
 }
 

@@ -4,7 +4,7 @@
     <string name="action_sign_in">Logar ou registrar</string>
     <string name="action_sign_in_short">Logar</string>
     <string name="app_name">Assistente Reflexivo</string>
-    <string name="confirm_registry">Email não encontrado. Você deseja criar um novo usuário com esse email e senha?</string>
+    <string name="confirm_registry">Email não encontrado. Você deseja criar um novo usuário com esse email e senha? Se sim, complete os campos.</string>
     <string name="error_field_required">Esse campo é obrigatório</string>
     <string name="error_incorrect_password">Senha incorreta</string>
     <string name="error_invalid_email">Email incorreto</string>
@@ -62,4 +62,7 @@
     <string name="optimistic">Otimista</string>
     <string name="pessimistic">Pessimista</string>
     <string name="realistic">Realista</string>
+    <string name="error">Ops, alguma coisa deu errado</string>
+    <string name="msg_user_create">Usuário criado com sucesso</string>
+    <string name="msg_act_create">Atividade criada com sucesso</string>
 </resources>

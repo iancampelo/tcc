@@ -1,28 +1,26 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Application;
-import com.google.gson.annotations.*;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 /**
  * Created by ian.campelo on 9/2/14.
  */
 public class User extends Application implements Serializable  {
-    @SerializedName("id")
-    private long userId = 0;
-    @SerializedName("usuario")
+    private int userId = 0;
     private String username;
-    @SerializedName("senha")
     private String password;
-    @SerializedName("nome")
     private String name;
-    @SerializedName("nascimento")
     private String birthday;
     private String funcao;
 
     public User(){}
 
-    public User(long userId, String username, String password, String name, String birthday, String funcao) {
+    public User(int userId, String username, String password, String name, String birthday, String funcao) {
         setUserId(userId);
         setUsername(username);
         setPassword(password);
@@ -31,54 +29,55 @@ public class User extends Application implements Serializable  {
         setFuncao(funcao);
     }
 
-    public long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(long userId) {
+//SET
+    public void setUserId(int userId) {
         this.userId = userId;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public String getFuncao() {
-        return funcao;
-    }
-
     public void setFuncao(String funcao) {
         this.funcao = funcao;
     }
-
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
+//GET
+    @JsonProperty("usuario")
+    public String getUsername() {
+        return username;
+    }
+    @JsonProperty("senha")
+    public String getPassword() {
+        return password;
+    }
+    @JsonProperty("nome")
+    public String getName() {
+        return name;
+    }
+    @JsonProperty("aniversario")
+    public String getBirthday() {
+        return birthday;
+    }
+    @JsonProperty("funcao")
+    public String getFuncao() {
+        return funcao;
+    }
+    @JsonProperty("id")
+    public long getUserId() {
+        return userId;
+    }
+
+
+//OVERRIDES
     @Override
     public String toString() {
         return "User{" +
@@ -99,17 +98,35 @@ public class User extends Application implements Serializable  {
                 "\"nascimento\":\""+getBirthday()+"\"," +
                 "\"funcao\":\""+getFuncao()+"\"" +
                 "}";
-        /*
-        {
-    "id": 9,
-    "usuario": "ian@gmail.com",
-    "senha": "123456",
-    "nome": "Ian Campelo",
-    "nascimento":"19/08/1992",
-    "funcao":"Gerente de Projetos"
-}
-         */
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
 
+        User user = (User) o;
+
+        if (userId != user.userId) return false;
+        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null)
+            return false;
+        if (funcao != null ? !funcao.equals(user.funcao) : user.funcao != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null)
+            return false;
+        if (username != null ? !username.equals(user.username) : user.username != null)
+            return false;
+
+        return true;
+    }
+    @Override
+    public int hashCode() {
+        int result = (int) (userId ^ (userId >>> 32));
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (funcao != null ? funcao.hashCode() : 0);
+        return result;
     }
 
 }

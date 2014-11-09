@@ -31,7 +31,6 @@ import java.sql.Timestamp;
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
     private static Act act = null;
-    private static User user = null;
     private static Context mContext = null;
     private View mProgressView;
     private View mScrlViewCreate;
@@ -45,7 +44,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         mContext = getApplicationContext();
-        user = (User)mContext;
         act = (Act)mContext;
         load();
     }
@@ -93,11 +91,9 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 time.setMinutes(npMin.getValue());
                 time.setHours(npHrs.getValue());
                 act.setTempoEstimado(time);
-                showProgress(true);
-                //call request
-                ConnectTask connectTask = new ConnectTask(mContext);
-                connectTask.execute((Void) null);
 
+                Intent myIntent = new Intent(CreateActivity.this, PreReflectionActivity.class);
+                CreateActivity.this.startActivity(myIntent);
             }
         });
     }
@@ -238,17 +234,21 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
             client.AddHeader("Accept", "application/json");
             client.AddHeader("Content-type", "application/json");
             client.AddParam("content", user.toJson());
-
+            boolean success = false;
             try {
                 client.Execute(RequestMethod.POST);
-                Looper.prepare();
-                setResponse(client.getResponse());
-                return true;
+                String a =client.getResponse();
+                client.getErrorMessage();
+                client.getResponseCode();
+                if(a!=null){
+                    setResponse(a);
+                    success =  true;
+                }
             } catch (Exception e) {
                 Log.e("ERROR_CONNECTION", e.getMessage());
                 setResponse("ERROR_"+e.getMessage());
-                return false;
             }
+            return success;
         }
 
         @Override
@@ -257,7 +257,7 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
 
                 showProgress(false);
                 if(success) {
-                    if(getResponse()!= null){
+                    if (getResponse() != null) {
                         if (getResponse().isEmpty()) {
                             inpName.setError(getString(R.string.error_incorrect_password));
                             inpName.requestFocus();
@@ -265,15 +265,15 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                         GsonBuilder builder = new GsonBuilder();
                         builder.setPrettyPrinting().serializeNulls();
                         Gson gson = builder.create();
-//                        setResponse(getResponse().replace("\n",""));
-                        User ser = gson.fromJson(getResponse(),User.class);
+                        setResponse(getResponse().replace("\n",""));
+                        User ser = gson.fromJson(getResponse(), User.class);
 
                         Intent intent = new Intent(mContext, PreReflectionActivity.class);
                         startActivity(intent);
                     }
                 }
                 else{
-                    inpName.setError(getString(R.string.error_incorrect_password));
+                    inpName.setError(getString(R.string.error));
                     inpName.requestFocus();
                 }
             }catch (Exception e){
