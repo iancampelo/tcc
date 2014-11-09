@@ -48,7 +48,7 @@ public class AtividadeDao extends ConnectionFactory {
 
 			ps.setInt      (1,  ativ.getUid());
 			ps.setString   (2,  ativ.getNome());
-			ps.setTimestamp(3,  ativ.getTempoEstimado());
+			ps.setTime(3,  ativ.getTempoEstimado());
 			ps.setInt      (4,  ativ.getPredicao());
 			ps.setString   (5,  ativ.getEstrategia());
 			ps.setString   (6,  ativ.getRecursos());
@@ -121,7 +121,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setId			 (rs.getInt		 ("id"));
 				ativ.setUid          (rs.getInt		 ("uid"));
 				ativ.setNome	     (rs.getString	 ("nome"));
-				ativ.setTempoEstimado(rs.getTimestamp("tempo_estimado"));
+				ativ.setTempoEstimado(rs.getTime	 ("tempo_estimado"));
 				ativ.setPredicao	 (rs.getInt   	 ("predicao"));
 				ativ.setEstrategia	 (rs.getString	 ("estrategia"));
 				ativ.setRecursos	 (rs.getString	 ("recursos"));
@@ -129,7 +129,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setComprensao	 (rs.getString	 ("comprensao"));
 				ativ.setObjetivo	 (rs.getString	 ("objetivo"));
 				ativ.setAnotacoes	 (rs.getString	 ("anotacoes"));
-				ativ.setTempoGasto	 (rs.getTimestamp("tempo_gasto"));
+				ativ.setTempoGasto	 (rs.getTime	 ("tempo_gasto"));
 				ativ.setKma			 (rs.getFloat    ("kma"));
 				ativ.setResultado	 (rs.getInt      ("resultado"));
 				ativ.setKmb			 (rs.getFloat	 ("kmb"));
@@ -174,7 +174,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setId			 (rs.getInt		 ("id"));
 				ativ.setUid			 (rs.getInt		 ("uid"));
 				ativ.setNome	     (rs.getString	 ("nome"));
-				ativ.setTempoEstimado(rs.getTimestamp("tempo_estimado"));
+				ativ.setTempoEstimado(rs.getTime	 ("tempo_estimado"));
 				ativ.setPredicao	 (rs.getInt      ("predicao"));
 				ativ.setEstrategia	 (rs.getString   ("estrategia"));
 				ativ.setRecursos	 (rs.getString   ("recursos"));
@@ -182,7 +182,7 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setComprensao	 (rs.getString   ("comprensao"));
 				ativ.setObjetivo	 (rs.getString   ("objetivo"));
 				ativ.setAnotacoes	 (rs.getString   ("anotacoes"));
-				ativ.setTempoGasto	 (rs.getTimestamp("tempo_gasto")); 
+				ativ.setTempoGasto	 (rs.getTime	 ("tempo_gasto")); 
 				ativ.setKma			 (rs.getFloat    ("kma"));
 				ativ.setResultado	 (rs.getInt  	 ("resultado"));
 				ativ.setKmb          (rs.getFloat	 ("kmb"));
@@ -222,7 +222,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps = conn.prepareStatement(sql);
 
 			ps.setString    (1,  ativ.getNome());
-			ps.setTimestamp (2,  ativ.getTempoEstimado());
+			ps.setTime (2,  ativ.getTempoEstimado());
 			ps.setInt       (3,  ativ.getPredicao());
 			ps.setString	(4,  ativ.getEstrategia());
 			ps.setString	(5,  ativ.getRecursos());
@@ -230,7 +230,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setString	(7,  ativ.getComprensao());
 			ps.setString	(8,  ativ.getObjetivo());
 			ps.setString	(9,  ativ.getAnotacoes());
-			ps.setTimestamp (10, ativ.getTempoGasto());
+			ps.setTime (10, ativ.getTempoGasto());
 			ps.setFloat 	(11, ativ.getKma());
 			ps.setInt   	(12, ativ.getResultado());
 			ps.setFloat 	(13, ativ.getKmb());

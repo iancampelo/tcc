@@ -9,22 +9,23 @@ create table usuario(
    funcao     varchar(50), 
    primary key (id));
 
-create table atividade(
-   id             int          not null auto_increment,
-   uid            int          not null,
-   nome           varchar(100) not null,
-   tempo_estimado timestamp    not null,
-   predicao       int          not null,
-   estrategia     varchar(200),
-   recursos       varchar(200),
-   grau_atencao   varchar(10),
-   comprensao     varchar(200),
-   objetivo       varchar(200),
-   anotacoes      varchar(200),
-   kma            float,
-   tempo_gasto    timestamp,
-   resultado      int,
-   kmb            float,
-   primary key (id),
-   foreign key (uid) references usuario(id) 
+CREATE TABLE atividade (
+  id int(11) NOT NULL auto_increment,
+  uid int(11) NOT NULL,
+  nome varchar(100) NOT NULL,
+  tempo_estimado time NOT NULL,
+  predicao int(11) NOT NULL,
+  estrategia varchar(200) default NULL,
+  recursos varchar(200) default NULL,
+  grau_atencao varchar(10) default NULL,
+  comprensao varchar(200) default NULL,
+  objetivo varchar(200) default NULL,
+  anotacoes varchar(200) default NULL,
+  kma float default NULL,
+  tempo_gasto time default NULL,
+  resultado int(11) default NULL,
+  kmb float default NULL,
+  PRIMARY KEY  (id),
+  KEY uid (uid),
+  CONSTRAINT atividade_ibfk_1 FOREIGN KEY (uid) REFERENCES usuario (id)
 );

@@ -1,7 +1,7 @@
 package br.com.ucb.modelo;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Time;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -17,7 +17,7 @@ public class Atividade implements Serializable{
 	private int        id;
 	private int        uid;
 	private String     nome;
-	private Timestamp  tempoEstimado;
+	private Time  tempoEstimado;
 	private int        predicao;
 	private String 	   estrategia;
 	private String     recursos;
@@ -26,7 +26,7 @@ public class Atividade implements Serializable{
 	private String     objetivo;
 	private String     anotacoes;
 	private float      kma;
-	private Timestamp  tempoGasto;
+	private Time  tempoGasto;
 	private int        resultado;
 	private float 	   kmb;
 	
@@ -57,11 +57,11 @@ public class Atividade implements Serializable{
 		this.nome = nome;
 	}
 
-	public Timestamp getTempoEstimado() {
+	public Time getTempoEstimado() {
 		return tempoEstimado;
 	}
 
-	public void setTempoEstimado(Timestamp tempoEstimado) {
+	public void setTempoEstimado(Time tempoEstimado) {
 		this.tempoEstimado = tempoEstimado;
 	}
 
@@ -129,11 +129,11 @@ public class Atividade implements Serializable{
 		this.kma = kma;
 	}
 
-	public Timestamp getTempoGasto() {
+	public Time getTempoGasto() {
 		return tempoGasto;
 	}
 
-	public void setTempoGasto(Timestamp tempoGasto) {
+	public void setTempoGasto(Time tempoGasto) {
 		this.tempoGasto = tempoGasto;
 	}
 
