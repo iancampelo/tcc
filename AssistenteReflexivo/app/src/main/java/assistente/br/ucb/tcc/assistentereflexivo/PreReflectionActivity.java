@@ -1,14 +1,11 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -17,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -145,7 +141,7 @@ public class PreReflectionActivity extends Activity {
                 client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act,mContext));
                 client.AddHeader("Accept", "application/json");
                 client.AddHeader("Content-type", "application/json");
-                client.AddParam("content", act.toJson());
+                client.AddParam("content", act.toJsonAct());
 
                 client.Execute(RequestMethod.POST);
                 if (client.getResponseCode() == 200) {
@@ -184,7 +180,7 @@ public class PreReflectionActivity extends Activity {
                                                 client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act, mContext));
                                                 client.AddHeader("Accept", "application/json");
                                                 client.AddHeader("Content-type", "application/json");
-                                                client.AddParam("content", act.toJson());
+                                                client.AddParam("content", act.toJsonAct());
                                                 client.Execute(RequestMethod.POST);
                                                 client.getErrorMessage();
                                                 if (client.getResponseCode() == 200) {

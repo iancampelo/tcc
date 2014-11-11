@@ -26,11 +26,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 
 public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
     private static Act act = null;
+    private static User user= null;
     private static Context mContext = null;
     private View mProgressView;
     private View mScrlViewCreate;
@@ -45,6 +47,7 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         setContentView(R.layout.activity_create);
         mContext = getApplicationContext();
         act = (Act)mContext;
+        user = (User)mContext;
         load();
     }
     public void load() {
@@ -86,11 +89,12 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 }
                 act.setNome(inpName.getText().toString());
                 act.setPredicao(spinner.getSelectedItem().toString());
-                Timestamp time = new Timestamp(0);
+                Time time = new Time(0);
                 time.setSeconds(npSec.getValue());
                 time.setMinutes(npMin.getValue());
                 time.setHours(npHrs.getValue());
                 act.setTempoEstimado(time);
+                act.setUserid(((User)mContext).getUserId());
 
                 Intent myIntent = new Intent(CreateActivity.this, PreReflectionActivity.class);
                 CreateActivity.this.startActivity(myIntent);

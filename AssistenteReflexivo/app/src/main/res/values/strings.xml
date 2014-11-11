@@ -71,6 +71,4 @@
     <string name="msg_user_create">User create sucessfully</string>
     <string name="url_ws_save_act">/atividade/cadastrarAtividade</string>
     <string name="msg_act_create">Activity successfully created</string>
-
-
 </resources>

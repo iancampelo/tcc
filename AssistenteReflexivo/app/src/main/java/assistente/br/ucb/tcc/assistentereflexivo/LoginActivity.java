@@ -1,8 +1,5 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,13 +23,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends Activity{
 
-    private final String EMAIL_VALIDATE = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private final String EMAIL_VALIDATE = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{3,})$";
     private UserLoginTask mAuthTask = null;
     private EditText mPasswordView,mEmailView,inputName,inputFuncao,inputBirthday;
     private View mProgressView;
@@ -38,6 +38,7 @@ public class LoginActivity extends Activity{
     private static Context mContext = null;
     private static Act act = null;
     private static User user = null;
+    private static boolean createUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,8 @@ public class LoginActivity extends Activity{
             Util.showProgress(true,mContext,mLoginFormView,mProgressView);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+
+
         }
     }
     private boolean isEmailValid(String email) {
@@ -130,8 +133,6 @@ public class LoginActivity extends Activity{
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
-
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -184,6 +185,7 @@ public class LoginActivity extends Activity{
                             }
                         }
                     }
+
                     else
                         success = false;
                 }
@@ -199,12 +201,11 @@ public class LoginActivity extends Activity{
             mAuthTask = null;
             Util.showProgress(false,mContext,mLoginFormView,mProgressView);
 
-
             if (success) {
                 finish();
                 Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(myIntent);
-            }else if(client.getResponseCode()==500) {
+            }else if(client.getResponseCode()==204) {
                 try{
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
@@ -214,34 +215,16 @@ public class LoginActivity extends Activity{
                                     try {
                                         //TODO OnValueChange like, to User, when this happens call alter method
                                         if(validateFields()){
-                                            try{
 
-                                                user.setBirthday(inputBirthday.getText().toString());
-                                                user.setFuncao(inputFuncao.getText().toString());
-                                                user.setName(inputName.getText().toString());
+                                            user.setBirthday(inputBirthday.getText().toString());
+                                            user.setFuncao(inputFuncao.getText().toString());
+                                            user.setName(inputName.getText().toString());
 
-                                                client = new IntegrateWS(Util.getUrl(R.string.url_ws_create_user,mContext));
-                                                client.AddHeader("Accept", "application/json");
-                                                client.AddHeader("Content-type", "application/json");
-                                                client.AddParam("content", user.toJson());
-                                                client.Execute(RequestMethod.POST);
-                                                client.getErrorMessage();
-                                                if (client.getResponseCode() == 200) {
-                                                    String res = client.getResponse();
-                                                    if(res.contains("S")) {
-                                                        Toast myToast = Toast.makeText(mContext, getString(R.string.msg_user_create), Toast.LENGTH_LONG);
-                                                        myToast.show();
-                                                    }
-                                                }
-                                            }catch (Exception e){
-                                                String err = (e.getMessage()==null)?getString(R.string.error):e.getMessage();
-                                                Log.e("ERROR_CREATE_USER_ACT", err);
-                                                break;
-                                            }
+                                            CreateUserTask cr = new CreateUserTask();
+                                            Util.showProgress(true,mContext,mLoginFormView,mProgressView);
+                                            cr.execute((Void) null);
+
                                         }
-                                        Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                                        LoginActivity.this.startActivity(myIntent);
-                                        finish();
                                     } catch (Exception ex) {
                                         String err = (ex.getMessage()==null)?getString(R.string.error):ex.getMessage();
                                         Log.e("ERROR_CREATE_USER_ACT", err);
@@ -278,6 +261,8 @@ public class LoginActivity extends Activity{
                     layout.addView(inputFuncao);
 
                     inputBirthday = new EditText(mContext);
+                    inputBirthday.addTextChangedListener(Util.insert("##/##/####", inputBirthday));
+                    inputBirthday.setInputType(InputType.TYPE_CLASS_NUMBER);
                     inputBirthday.setTextColor(Color.BLACK);
                     inputBirthday.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                     inputBirthday.setHint(getResources().getString(R.string.name));
@@ -288,11 +273,17 @@ public class LoginActivity extends Activity{
                     builder.setPositiveButton(R.string.yes, dialogClickListener);
                     builder.setNegativeButton(R.string.no, dialogClickListener);
                     builder.setView(layout).show();
+
                 }catch(RuntimeException re){
                     re.getMessage();
                     re.getCause();
                 }
-            }else {
+            }
+            else if(client.getResponseCode() == 0){
+                Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
+                myToast.show();
+            }
+            else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
@@ -319,7 +310,52 @@ public class LoginActivity extends Activity{
         }
 
     }
+    public class CreateUserTask extends AsyncTask<Void, Void, Boolean> {
+
+        private boolean success = false;
+
+        CreateUserTask(){}
+
+
+        protected Boolean doInBackground(Void... params) {
+            try{
+                IntegrateWS nClient = new IntegrateWS(Util.getUrl(R.string.url_ws_create_user,mContext));
+                nClient.AddHeader("Accept", "application/json");
+                nClient.AddHeader("Content-type", "application/json");
+                nClient.AddParam("content", user.toJson());
+                nClient.Execute(RequestMethod.POST);
+                nClient.getErrorMessage();
+                if (nClient.getResponseCode() == 200) {
+                    String res = nClient.getResponse();
+                    if(res.toLowerCase().contains("s")) {
+                        success = true;
+                    }
+                }
+                else
+                    success = false;
+            }catch (Exception e){
+                String err = (e.getMessage()==null)?getString(R.string.error):e.getMessage();
+                Log.e("ERROR_CREATE_USER_ACT", err);
+                success = false;
+            }
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            Util.showProgress(false,mContext,mLoginFormView,mProgressView);
+            if(success){
+                Toast myToast = Toast.makeText(mContext, getString(R.string.msg_user_create), Toast.LENGTH_LONG);
+                myToast.show();
+
+                finish();
+                Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+            }
+            else {
+                Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
+                myToast.show();
+            }
+        }
+    }
 }
-
-
-

@@ -3,6 +3,7 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -13,7 +14,7 @@ public class Act extends User implements Serializable{
     @SerializedName("uid")
     private int userid;
     private String  nome;
-    private Timestamp tempoEstimado;
+    private Time tempoEstimado;
     private String  predicao;
     private String  estrategia;
     private String  recursos;
@@ -22,14 +23,14 @@ public class Act extends User implements Serializable{
     private String  objetivo;
     private String  anotacoes;
     private float   kma;
-    private Timestamp tempoGasto;
+    private Time tempoGasto;
     private float   kmb;
 
     public Act() {super();}
 
-    public Act(String nome, Timestamp tempoEstimado, String predicao, String estrategia,
+    public Act(String nome, Time tempoEstimado, String predicao, String estrategia,
                String recursos, String grauAtencao, String comprensao, String objetivo,
-               String anotacoes, float kma, Timestamp tempoGasto, float kmb, int uid) {
+               String anotacoes, float kma, Time tempoGasto, float kmb, int uid) {
         super();
         setNome(nome);
         setTempoEstimado(tempoEstimado);
@@ -62,11 +63,11 @@ public class Act extends User implements Serializable{
         this.nome = nome;
     }
 
-    public Timestamp getTempoEstimado() {
+    public Time getTempoEstimado() {
         return tempoEstimado;
     }
 
-    public void setTempoEstimado(Timestamp tempoEstimado) {
+    public void setTempoEstimado(Time tempoEstimado) {
         this.tempoEstimado = tempoEstimado;
     }
 
@@ -134,11 +135,11 @@ public class Act extends User implements Serializable{
         this.kma = kma;
     }
 
-    public Timestamp getTempoGasto() {
+    public Time getTempoGasto() {
         return tempoGasto;
     }
 
-    public void setTempoGasto(Timestamp tempoGasto) {
+    public void setTempoGasto(Time tempoGasto) {
         this.tempoGasto = tempoGasto;
     }
 
@@ -217,7 +218,7 @@ public class Act extends User implements Serializable{
                 '}';
     }
 
-    public String toJson() {
+    public String toJsonAct() {
         return "{" +
                 "\"userid\":\"" + userid + '\"'+
                 ", \"nome\":\"" + nome + '\"' +

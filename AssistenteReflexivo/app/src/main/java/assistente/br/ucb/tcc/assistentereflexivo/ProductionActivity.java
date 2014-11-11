@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 
@@ -128,9 +129,9 @@ public class ProductionActivity extends Activity {
                 ":"+Integer.toString(act.getTempoEstimado().getSeconds());
     }
 
-    private Timestamp getTimeFromField(){
+    private Time getTimeFromField(){
         String[] times = inpTimeElapsed.getText().toString().split(":");
-        Timestamp time = new Timestamp(0);
+        Time time = new Time(0);
         time.setSeconds(Integer.parseInt(times[0]));
         time.setMinutes(Integer.parseInt(times[1]));
         time.setHours(Integer.parseInt(times[2]));

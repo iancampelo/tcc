@@ -15,7 +15,7 @@ public class User extends Application implements Serializable  {
     private String username;
     private String password;
     private String name;
-    private String birthday;
+    private String birthday = "19/08/1992";
     private String funcao;
 
     public User(){}
@@ -72,7 +72,7 @@ public class User extends Application implements Serializable  {
         return funcao;
     }
     @JsonProperty("id")
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 

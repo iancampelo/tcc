@@ -127,7 +127,6 @@ public class IntegrateWS {
                 }
 
                 if(!params.isEmpty()){
-//                    request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     NameValuePair nv = params.get(0);
                     BasicHttpEntity basicHttpEntity = new BasicHttpEntity();
                     basicHttpEntity.setContent(new ByteArrayInputStream(nv.getValue().getBytes(StandardCharsets.UTF_8)));
@@ -168,6 +167,13 @@ public class IntegrateWS {
         } catch (IOException e) {
             client.getConnectionManager().shutdown();
             e.printStackTrace();
+        }
+        catch (Exception e){
+            client.getConnectionManager().shutdown();
+            e.printStackTrace();
+        }
+        finally {
+            client.getConnectionManager().shutdown();
         }
     }
 
