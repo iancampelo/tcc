@@ -35,7 +35,6 @@ public class EvaluationActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
                         System.exit(0);
                     }
 

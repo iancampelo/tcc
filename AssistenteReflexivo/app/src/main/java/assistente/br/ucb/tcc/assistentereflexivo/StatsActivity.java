@@ -2,8 +2,11 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +25,12 @@ public class StatsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+
         load();
         setGauge(gradeKma,true);
         setGauge(gradeKmb,false);
     }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -35,7 +40,6 @@ public class StatsActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
                         System.exit(0);
                     }
 
@@ -80,7 +84,6 @@ public class StatsActivity extends Activity {
                 finish();
             }
         });
-
     }
 
     private void setGauge(TextView txtStatus, boolean isKma) {

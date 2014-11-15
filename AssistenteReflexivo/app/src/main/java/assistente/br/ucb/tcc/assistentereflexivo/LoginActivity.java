@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
@@ -47,8 +49,20 @@ public class LoginActivity extends Activity{
         mContext = getApplicationContext();
         user = (User)mContext;
         act = (Act)mContext;
+        if(!isOnline()){
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(getString(R.string.offline))
+                    .setMessage(getString(R.string.offline_msg))
+                    .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
 
-        // Set up the login form.
+                    })
+                    .show();
+        }
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -74,6 +88,13 @@ public class LoginActivity extends Activity{
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -83,7 +104,6 @@ public class LoginActivity extends Activity{
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
                         System.exit(0);
                     }
 
