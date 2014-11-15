@@ -68,9 +68,7 @@ public class PreReflectionActivity extends Activity {
 
                 if(!saveAct())
                     return;
-
-
-
+                finish();
                 Intent intent = new Intent(view.getContext(), FamilyActivity.class);
                 startActivity(intent);
             }
@@ -196,9 +194,9 @@ public class PreReflectionActivity extends Activity {
                                                 Log.e("ERROR_CREATE_USER_ACT", err);
                                                 break;
                                             }
+                                            finish();
                                             Intent myIntent = new Intent(PreReflectionActivity.this, MainActivity.class);
                                             PreReflectionActivity.this.startActivity(myIntent);
-                                            finish();
                                         } catch (Exception ex) {
                                             String err = (ex.getMessage() == null) ? getString(R.string.error) : ex.getMessage();
                                             Log.e("ERROR_CREATE_USER_ACT", err);
@@ -242,6 +240,8 @@ public class PreReflectionActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 

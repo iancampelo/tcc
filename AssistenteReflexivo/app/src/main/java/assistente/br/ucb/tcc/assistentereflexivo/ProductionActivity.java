@@ -70,6 +70,7 @@ public class ProductionActivity extends Activity {
                 myHandler.removeCallbacks(updateTimerMethod);
                 act.setTempoGasto(getTimeFromField());
                 act.setAnotacoes(note);
+                finish();
                 Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
                 startActivity(intent);
             }
@@ -147,6 +148,8 @@ public class ProductionActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 

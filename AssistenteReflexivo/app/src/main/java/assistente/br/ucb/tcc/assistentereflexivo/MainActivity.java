@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         btnAddActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(view.getContext(), CreateActivity.class);
                 startActivity(intent);
             }
@@ -50,6 +51,7 @@ public class MainActivity extends Activity {
         statsActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(view.getContext(), StatsActivity.class);
                 startActivity(intent);
             }
@@ -65,6 +67,8 @@ public class MainActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 

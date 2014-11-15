@@ -110,6 +110,7 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 act.setTempoEstimado(time);
                 act.setUserid(((User)mContext).getUserId());
 
+                finish();
                 Intent myIntent = new Intent(CreateActivity.this, PreReflectionActivity.class);
                 CreateActivity.this.startActivity(myIntent);
             }
@@ -234,6 +235,8 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 

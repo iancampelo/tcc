@@ -35,6 +35,8 @@ public class EvaluationActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 
@@ -91,6 +93,7 @@ public class EvaluationActivity extends Activity {
             public void onClick(View view) {
                 //act.setPredicao(spinEval.getSelectedItem().toString());
 
+                finish();
                 Intent intent = new Intent(view.getContext(), PostReflectionActivity.class);
                 startActivity(intent);
             }

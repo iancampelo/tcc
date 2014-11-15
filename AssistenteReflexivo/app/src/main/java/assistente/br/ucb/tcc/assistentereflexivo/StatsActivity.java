@@ -40,6 +40,8 @@ public class StatsActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 
@@ -70,9 +72,9 @@ public class StatsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //salva todas as alterações da atividade!!!
+                finish();
                 Intent intent = new Intent(v.getContext(),MainActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         btnShowActs.setOnClickListener(new View.OnClickListener() {

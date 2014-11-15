@@ -40,6 +40,7 @@ public class FamilyActivity extends Activity {
                 }
                 act.setObjetivo(inpObjv.getText().toString());
                 act.setComprensao(inpProblem.getText().toString());
+                finish();
                 Intent intent = new Intent(view.getContext(), ProductionActivity.class);
                 startActivity(intent);
             }
@@ -55,6 +56,8 @@ public class FamilyActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 

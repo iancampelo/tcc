@@ -38,6 +38,8 @@ public class PostReflectionActivity extends Activity {
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 
@@ -86,6 +88,7 @@ public class PostReflectionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 act.setAnotacoes(note);
+                finish();
                 Intent intent = new Intent(v.getContext(),StatsActivity.class);
                 startActivity(intent);
             }

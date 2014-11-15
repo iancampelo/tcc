@@ -57,6 +57,8 @@ public class LoginActivity extends Activity{
                     .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            int pid = android.os.Process.myPid();
+                            android.os.Process.killProcess(pid);
                             System.exit(0);
                         }
 
@@ -104,6 +106,8 @@ public class LoginActivity extends Activity{
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
                         System.exit(0);
                     }
 
