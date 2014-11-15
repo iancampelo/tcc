@@ -1,8 +1,12 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class EvaluationActivity extends Activity {
@@ -18,12 +23,53 @@ public class EvaluationActivity extends Activity {
     private static Act act = null;
     private ImageButton btnNextEval;
     private Spinner spinEval;
+    private static Context mContext;
+    private boolean doubleBackToExitPressedOnce;
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.close_app))
+                .setMessage(getString(R.string.close_confirm))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
+                    }
+
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+    }
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, getString(R.string.msg_back_again), Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce = false;
+//            }
+//        }, 2000);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluation);
+        mContext = getApplicationContext();
         load();
     }
 
@@ -44,7 +90,7 @@ public class EvaluationActivity extends Activity {
         btnNextEval.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                act.setPredicao(spinEval.getSelectedItem().toString());
+                //act.setPredicao(spinEval.getSelectedItem().toString());
 
                 Intent intent = new Intent(view.getContext(), PostReflectionActivity.class);
                 startActivity(intent);

@@ -46,15 +46,15 @@ public class AtividadeDao extends ConnectionFactory {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 
-			ps.setInt      (1,  ativ.getUid());
-			ps.setString   (2,  ativ.getNome());
-			ps.setTime(3,  ativ.getTempoEstimado());
-			ps.setInt      (4,  ativ.getPredicao());
-			ps.setString   (5,  ativ.getEstrategia());
-			ps.setString   (6,  ativ.getRecursos());
-			ps.setString   (7,  ativ.getGrauAtencao());
-			ps.setString   (8,  ativ.getComprensao());
-			ps.setString   (9,  ativ.getObjetivo());
+			ps.setInt      	(1,  ativ.getUid());
+			ps.setString   	(2,  ativ.getNome());
+			ps.setTime		(3,  ativ.getTempoEstimado());
+			ps.setInt      	(4,  ativ.getPredicao());
+			ps.setString   	(5,  ativ.getEstrategia());
+			ps.setString   	(6,  ativ.getRecursos());
+			ps.setString   	(7,  ativ.getGrauAtencao());
+			ps.setString   	(8,  ativ.getComprensao());
+			ps.setString   	(9,  ativ.getObjetivo());
 
 			return ps.executeUpdate() > 0;
 
@@ -222,7 +222,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps = conn.prepareStatement(sql);
 
 			ps.setString    (1,  ativ.getNome());
-			ps.setTime (2,  ativ.getTempoEstimado());
+			ps.setTime 		(2,  ativ.getTempoEstimado());
 			ps.setInt       (3,  ativ.getPredicao());
 			ps.setString	(4,  ativ.getEstrategia());
 			ps.setString	(5,  ativ.getRecursos());
@@ -230,7 +230,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setString	(7,  ativ.getComprensao());
 			ps.setString	(8,  ativ.getObjetivo());
 			ps.setString	(9,  ativ.getAnotacoes());
-			ps.setTime (10, ativ.getTempoGasto());
+			ps.setTime 		(10, ativ.getTempoGasto());
 			ps.setFloat 	(11, ativ.getKma());
 			ps.setInt   	(12, ativ.getResultado());
 			ps.setFloat 	(13, ativ.getKmb());

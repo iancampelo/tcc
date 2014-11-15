@@ -74,6 +74,24 @@ public class LoginActivity extends Activity{
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.close_app))
+                .setMessage(getString(R.string.close_confirm))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
+                    }
+
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+    }
+
     public void attemptLogin() {
         if (mAuthTask != null) {
             return;

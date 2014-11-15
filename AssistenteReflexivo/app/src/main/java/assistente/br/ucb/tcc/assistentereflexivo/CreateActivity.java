@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -50,7 +52,9 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         user = (User)mContext;
         load();
     }
+
     public void load() {
+        act.setUserid(user.getUserId());
         mProgressView = findViewById(R.id.create_progress);
         mScrlViewCreate = findViewById(R.id.ScrlViewCreate);
 
@@ -84,11 +88,21 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         btnNextCreate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                String preOptions[] = new String[2];
+
+                preOptions = getResources().getStringArray(R.array.predict_options);
+
                 if(!checkFields()){
                     return;
                 }
                 act.setNome(inpName.getText().toString());
-                act.setPredicao(spinner.getSelectedItem().toString());
+//                final String a = preOptions[0];
+//                switch (spinner.getSelectedItem().toString()){
+//                    case preOptions[0]:
+//                        break;
+//
+//                }
+//                act.setPredicao();
                 Time time = new Time(0);
                 time.setSeconds(npSec.getValue());
                 time.setMinutes(npMin.getValue());
@@ -211,82 +225,22 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         }
     }
 
-
-    public class ConnectTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final Context mContext;
-        private final User user;
-        private String response;
-
-        public String getResponse() {
-            return response;
-        }
-
-        private void setResponse(String response) {
-            this.response = response;
-        }
-
-        ConnectTask(Context context) {
-            mContext = context;
-            user = (User)context;
-        }
-
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            IntegrateWS client = new IntegrateWS("http://192.168.1.4:8080/webservice/usuario/consultarUsuario");
-            client.AddHeader("Accept", "application/json");
-            client.AddHeader("Content-type", "application/json");
-            client.AddParam("content", user.toJson());
-            boolean success = false;
-            try {
-                client.Execute(RequestMethod.POST);
-                String a =client.getResponse();
-                client.getErrorMessage();
-                client.getResponseCode();
-                if(a!=null){
-                    setResponse(a);
-                    success =  true;
-                }
-            } catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
-                setResponse("ERROR_"+e.getMessage());
-            }
-            return success;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try{
-
-                showProgress(false);
-                if(success) {
-                    if (getResponse() != null) {
-                        if (getResponse().isEmpty()) {
-                            inpName.setError(getString(R.string.error_incorrect_password));
-                            inpName.requestFocus();
-                        }
-                        GsonBuilder builder = new GsonBuilder();
-                        builder.setPrettyPrinting().serializeNulls();
-                        Gson gson = builder.create();
-                        setResponse(getResponse().replace("\n",""));
-                        User ser = gson.fromJson(getResponse(), User.class);
-
-                        Intent intent = new Intent(mContext, PreReflectionActivity.class);
-                        startActivity(intent);
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.close_app))
+                .setMessage(getString(R.string.close_confirm))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
                     }
-                }
-                else{
-                    inpName.setError(getString(R.string.error));
-                    inpName.requestFocus();
-                }
-            }catch (Exception e){
-                inpName.setError(getString(R.string.error_incorrect_password));
-                inpName.requestFocus();
-            }
 
-        }
-
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
     }
 
 }

@@ -1,6 +1,8 @@
 package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,7 +56,23 @@ public class MainActivity extends Activity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.close_app))
+                .setMessage(getString(R.string.close_confirm))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
+                    }
 
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+    }
     private void load() {
         txtMain = (TextView)findViewById(R.id.txtAvgMain);
         gaugeBlue = (ImageView)findViewById(R.id.gaugeBlue);

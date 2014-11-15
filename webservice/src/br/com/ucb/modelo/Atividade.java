@@ -5,6 +5,8 @@ import java.sql.Time;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *  Classe que contem os dados de uma atividade
  *  @author Jean Silvestre
@@ -14,21 +16,21 @@ public class Atividade implements Serializable{
 	
 	
 	private static final long serialVersionUID = -8433919224984350110L;
-	private int        id;
-	private int        uid;
-	private String     nome;
+	@Expose private int        id;
+	@Expose private int        uid;
+	@Expose private String     nome;
 	private Time  tempoEstimado;
-	private int        predicao;
-	private String 	   estrategia;
-	private String     recursos;
-	private String     grauAtencao;
-	private String     comprensao;
-	private String     objetivo;
-	private String     anotacoes;
-	private float      kma;
+	@Expose private int        predicao;
+	@Expose private String 	   estrategia;
+	@Expose private String     recursos;
+	@Expose private String     grauAtencao;
+	@Expose private String     comprensao;
+	@Expose private String     objetivo;
+	@Expose private String     anotacoes;
+	@Expose private float      kma;
 	private Time  tempoGasto;
-	private int        resultado;
-	private float 	   kmb;
+	@Expose private int        resultado;
+	@Expose private float 	   kmb;
 	
 	public Atividade() {
 	}

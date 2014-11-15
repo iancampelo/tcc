@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Reflective Assistant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
-    <string name="confirm_registry">Email not found. You want to create a new user with that email and password? If yes, complete the fields.</string>
+    <string name="confirm_registry">Email not found. You want to create a new user with that email
+        and password? If yes, complete the fields.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="main_title_kma">Project\'s average KMA</string>
@@ -21,13 +21,6 @@
     <string name="incorrect">Incorrect</string>
     <string name="correct">Correct</string>
     <string name="partially_correct">Partially Correct</string>
-
-    <string-array name="predict_options">
-        <item>@string/incorrect</item>
-        <item>@string/partially_correct</item>
-        <item>@string/correct</item>
-    </string-array>
-
     <string name="title_activity_pre_reflection">Pre-Reflection</string>
     <string name="strategy">Strategy</string>
     <string name="attentionDegree">Attention Degree</string>
@@ -35,13 +28,6 @@
     <string name="low">Low</string>
     <string name="middle">Middle</string>
     <string name="high">High</string>
-
-    <string-array name="attention_options">
-        <item>@string/low</item>
-        <item>@string/middle</item>
-        <item>@string/high</item>
-    </string-array>
-
     <string name="title_activity_family">Familiarization</string>
     <string name="problem_understand">Problem Understand</string>
     <string name="activity_goal">Activity\'s Goal</string>
@@ -65,10 +51,38 @@
     <string name="pessimistic">Pessimistic</string>
     <string name="realistic">Realistic</string>
     <string name="error">Ops, something went wrong</string>
+    <string name="msg_user_create">User create sucessfully</string>
+    <string name="msg_act_create">Activity successfully created</string>
+    <string name="close_app">"Close app"</string>
+    <string name="close_confirm">"Are you sure you want to close this app?"</string>
+    <string name="msg_back_again">Please click BACK again to exit</string>
+
+    <string-array name="predict_options">
+        <item>@string/incorrect</item>
+        <item>@string/partially_correct</item>
+        <item>@string/correct</item>
+    </string-array>
+    <string-array name="attention_options">
+        <item>@string/low</item>
+        <item>@string/middle</item>
+        <item>@string/high</item>
+    </string-array>
+
+    <!--CONNECT SERVER STRINGS-->
+
     <string name="url_server">http://192.168.1.4:8080/webservice</string>
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
     <string name="url_ws_create_user">/usuario/cadastrarUsuario</string>
-    <string name="msg_user_create">User create sucessfully</string>
+    <string name="url_ws_alter_user">/usuario/alterarUsuario</string>
+
     <string name="url_ws_save_act">/atividade/cadastrarAtividade</string>
-    <string name="msg_act_create">Activity successfully created</string>
+    <string name="url_ws_alter_act">/atividade/alterarAtividade</string>
+    <string name="url_ws_request_act">/atividade/consultarAtividade</string>
+    <string name="url_ws_list_act">/atividade/listarAtividades</string>
+    <string name="url_ws_get_kma">/atividade/getKma</string>
+    <string name="url_ws_get_kmb">/atividade/getKmb</string>
+    <string name="url_ws_get_avg_kmb">/atividade/getKmbMedio</string>
+    <string name="url_ws_get_level">/atividade/getNivel</string>
+
+
 </resources>

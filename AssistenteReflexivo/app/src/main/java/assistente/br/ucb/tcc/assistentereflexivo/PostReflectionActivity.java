@@ -29,6 +29,23 @@ public class PostReflectionActivity extends Activity {
         load();
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.close_app))
+                .setMessage(getString(R.string.close_confirm))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
+                    }
+
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
+    }
     private void load() {
         act = (Act)getApplicationContext();
         inpTimeExe = (EditText)findViewById(R.id.inpTimeExe);

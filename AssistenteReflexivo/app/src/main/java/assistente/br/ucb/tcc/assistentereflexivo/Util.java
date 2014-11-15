@@ -11,10 +11,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.json.JSONObject;
 
 /**
@@ -36,20 +32,26 @@ public class Util {
             user.setBirthday(jsonObj.getString("nascimento"));
             user.setPassword(jsonObj.getString("senha"));
             user.setUserId(Integer.parseInt(jsonObj.getString("id")));
-
-/*
-funcao: "Gerente de Projetos"
-id: "1"
-nascimento: "1992-08-19"
-nome: "Ian Campelo"
-senha: "123456"
-usuario: "ian@gmail.com"
- */
         }
         catch (Exception e){
             Log.e("ERRO_PARSER_UTIL_USER",e.getMessage());
         }
         return user;
+    }
+
+    public static User jsonToAct(String json){
+        Act act = null;
+
+        try {
+            act = new Act();
+
+            JSONObject jsonObj = new JSONObject(json);
+
+        }
+        catch (Exception e){
+            Log.e("ERRO_PARSER_UTIL_ACT",e.getMessage());
+        }
+        return act;
     }
 
     public static String getUrl(int url, Context ctx) {
