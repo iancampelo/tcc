@@ -40,8 +40,8 @@ public class AtividadeDao extends ConnectionFactory {
 		Connection conn = null;
 		PreparedStatement ps = null;
 
-		String sql = "insert into atividade(uid,nome,tempo_estimado,predicao,estrategia,recursos,grau_atencao,comprensao,objetivo) "
-				+ "values (?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into atividade(uid, nome, tempo_estimado, predicao, estrategia, recursos, grau_atencao, comprensao, objetivo, anotacoes, tempo_gasto, resultado) "
+				+ "values (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
@@ -55,6 +55,9 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setString   	(7,  ativ.getGrauAtencao());
 			ps.setString   	(8,  ativ.getComprensao());
 			ps.setString   	(9,  ativ.getObjetivo());
+			ps.setString	(10, ativ.getAnotacoes());
+			ps.setTime		(11, ativ.getTempoGasto());
+			ps.setInt		(12, ativ.getResultado());
 
 			return ps.executeUpdate() > 0;
 

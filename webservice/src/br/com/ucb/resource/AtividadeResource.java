@@ -56,7 +56,7 @@ public class AtividadeResource{
 		System.out.println(System.currentTimeMillis());
 		return "hello";
 	}
-	
+
 	/**
 	 * Metodo responsavel por traduzir uma String Json em uma atividade e inserir esta atividade atraves do DAO
 	 * @param Json String (Atividade)
@@ -68,18 +68,18 @@ public class AtividadeResource{
 	public String cadastrarAtividade(String ativStr) throws Exception{		
 		AtividadeDao adao = null;
 
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		adao = adao.getInstancia();
 
 		System.out.println(ativStr);
-		
+
 		Time tm = Time.valueOf("00:23:43");
 		System.out.println(tm.toString());
-		
+
 		Atividade ativ = gson.fromJson(ativStr, Atividade.class);
-		
+
 		ativ = getTimes(ativ,ativStr);
-		
+
 		return adao.inserir(ativ) ? "S":"N";
 	}
 
@@ -87,22 +87,24 @@ public class AtividadeResource{
 		JSONObject jsonObj = new JSONObject(ativStr);
 		String tempoEst = jsonObj.getString("tempoEstimado");
 		if(tempoEst != null){
-			if(!tempoEst.isEmpty()){
-				ativ.setTempoEstimado(Time.valueOf(tempoEst));
+			if(!tempoEst.contains("null")){
+				if(!tempoEst.isEmpty()){
+					ativ.setTempoEstimado(Time.valueOf(tempoEst));
+				}
 			}
 		}
+
 		String tmpG = jsonObj.getString("tempoGasto");
 		if(tmpG != null){
-			if(!tmpG.isEmpty()){
-				ativ.setTempoGasto(Time.valueOf(tmpG));
+			if(!tmpG.contains("null")){
+				if(!tmpG.isEmpty()){
+					ativ.setTempoGasto(Time.valueOf(tmpG));
+				}
 			}
 		}
-		else
-			ativ.setTempoGasto(Time.valueOf("00:00:00"));
-		
 		return ativ;
 	}
-	
+
 	/**
 	 * Metodo responsavel por traduzir uma String Json em uma atividade e alterar esta atividade atraves do DAO
 	 * @param Json String (Atividade)
@@ -119,7 +121,7 @@ public class AtividadeResource{
 		adao = adao.getInstancia();
 
 		atividade = gson.fromJson(ativStr, Atividade.class);
-		
+
 		atividade = getTimes(atividade, ativStr);
 
 		return adao.atualizar(atividade)? "S" : "N";
@@ -142,7 +144,7 @@ public class AtividadeResource{
 		adao = adao.getInstancia();
 
 		atividade = gson.fromJson(ativStr, Atividade.class);
-		
+
 		atividade = getTimes(atividade, ativStr);
 
 		return adao.excluir(atividade)?"S":"N";
@@ -168,12 +170,12 @@ public class AtividadeResource{
 		atividade = gson.fromJson(ativStr, Atividade.class);
 
 		atividade = getTimes(atividade, ativStr);
-		
+
 		atividade = adao.consultar(atividade);
 
 		return atividade;
 	}
-	
+
 	/**
 	 * Metodo responsavel por traduzir uma String Json em todas as atividades do usuario
 	 * @param Json String (Usuario)
@@ -185,9 +187,10 @@ public class AtividadeResource{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Atividade> listarAtividades(String usuario) throws Exception{		
+		System.out.println("-----------Aqui--------------");
 		AtividadeDao adao = null;
 		ArrayList<Atividade> atividades = new ArrayList<Atividade>();
-		
+
 		UsuarioDao udao = null;
 		Usuario user = new Usuario();
 		Gson gsonU = new Gson();
@@ -200,7 +203,7 @@ public class AtividadeResource{
 		atividades = adao.listar(user);
 		return atividades;
 	}
-	
+
 
 	/**
 	 * Metodo responsavel por definir o indice KMA para uma atividade
@@ -279,7 +282,7 @@ public class AtividadeResource{
 		ativ = gson.fromJson(ativStr, Atividade.class);
 
 		ativ = getTimes(ativ, ativStr);
-		
+
 		calcularKmb(ativ);
 
 		adao = adao.getInstancia();
@@ -340,12 +343,12 @@ public class AtividadeResource{
 		Gson gson = new Gson();
 
 		usuario = gson.fromJson(usuarioStr, Usuario.class);
-		
+
 		adao = adao.getInstancia();
 
 		return adao.consultarKmbMedio(usuario);
 	}
-	
+
 	/**
 	 * Metodo responsavel por consultar o nivel do usuario
 	 * @param Json String (Usuario)
@@ -376,7 +379,7 @@ public class AtividadeResource{
 				//make something cool!;
 
 		 */
-		
+
 		Usuario usuario = null;
 		AtividadeDao adao = null;
 		Gson gson = new Gson();

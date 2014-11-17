@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *  Classe que contem os dados de um usuario
  *  @author Jean Silvestre
@@ -16,12 +18,12 @@ public class Usuario implements Serializable{
 	 *  Classe que contem os dados de um usuario
 	 */
 	private static final long serialVersionUID = -3555946795178207805L;
-	private int    id;
-	private String usuario;
-	private String senha;
-	private String nome;
-	private String nascimento;
-	private String funcao;
+	@Expose private int    id;
+	@Expose private String usuario;
+	@Expose private String senha;
+	@Expose private String nome;
+	@Expose private String nascimento;
+	@Expose private String funcao;
 	private ArrayList<Atividade> atividades;
 	
 	public Usuario(){
