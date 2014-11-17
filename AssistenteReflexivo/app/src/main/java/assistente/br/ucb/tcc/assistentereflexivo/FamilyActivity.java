@@ -2,30 +2,43 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class FamilyActivity extends Activity {
     public EditText inpActFam,inpProblem,inpObjv;
     private static Act act;
+    private ActSaveTask mActSaveTask;
+    private IntegrateWS client = null;
+    private View mProgressView, mScrollView;
+    private static Context mContext = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
+        mContext = getApplicationContext();
         load();
     }
 
 
     private void load() {
-        act = (Act)getApplicationContext();
+        act = (Act)mContext;
+        mProgressView = findViewById(R.id.fam_progress);
+        mScrollView = findViewById(R.id.ScrlViewFam);
 
         inpActFam = (EditText) findViewById(R.id.inpNameFam);
         inpProblem = (EditText)findViewById(R.id.inpProblem);
@@ -40,12 +53,15 @@ public class FamilyActivity extends Activity {
                 }
                 act.setObjetivo(inpObjv.getText().toString());
                 act.setComprensao(inpProblem.getText().toString());
+
+
+                if(!saveAct())
+                    return;
                 finish();
                 Intent intent = new Intent(view.getContext(), ProductionActivity.class);
                 startActivity(intent);
             }
         });
-
     }
     @Override
     public void onBackPressed() {
@@ -108,4 +124,62 @@ public class FamilyActivity extends Activity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    private boolean saveAct() {
+        boolean success = false;
+
+        Util.showProgress(true,mContext,mScrollView,mProgressView);
+        mActSaveTask = new ActSaveTask();
+        mActSaveTask.execute();
+        Util.showProgress(false,mContext,mScrollView,mProgressView);
+        return success;
+    }
+
+    public class ActSaveTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean success = false;
+
+            try {
+                client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act,mContext));
+                client.AddHeader("Accept", "application/json");
+                client.AddHeader("Content-type", "application/json");
+                client.AddParam("content", act.toJsonAct());
+
+                client.Execute(RequestMethod.POST);
+                if (client.getResponseCode() == 200) {
+                    success = true;
+                }
+            }catch (Exception e) {
+                Log.e("ERROR_CONNECTION", e.getMessage());
+                success = false;
+            }
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mActSaveTask = null;
+            Util.showProgress(false, mContext, mScrollView, mProgressView);
+
+
+            if (success) {
+                finish();
+                Intent myIntent = new Intent(FamilyActivity.this, ProductionActivity.class);
+                FamilyActivity.this.startActivity(myIntent);
+            }else {
+                Log.e("ERROR_CREATE_USER_ACT", getString(R.string.error));
+                Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
+                myToast.show();
+            }
+        }
+        @Override
+        protected void onCancelled() {
+            mActSaveTask = null;
+            Util.showProgress(false,mContext,mScrollView,mProgressView);
+        }
+
+    }
+
 }

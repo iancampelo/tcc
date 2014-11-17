@@ -39,7 +39,7 @@
     <string name="title_activity_stats">Statics</string>
     <string name="text_grade_kmb">Based on the assessment,\n for this activity,\n your KMB score is:</string>
     <string name="text_evaluate_act">Evaluate the results of your activity:</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="notes">Note</string>
     <string name="birthday">Birthday</string>
@@ -51,7 +51,7 @@
     <string name="pessimistic">Pessimistic</string>
     <string name="realistic">Realistic</string>
     <string name="error">Ops, something went wrong</string>
-    <string name="msg_user_create">User create sucessfully</string>
+    <string name="msg_user_create">User create successfully</string>
     <string name="msg_act_create">Activity successfully created</string>
     <string name="close_app">Close app</string>
     <string name="close_confirm">Are you sure you want to close this app?</string>
@@ -70,7 +70,7 @@
 
     <!--CONNECT SERVER STRINGS-->
 
-    <string name="url_server">http://192.168.0.14:8080/webservice</string>
+    <string name="url_server">http://192.168.1.4:8080/webservice</string>
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
     <string name="url_ws_create_user">/usuario/cadastrarUsuario</string>
     <string name="url_ws_alter_user">/usuario/alterarUsuario</string>

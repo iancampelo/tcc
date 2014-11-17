@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 
 public class EvaluationActivity extends Activity {
@@ -24,7 +22,6 @@ public class EvaluationActivity extends Activity {
     private ImageButton btnNextEval;
     private Spinner spinEval;
     private static Context mContext;
-    private boolean doubleBackToExitPressedOnce;
 
     @Override
     public void onBackPressed() {
@@ -44,27 +41,6 @@ public class EvaluationActivity extends Activity {
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed();
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, getString(R.string.msg_back_again), Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce = false;
-//            }
-//        }, 2000);
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +67,7 @@ public class EvaluationActivity extends Activity {
         btnNextEval.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                //TODO Fazer enum spinner multilanguage
                 //act.setPredicao(spinEval.getSelectedItem().toString());
 
                 finish();

@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends Activity{
+    //TODO Colocar todos os SPINS como ENUM, inclusive no BD (
 
     private final String EMAIL_VALIDATE = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{3,})$";
     private UserLoginTask mAuthTask = null;
@@ -38,17 +39,15 @@ public class LoginActivity extends Activity{
     private View mProgressView;
     private View mLoginFormView;
     private static Context mContext = null;
-    private static Act act = null;
     private static User user = null;
-    private static boolean createUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext.getString(R.string.error);
         setContentView(R.layout.activity_login);
         mContext = getApplicationContext();
         user = (User)mContext;
-        act = (Act)mContext;
         if(!isOnline()){
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -116,6 +115,7 @@ public class LoginActivity extends Activity{
                 .show();
     }
 
+    //TODO Quando o usuário é criado pelo app, o ID não é retornado, como fazer?
     public void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -186,8 +186,6 @@ public class LoginActivity extends Activity{
         private User usuario;
         private IntegrateWS client = null;
 
-        //TODO check if isInternetOn()
-
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
@@ -217,6 +215,10 @@ public class LoginActivity extends Activity{
                                 return false;
                             if (user.getUsername().equals(usuario.getUsername())) {
                                 if (user.getPassword().equals(usuario.getPassword())) {
+                                    user.setFuncao(usuario.getFuncao());
+                                    user.setName(usuario.getName());
+                                    user.setBirthday(usuario.getBirthday());
+                                    user.setUserId(usuario.getUserId());
                                     success = true;
                                 } else
                                     success = false;
@@ -255,9 +257,7 @@ public class LoginActivity extends Activity{
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     try {
-                                        //TODO OnValueChange like, to User, when this happens call alter method
                                         if(validateFields()){
-
                                             user.setBirthday(inputBirthday.getText().toString());
                                             user.setFuncao(inputFuncao.getText().toString());
                                             user.setName(inputName.getText().toString());
@@ -339,14 +339,19 @@ public class LoginActivity extends Activity{
 
         public Boolean validateFields(){
             Boolean success = false;
-            if(inputBirthday.getText()!=null||!inputBirthday.getText().toString().trim().isEmpty()){
-                success=true;
+            if(inputBirthday.getText()!=null){
+                if(!inputBirthday.getText().toString().trim().isEmpty())
+                    success=true;
             }
-            if(inputFuncao.getText()!=null||!inputFuncao.getText().toString().trim().isEmpty()){
-                success=true;
+            if(inputFuncao.getText()!=null){
+                if(!inputFuncao.getText().toString().trim().isEmpty()){
+                    success=true;
+                }
             }
-            if(inputName.getText()!=null||!inputName.getText().toString().trim().isEmpty()){
-                success=true;
+            if(inputName.getText()!=null){
+                if(!inputName.getText().toString().trim().isEmpty()) {
+                    success = true;
+                }
             }
             return success;
         }

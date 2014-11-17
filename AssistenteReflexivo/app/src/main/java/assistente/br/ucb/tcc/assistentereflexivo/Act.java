@@ -11,26 +11,27 @@ import java.sql.Time;
 public class Act extends User implements Serializable{
 
     @SerializedName("uid")
-    private int userid;
-    private int id;
+    private int     userid;
+    private int     id;
     private String  nome;
-    private Time tempoEstimado;
-    private int predicao;
+    private Time    tempoEstimado;
+    private int     predicao;
     private String  estrategia;
     private String  recursos;
     private String  grauAtencao;
     private String  comprensao;
     private String  objetivo;
     private String  anotacoes;
-    private float   kma;
-    private Time tempoGasto;
-    private float   kmb;
+    private int     kma ;
+    private Time    tempoGasto;
+    private int     kmb;
+    private int     resultado;
 
     public Act() {}
 
     public Act(int id,String nome, Time tempoEstimado, int predicao, String estrategia,
                String recursos, String grauAtencao, String comprensao, String objetivo,
-               String anotacoes, float kma, Time tempoGasto, float kmb, int uid) {
+               String anotacoes, int kma, Time tempoGasto, int kmb, int uid, int resultado) {
         setId(id);
         setNome(nome);
         setTempoEstimado(tempoEstimado);
@@ -45,6 +46,7 @@ public class Act extends User implements Serializable{
         setTempoGasto(tempoGasto);
         setKmb(kmb);
         setUserid(uid);
+        setResultado(resultado);
     }
 
     //Getters
@@ -85,6 +87,10 @@ public class Act extends User implements Serializable{
         return recursos;
     }
 
+    public int getResultado() {
+        return resultado;
+    }
+
     public float getKma() {
         return kma;
     }
@@ -111,12 +117,16 @@ public class Act extends User implements Serializable{
         this.id = id;
     }
 
-    public void setKmb(float kmb) {
+    public void setKmb(int kmb) {
         this.kmb = kmb;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setResultado(int resultado) {
+        this.resultado = resultado;
     }
 
     public void setTempoEstimado(Time tempoEstimado) {
@@ -151,7 +161,7 @@ public class Act extends User implements Serializable{
         this.anotacoes = anotacoes;
     }
 
-    public void setKma(float kma) {
+    public void setKma(int kma) {
         this.kma = kma;
     }
 
@@ -175,6 +185,7 @@ public class Act extends User implements Serializable{
         if (Float.compare(act.kma, kma) != 0) return false;
         if (Float.compare(act.kmb, kmb) != 0) return false;
         if (predicao != act.predicao) return false;
+        if (resultado != act.resultado) return false;
         if (userid != act.userid) return false;
         if (anotacoes != null ? !anotacoes.equals(act.anotacoes) : act.anotacoes != null)
             return false;
@@ -212,25 +223,27 @@ public class Act extends User implements Serializable{
         result = 31 * result + (kma != +0.0f ? Float.floatToIntBits(kma) : 0);
         result = 31 * result + (tempoGasto != null ? tempoGasto.hashCode() : 0);
         result = 31 * result + (kmb != +0.0f ? Float.floatToIntBits(kmb) : 0);
+        result = 31 * result + resultado;
         return result;
     }
 
     public String toJsonAct() {
         return "{" +
-                "\"id\":\"" + getId() + '\"'+
-                ", \"uid\":\"" + getUserid() + '\"'+
+                "\"id\":" + getId()+
+                ", \"uid\":" + getUserid()+
                 ", \"nome\":\"" + getNome() + '\"' +
                 ", \"tempoEstimado\":\"" + getTempoEstimado()+ '\"' +
-                ", \"predicao\":\"" + getPredicao()+ '\"' +
+                ", \"predicao\":" + getPredicao()+
                 ", \"estrategia\":\"" + getEstrategia() + '\"' +
                 ", \"recursos\":\"" + getRecursos()+ '\"' +
                 ", \"grauAtencao\":\"" + getGrauAtencao() + '\"' +
                 ", \"comprensao\":\"" + getComprensao()+ '\"' +
                 ", \"objetivo\":\"" + getObjetivo()+ '\"' +
                 ", \"anotacoes\":\"" + getAnotacoes()+ '\"' +
-                ", \"kma\":\"" + getKma()+ '\"' +
+                ", \"kma\":"+ getKma() +
                 ", \"tempoGasto\":\"" + getTempoGasto()+ '\"' +
-                ", \"kmb\":\"" + getKmb()+ '\"'  +
+                ", \"resultado\":"+ getResultado() +
+                ", \"kmb\":" + getKmb() +
                 '}';
     }
 }

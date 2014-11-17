@@ -9,7 +9,13 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="assistente.br.ucb.tcc.assistentereflexivo.PreReflectionActivity"
     android:configChanges="orientation|keyboardHidden">
-
+    <ProgressBar
+        android:id="@+id/fam_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
     <ScrollView
         android:id="@+id/ScrlViewFam"
         android:layout_width="fill_parent"

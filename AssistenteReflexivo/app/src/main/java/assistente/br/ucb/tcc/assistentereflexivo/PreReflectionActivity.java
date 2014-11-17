@@ -21,12 +21,10 @@ import android.widget.Toast;
 
 public class PreReflectionActivity extends Activity {
     private static Act act = null;
-    private View mProgressView, mScrollView;
     private static Context mContext = null;
     public Spinner spinAtt;
     public EditText txtStrategy,txtResource,txtPreName;
-    private ActSaveTask mActSaveTask;
-    private IntegrateWS client = null;
+
 
 
     @Override
@@ -46,8 +44,7 @@ public class PreReflectionActivity extends Activity {
         txtResource = (EditText)findViewById(R.id.inpResources);
         txtPreName = (EditText) findViewById(R.id.inpNamePre);
         txtPreName.setHint(act.getNome());
-        mProgressView = findViewById(R.id.pre_progress);
-        mScrollView = findViewById(R.id.ScrlViewPre);
+
         //Spinner Attention
         spinAtt = (Spinner) findViewById(R.id.spinAttentionDegree);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -66,8 +63,6 @@ public class PreReflectionActivity extends Activity {
                 act.setRecursos(txtResource.getText().toString());
                 act.setEstrategia(txtStrategy.getText().toString());
 
-                if(!saveAct())
-                    return;
                 finish();
                 Intent intent = new Intent(view.getContext(), FamilyActivity.class);
                 startActivity(intent);
@@ -76,14 +71,7 @@ public class PreReflectionActivity extends Activity {
 
     }
 
-    private boolean saveAct() {
-        boolean success = false;
 
-        mActSaveTask = new ActSaveTask();
-        mActSaveTask.execute();
-
-        return success;
-    }
 
     private boolean checkFields() {
         txtStrategy.setError(null);
@@ -129,108 +117,7 @@ public class PreReflectionActivity extends Activity {
 
     }
 
-    public class ActSaveTask extends AsyncTask<Void, Void, Boolean> {
 
-        //TODO check if isInternetOn()
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            boolean success = false;
-
-            try {
-                client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act,mContext));
-                client.AddHeader("Accept", "application/json");
-                client.AddHeader("Content-type", "application/json");
-                client.AddParam("content", act.toJsonAct());
-
-                client.Execute(RequestMethod.POST);
-                if (client.getResponseCode() == 200) {
-                    success = true;
-                }
-            }catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
-                success = false;
-            }
-            return success;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mActSaveTask = null;
-            Util.showProgress(false, mContext, mScrollView, mProgressView);
-
-
-            if (success) {
-                finish();
-                Intent myIntent = new Intent(PreReflectionActivity.this, MainActivity.class);
-                PreReflectionActivity.this.startActivity(myIntent);
-            }else {
-                if (client.getResponseCode() == 500) {
-                    try {
-                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        try {
-                                            //TODO OnValueChange like, to User, when this happens call alter method
-                                            try {
-
-
-                                                client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act, mContext));
-                                                client.AddHeader("Accept", "application/json");
-                                                client.AddHeader("Content-type", "application/json");
-                                                client.AddParam("content", act.toJsonAct());
-                                                client.Execute(RequestMethod.POST);
-                                                client.getErrorMessage();
-                                                if (client.getResponseCode() == 200) {
-                                                    String res = client.getResponse();
-                                                    if (res.contains("S")) {
-                                                        Toast myToast = Toast.makeText(mContext, getString(R.string.msg_act_create), Toast.LENGTH_LONG);
-                                                        myToast.show();
-                                                    }
-                                                }
-                                            } catch (Exception e) {
-                                                String err = (e.getMessage() == null) ? getString(R.string.error) : e.getMessage();
-                                                Log.e("ERROR_CREATE_USER_ACT", err);
-                                                break;
-                                            }
-                                            finish();
-                                            Intent myIntent = new Intent(PreReflectionActivity.this, MainActivity.class);
-                                            PreReflectionActivity.this.startActivity(myIntent);
-                                        } catch (Exception ex) {
-                                            String err = (ex.getMessage() == null) ? getString(R.string.error) : ex.getMessage();
-                                            Log.e("ERROR_CREATE_USER_ACT", err);
-                                            Toast myToast = Toast.makeText(mContext, err, Toast.LENGTH_SHORT);
-                                            myToast.show();
-                                        }
-                                        break;
-
-                                    case DialogInterface.BUTTON_NEGATIVE:
-                                        Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
-                                        myToast.show();
-                                        break;
-                                }
-                            }
-                        };
-                    } catch (RuntimeException re) {
-                        re.getMessage();
-                        re.getCause();
-                    }
-                }
-                else {
-                    Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
-                    myToast.show();
-                }
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mActSaveTask = null;
-            Util.showProgress(false,mContext,mScrollView,mProgressView);
-        }
-
-    }
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)

@@ -188,7 +188,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_logout){
-            //TODO Implementar um Logout real, que não volte para a Activity anterior
             Intent intent = new Intent(mContext, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

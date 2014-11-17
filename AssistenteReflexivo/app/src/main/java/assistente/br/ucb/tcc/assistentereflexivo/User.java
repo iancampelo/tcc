@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by ian.campelo on 9/2/14.
  */
 public class User extends Application implements Serializable  {
-    private int userId = 0;
+    private int userId;
     private String username;
     private String password;
     private String name;
