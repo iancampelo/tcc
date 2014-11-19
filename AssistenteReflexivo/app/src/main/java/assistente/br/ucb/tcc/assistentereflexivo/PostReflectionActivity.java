@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -30,6 +32,7 @@ public class PostReflectionActivity extends Activity {
     private IntegrateWS client = null;
     private View mProgressView, mScrollView;
     private static Context mContext = null;
+    private boolean success;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,7 @@ public class PostReflectionActivity extends Activity {
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
+
     private void load() {
         act = (Act)getApplicationContext();
         mProgressView = findViewById(R.id.post_progress);
@@ -76,8 +80,10 @@ public class PostReflectionActivity extends Activity {
 
                 final EditText input = new EditText(v.getContext());
                 input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-                if(!act.getAnotacoes().isEmpty())
-                    input.setText(act.getAnotacoes()+"\n");
+                if(act.getAnotacoes() != null) {
+                    if (!act.getAnotacoes().isEmpty())
+                        input.setText(act.getAnotacoes() + "\n");
+                }
                 builder.setView(input);
                 builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -99,14 +105,31 @@ public class PostReflectionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 act.setAnotacoes(note);
-                if(!saveAct())
-                    return;
-                finish();
-                Intent intent = new Intent(v.getContext(),StatsActivity.class);
-                startActivity(intent);
+                if(!isOnline()){
+                    new AlertDialog.Builder(mContext)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(getString(R.string.offline))
+                            .setCancelable(false)
+                            .setMessage(getString(R.string.offline_msg))
+                            .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+
+                            })
+                            .show();
+                }
+                saveAct();
+
             }
         });
         setGauge();
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private void setGauge() {
@@ -117,7 +140,7 @@ public class PostReflectionActivity extends Activity {
         gaugeGreen.setVisibility(View.INVISIBLE);
         gaugeRed.setVisibility(View.INVISIBLE);
         gaugeBlue.setVisibility(View.VISIBLE);
-        txtStatus.setText("Otimista");
+        txtStatus.setText(getString(R.string.optimistic));
 
     }
 
@@ -150,7 +173,7 @@ public class PostReflectionActivity extends Activity {
     }
 
     private boolean saveAct() {
-        boolean success = false;
+        success = false;
 
         Util.showProgress(true,mContext,mScrollView,mProgressView);
         mActSaveTask = new ActSaveTask();
@@ -163,10 +186,10 @@ public class PostReflectionActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            boolean success = false;
+            success = false;
 
             try {
-                client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act,mContext));
+                client = new IntegrateWS(Util.getUrl(R.string.url_ws_alter_act,mContext));
                 client.AddHeader("Accept", "application/json");
                 client.AddHeader("Content-type", "application/json");
                 client.AddParam("content", act.toJsonAct());
@@ -205,6 +228,7 @@ public class PostReflectionActivity extends Activity {
         }
 
     }
+
 
 
 }

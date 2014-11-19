@@ -129,7 +129,7 @@ public class IntegrateWS {
                 if(!params.isEmpty()){
                     NameValuePair nv = params.get(0);
                     BasicHttpEntity basicHttpEntity = new BasicHttpEntity();
-                    basicHttpEntity.setContent(new ByteArrayInputStream(nv.getValue().getBytes(StandardCharsets.UTF_8)));
+                    basicHttpEntity.setContent(new ByteArrayInputStream(nv.getValue().getBytes("UTF-8")));
                     request.setEntity(basicHttpEntity);
                 }
 

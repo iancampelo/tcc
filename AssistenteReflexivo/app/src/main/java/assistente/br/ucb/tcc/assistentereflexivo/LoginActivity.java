@@ -44,7 +44,6 @@ public class LoginActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext.getString(R.string.error);
         setContentView(R.layout.activity_login);
         mContext = getApplicationContext();
         user = (User)mContext;
@@ -52,6 +51,7 @@ public class LoginActivity extends Activity{
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle(getString(R.string.offline))
+                    .setCancelable(false)
                     .setMessage(getString(R.string.offline_msg))
                     .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
@@ -81,7 +81,25 @@ public class LoginActivity extends Activity{
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                if(!isOnline()){
+                    new AlertDialog.Builder(mContext)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(getString(R.string.offline))
+                            .setCancelable(false)
+                            .setMessage(getString(R.string.offline_msg))
+                            .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    int pid = android.os.Process.myPid();
+                                    android.os.Process.killProcess(pid);
+                                    System.exit(0);
+                                }
+
+                            })
+                            .show();
+                }
+                else
+                    attemptLogin();
             }
         });
 

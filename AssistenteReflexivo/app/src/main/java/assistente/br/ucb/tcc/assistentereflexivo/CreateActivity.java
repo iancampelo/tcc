@@ -32,7 +32,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 
-public class CreateActivity extends Activity implements AdapterView.OnItemSelectedListener, NumberPicker.OnValueChangeListener{
+public class CreateActivity extends Activity implements NumberPicker.OnValueChangeListener{
     private static Act act = null;
     private static User user= null;
     private static Context mContext = null;
@@ -62,10 +62,15 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
 
         inpName = (EditText) findViewById(R.id.inpName);
         spinner = (Spinner) findViewById(R.id.spinPrediction);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.predict_options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.predict_options, android.R.layout.simple_spinner_item);
+
+//        ArrayAdapter<EnumSpin> adapter = ArrayAdapter.createFromResource(this,
+//                EnumSpin.values());
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(new ArrayAdapter<EnumSpin>(this,
+                android.R.layout.simple_spinner_dropdown_item,EnumSpin.values()));
 
         //HOURS
         npHrs = (NumberPicker) findViewById(R.id.numHrs);
@@ -96,13 +101,12 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                     return;
                 }
                 act.setNome(inpName.getText().toString());
-//                final String a = preOptions[0];
-//                switch (spinner.getSelectedItem().toString()){
-//                    case preOptions[0]:
-//                        break;
-//
-//                }
+
+
 //                act.setPredicao();
+
+
+
                 Time time = new Time(0);
                 time.setSeconds(npSec.getValue());
                 time.setMinutes(npMin.getValue());
@@ -200,16 +204,6 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedPrediction = (String) parent.getItemAtPosition(position);
-        Log.println(1,"selected prediction",selectedPrediction);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
-
-    @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         switch (picker.getId()){
 
@@ -242,6 +236,36 @@ public class CreateActivity extends Activity implements AdapterView.OnItemSelect
                 })
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
+    }
+
+    enum EnumSpin{
+        INCORRECT(1,R.string.incorrect),
+        P_CORRECT(2,R.string.partially_correct),
+        CORRECT(3,R.string.correct);
+
+        private int idString, id;
+
+        EnumSpin(int _id, int _idString){
+            this.idString = _idString;
+            this.id = _id;
+        }
+
+        public String resource(Context ctx){
+            return ctx.getString(idString);
+        }
+
+        @Override
+        public String toString() {
+            return resource(mContext);
+        }
+
+        public int getIdString() {
+            return idString;
+        }
+
+        public int getId() {
+            return id;
+        }
     }
 
 }

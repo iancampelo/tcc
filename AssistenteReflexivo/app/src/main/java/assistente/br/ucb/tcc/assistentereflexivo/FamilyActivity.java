@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +26,7 @@ public class FamilyActivity extends Activity {
     private IntegrateWS client = null;
     private View mProgressView, mScrollView;
     private static Context mContext = null;
+    private boolean success;
 
 
     @Override
@@ -55,14 +58,34 @@ public class FamilyActivity extends Activity {
                 act.setComprensao(inpProblem.getText().toString());
 
 
-                if(!saveAct())
-                    return;
-                finish();
-                Intent intent = new Intent(view.getContext(), ProductionActivity.class);
-                startActivity(intent);
+                if(!isOnline()){
+                    new AlertDialog.Builder(mContext)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(getString(R.string.offline))
+                            .setCancelable(false)
+                            .setMessage(getString(R.string.offline_msg))
+                            .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+
+                            })
+                            .show();
+                }
+                else
+                    saveAct();
+
             }
         });
     }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -126,7 +149,7 @@ public class FamilyActivity extends Activity {
     }
 
     private boolean saveAct() {
-        boolean success = false;
+        success = false;
 
         Util.showProgress(true,mContext,mScrollView,mProgressView);
         mActSaveTask = new ActSaveTask();
@@ -139,7 +162,7 @@ public class FamilyActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            boolean success = false;
+            success = false;
 
             try {
                 client = new IntegrateWS(Util.getUrl(R.string.url_ws_save_act,mContext));
