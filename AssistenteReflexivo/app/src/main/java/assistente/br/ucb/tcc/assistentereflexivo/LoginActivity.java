@@ -31,8 +31,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends Activity{
-    //TODO Colocar todos os SPINS como ENUM, inclusive no BD (
-
     private final String EMAIL_VALIDATE = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{3,})$";
     private UserLoginTask mAuthTask = null;
     private EditText mPasswordView,mEmailView,inputName,inputFuncao,inputBirthday;
@@ -133,7 +131,6 @@ public class LoginActivity extends Activity{
                 .show();
     }
 
-    //TODO Quando o usuário é criado pelo app, o ID não é retornado, como fazer?
     public void attemptLogin() {
         if (mAuthTask != null) {
             return;

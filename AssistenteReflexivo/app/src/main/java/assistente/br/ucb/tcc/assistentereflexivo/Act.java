@@ -10,7 +10,6 @@ import java.sql.Time;
  */
 public class Act extends User implements Serializable{
 
-    @SerializedName("uid")
     private int     userid;
     private int     id;
     private String  nome;

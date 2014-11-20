@@ -15,7 +15,7 @@ public class User extends Application implements Serializable  {
     private String username;
     private String password;
     private String name;
-    private String birthday = "19/08/1992";
+    private String birthday;
     private String funcao;
 
     public User(){}

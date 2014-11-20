@@ -16,21 +16,21 @@ public class Atividade implements Serializable{
 	
 	
 	private static final long serialVersionUID = -8433919224984350110L;
-	@Expose private int        id;
-	@Expose private int        uid;
-	@Expose private String     nome;
-	private Time  tempoEstimado;
-	@Expose private int        predicao;
-	@Expose private String 	   estrategia;
-	@Expose private String     recursos;
-	@Expose private String     grauAtencao;
-	@Expose private String     comprensao;
-	@Expose private String     objetivo;
-	@Expose private String     anotacoes;
-	@Expose private float      kma;
-	private Time  tempoGasto;
-	@Expose private int        resultado;
-	@Expose private float 	   kmb;
+	@Expose private int        	id;
+	@Expose private int        	uid;
+	@Expose private String     	nome;
+	private Time 				tempoEstimado;
+	@Expose private int        	predicao;
+	@Expose private String 	   	estrategia;
+	@Expose private String     	recursos;
+	@Expose private String     	grauAtencao;
+	@Expose private String     	comprensao;
+	@Expose private String     	objetivo;
+	@Expose private String     	anotacoes;
+	@Expose private float      	kma;
+	private Time  				tempoGasto;
+	@Expose private int        	resultado;
+	@Expose private float 	   	kmb;
 	
 	public Atividade() {
 	}

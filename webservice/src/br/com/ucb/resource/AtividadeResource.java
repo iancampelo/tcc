@@ -337,7 +337,7 @@ public class AtividadeResource{
 	@Path("/getKmbMedio")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Float getKmbMedio(String usuarioStr){
+	public String getKmbMedio(String usuarioStr){
 		Usuario usuario = null;
 		AtividadeDao adao = null;
 		Gson gson = new Gson();
@@ -347,6 +347,29 @@ public class AtividadeResource{
 		adao = adao.getInstancia();
 
 		return adao.consultarKmbMedio(usuario);
+	}
+	
+	
+	/**
+	 * Metodo responsavel por consultar o kma médio
+	 * @param Json String (Usuario)
+	 * @return Float kma
+	 * @throws Exception
+	 */
+	@POST
+	@Path("/getKmaMedio")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getKmaMedio(String usuarioStr){
+		Usuario usuario = null;
+		AtividadeDao adao = null;
+		Gson gson = new Gson();
+
+		usuario = gson.fromJson(usuarioStr, Usuario.class);
+
+		adao = adao.getInstancia();
+
+		return adao.consultarKmaMedio(usuario);
 	}
 
 	/**
@@ -359,7 +382,7 @@ public class AtividadeResource{
 	@Path("/getNivel")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Float getNivel(String usuarioStr){
+	public String getNivel(String usuarioStr){
 		/*
 		 	List ativs = getAtividades(usuarioStr);
 			if(getKmbMedio(usuarioStr)==1){

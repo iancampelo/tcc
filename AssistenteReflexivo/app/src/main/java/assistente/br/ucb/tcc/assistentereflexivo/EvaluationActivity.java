@@ -22,7 +22,7 @@ public class EvaluationActivity extends Activity {
     private ImageButton btnNextEval;
     private Spinner spinEval;
     private static Context mContext;
-
+    private Enumerators enums;
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -51,12 +51,14 @@ public class EvaluationActivity extends Activity {
     }
 
     private void load() {
+
+        enums = new Enumerators();
+        enums.setmContext(mContext);
         act = (Act)getApplicationContext();
         spinEval = (Spinner) findViewById(R.id.spinEvalAct);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.predict_options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinEval.setAdapter(adapter);
+        spinEval.setAdapter(new ArrayAdapter<Enumerators.EnumSpinPrediction>(this,
+                android.R.layout.simple_spinner_dropdown_item, Enumerators.EnumSpinPrediction.values()));
+
         inpTimePre = (EditText)findViewById(R.id.inpTimeExe);
         inpTimePre.setText(getTimeAct());
         inpTimeElapsed = (EditText)findViewById(R.id.inpTimePos);
@@ -67,8 +69,8 @@ public class EvaluationActivity extends Activity {
         btnNextEval.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //TODO Fazer enum spinner multilanguage
-                //act.setPredicao(spinEval.getSelectedItem().toString());
+
+                act.setResultado(Enumerators.EnumSpinPrediction.findIDbyString(spinEval.getSelectedItem().toString()));
 
                 finish();
                 Intent intent = new Intent(view.getContext(), PostReflectionActivity.class);

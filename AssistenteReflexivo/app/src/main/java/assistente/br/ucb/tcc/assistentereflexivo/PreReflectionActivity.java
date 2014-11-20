@@ -32,26 +32,20 @@ public class PreReflectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         act = (Act)getApplicationContext();
-
         setContentView(R.layout.activity_pre_reflection);
         load();
-
     }
 
     private void load() {
-
         txtStrategy = (EditText)findViewById(R.id.inpStrategy);
         txtResource = (EditText)findViewById(R.id.inpResources);
         txtPreName = (EditText) findViewById(R.id.inpNamePre);
         txtPreName.setHint(act.getNome());
-
-        //Spinner Attention
         spinAtt = (Spinner) findViewById(R.id.spinAttentionDegree);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.attention_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinAtt.setAdapter(adapter);
-
         ImageButton btn = (ImageButton) findViewById(R.id.btnNextPre);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -70,8 +64,6 @@ public class PreReflectionActivity extends Activity {
         });
 
     }
-
-
 
     private boolean checkFields() {
         txtStrategy.setError(null);
@@ -116,7 +108,6 @@ public class PreReflectionActivity extends Activity {
         return super.onOptionsItemSelected(item);
 
     }
-
 
     @Override
     public void onBackPressed() {

@@ -11,7 +11,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.Time;
 
 /**
  * Created by ian.campelo on 11/5/14.
@@ -25,13 +29,12 @@ public class Util {
 
             JSONObject jsonObj = new JSONObject(json);
 
-            jsonObj.getString("usuario");
-
             user.setUsername(jsonObj.getString("usuario"));
             user.setFuncao(jsonObj.getString("funcao"));
             user.setBirthday(jsonObj.getString("nascimento"));
             user.setPassword(jsonObj.getString("senha"));
             user.setUserId(Integer.parseInt(jsonObj.getString("id")));
+            user.setName(jsonObj.getString("nome"));
         }
         catch (Exception e){
             Log.e("ERRO_PARSER_UTIL_USER",e.getMessage());
@@ -39,17 +42,53 @@ public class Util {
         return user;
     }
 
-    public static User jsonToAct(String json){
-        Act act = null;
+    public Act getTimes(Act ativ, String ativStr) throws JSONException {
+        JSONObject jsonObj = new JSONObject(ativStr);
+        String tempoEst = jsonObj.getString("tempoEstimado");
+        if(tempoEst != null){
+            if(!tempoEst.contains("null")){
+                if(!tempoEst.isEmpty()){
+                    ativ.setTempoEstimado(Time.valueOf(tempoEst));
+                }
+            }
+        }
+
+        String tmpG = jsonObj.getString("tempoGasto");
+        if(tmpG != null){
+            if(!tmpG.contains("null")){
+                if(!tmpG.isEmpty()){
+                    ativ.setTempoGasto(Time.valueOf(tmpG));
+                }
+            }
+        }
+        return ativ;
+    }
+
+    public Act jsonToAct(String json){
+        Act act;
 
         try {
             act = new Act();
 
             JSONObject jsonObj = new JSONObject(json);
 
+            act.setUserid(jsonObj.getInt("uid"));
+            act.setNome(jsonObj.getString("nome"));
+            act.setPredicao(jsonObj.getInt("predicao"));
+            act.setEstrategia(jsonObj.getString("estrategia"));
+            act.setRecursos(jsonObj.getString("recursos"));
+            act.setGrauAtencao(jsonObj.getString("grauAtencao"));
+            act.setComprensao(jsonObj.getString("compreensao"));
+            act.setObjetivo(jsonObj.getString("objetivo"));
+            act.setAnotacoes(jsonObj.getString("anotacoes"));
+            act.setKma(jsonObj.getInt("kma"));
+            act.setKmb(jsonObj.getInt("kmb"));
+            act.setResultado(jsonObj.getInt("resultado"));
+            act = getTimes(act,json);
         }
         catch (Exception e){
             Log.e("ERRO_PARSER_UTIL_ACT",e.getMessage());
+            act = null;
         }
         return act;
     }

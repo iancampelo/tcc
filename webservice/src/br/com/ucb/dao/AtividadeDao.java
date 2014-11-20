@@ -217,9 +217,9 @@ public class AtividadeDao extends ConnectionFactory {
 		PreparedStatement ps = null;
 
 		String sql = "update atividade set "+
-				     "nome = ?, tempo_estimado = ?, predicao = ?, estrategia = ?, recursos = ?, grau_atencao = ?, "+
-				     "comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, resultado = ? , kmb = ?"+
-				     "where id = ?";
+				"nome = ?, tempo_estimado = ?, predicao = ?, estrategia = ?, recursos = ?, grau_atencao = ?, "+
+				"comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, resultado = ? , kmb = ?"+
+				"where id = ?";
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
@@ -249,26 +249,30 @@ public class AtividadeDao extends ConnectionFactory {
 			fecharConexao(conn, ps, null);
 		}
 	}
-	
+
 	/**
 	 *  Metodo responsavel por realizar a consulta do KMB medio nas atividades para o usuario
 	 * @param user
 	 * @return valor
 	 */
-	public Float consultarKmbMedio(Usuario user) {
+	public String consultarKmbMedio(Usuario user) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
 		String sql = "select avg(kmb) qtd from atividade where uid = ?";
 
+		String a = null;
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, user.getId());
 			rs = ps.executeQuery();
 
-			return rs.getFloat("qtd");
+			
+			while (rs.next()) {
+				a = rs.getString("qtd");
+			}
 
 		} catch (Exception e) {
 			System.out.println("Erro ao consultar kmb medio: " + e);
@@ -277,6 +281,43 @@ public class AtividadeDao extends ConnectionFactory {
 		} finally {
 			fecharConexao(conn, ps, rs);
 		}
+		return a;
 	}
-	
+
+	/**
+	 *  Metodo responsavel por realizar a consulta do KMA medio nas atividades para o usuario
+	 * @param user
+	 * @return valor
+	 */
+	public String consultarKmaMedio(Usuario user) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql = "select avg(kma) qtd from atividade where uid = ?";
+
+		try {
+			conn = criarConexao();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getId());
+			rs = ps.executeQuery();
+			String a = null;
+			while (rs.next()) {
+				int i = rs.findColumn("qtd");
+				a = rs.getString(i);
+			}
+			if(a!=null){
+				return a;
+			}
+			return null;
+
+		} catch (Exception e) {
+			System.out.println("Erro ao consultar kma medio: " + e.getCause());
+			e.printStackTrace();
+			return null;
+		} finally {
+			fecharConexao(conn, ps, rs);
+		}
+	}
+
 }
