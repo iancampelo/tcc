@@ -129,7 +129,6 @@ public class MainActivity extends Activity {
         }
         if(kmaMedio != null){
             if(isBetween(kmaMedio,0.5F,1F)){
-
                 gaugeGreen.setVisibility(View.INVISIBLE);
                 gaugeRed.setVisibility(View.VISIBLE);
                 gaugeBlue.setVisibility(View.INVISIBLE);
@@ -156,7 +155,12 @@ public class MainActivity extends Activity {
     }
 
     public static boolean isBetween(Float x, Float lower, Float upper) {
-        return lower <= x && x <= upper;
+//        return (x>=lower && x <= upper);
+        boolean success = false;
+        if(x>=lower)
+            if(x <= upper)
+                success = true;
+        return success;
     }
 
 

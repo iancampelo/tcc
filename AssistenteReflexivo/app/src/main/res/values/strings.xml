@@ -73,8 +73,8 @@
 
     <!--CONNECT SERVER STRINGS-->
 
-    <string name="url_server">http://192.168.0.128:8080/webservice</string>
-    <!--<string name="url_server">http://192.168.1.4:8080/webservice</string>-->
+    <!--<string name="url_server">http://192.168.0.128:8080/webservice</string>-->
+    <string name="url_server">http://192.168.1.4:8080/webservice</string>
 
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
     <string name="url_ws_create_user">/usuario/cadastrarUsuario</string>

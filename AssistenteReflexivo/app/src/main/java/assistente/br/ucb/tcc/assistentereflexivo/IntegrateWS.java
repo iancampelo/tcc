@@ -25,6 +25,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.message.HeaderGroup;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
@@ -131,6 +134,7 @@ public class IntegrateWS {
                     BasicHttpEntity basicHttpEntity = new BasicHttpEntity();
                     basicHttpEntity.setContent(new ByteArrayInputStream(nv.getValue().getBytes("UTF-8")));
                     request.setEntity(basicHttpEntity);
+
                 }
 
                 executeRequest(request, url);
@@ -141,7 +145,12 @@ public class IntegrateWS {
 
     private void executeRequest(HttpUriRequest request, String url)
     {
-        HttpClient client = new DefaultHttpClient();
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 3000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 6000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        HttpClient client = new DefaultHttpClient(httpParameters);
 
         HttpResponse httpResponse;
 
