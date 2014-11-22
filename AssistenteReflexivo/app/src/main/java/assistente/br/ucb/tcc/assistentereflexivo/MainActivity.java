@@ -52,9 +52,10 @@ public class MainActivity extends Activity {
         btnAddActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                finish();
-                Intent intent = new Intent(view.getContext(), CreateActivity.class);
+                Intent intent = new Intent(mContext, CreateActivity.class);
                 startActivity(intent);
+                finish();
+
             }
         });
 
@@ -62,9 +63,10 @@ public class MainActivity extends Activity {
         statsActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                finish();
-                Intent intent = new Intent(view.getContext(), StatsActivity.class);
+                Intent intent = new Intent(mContext, StatsActivity.class);
                 startActivity(intent);
+                finish();
+
             }
         });
 
@@ -88,7 +90,6 @@ public class MainActivity extends Activity {
                 .show();
     }
     private void load() {
-
         mProgressView = findViewById(R.id.main_progress);
         mScrollView = findViewById(R.id.ScrlViewMain);
         txtMain = (TextView)findViewById(R.id.txtAvgMain);
@@ -118,13 +119,11 @@ public class MainActivity extends Activity {
         }
 
         if(kmaMedio==null){
-            mKmaTask = new KmaTask();
             try {
+                mKmaTask = new KmaTask();
                 mKmaTask.execute((Void)null).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Log.e("MAIN_AVG_KMA_GET",e.getMessage());
             }
         }
         if(kmaMedio != null){
@@ -155,27 +154,18 @@ public class MainActivity extends Activity {
     }
 
     public static boolean isBetween(Float x, Float lower, Float upper) {
-//        return (x>=lower && x <= upper);
-        boolean success = false;
-        if(x>=lower)
-            if(x <= upper)
-                success = true;
-        return success;
+        return (x>=lower && x <= upper);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_logout){
             Intent logout = new Intent(MainActivity.this, LoginActivity.class);
@@ -223,7 +213,7 @@ public class MainActivity extends Activity {
                 else
                     success = false;
             }catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
+                Util.error("ERROR_CONNECTION", e.getMessage(),mContext);
                 success = false;
             }
             return success;
@@ -250,7 +240,7 @@ public class MainActivity extends Activity {
             boolean success = false;
             try {
                 if (user.getUsername() != null) {
-                    client = new IntegrateWS(Util.getUrl(R.string.url_ws_get_kma_medio,mContext));
+                    client = new IntegrateWS(Util.getUrl(R.string.url_ws_get_avg_kma,mContext));
                     client.AddHeader("Accept", "application/json");
                     client.AddHeader("Content-type", "application/json");
                     client.AddParam("content", user.toJson());
@@ -267,7 +257,7 @@ public class MainActivity extends Activity {
                 else
                     success = false;
             }catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
+                Util.error("ERROR_CONNECTION", e.getMessage(),mContext);
                 success = false;
             }
             return success;

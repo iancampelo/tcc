@@ -11,11 +11,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Time;
+import java.util.ArrayList;
 
 /**
  * Created by ian.campelo on 11/5/14.
@@ -42,7 +45,23 @@ public class Util {
         return user;
     }
 
-    public Act getTimes(Act ativ, String ativStr) throws JSONException {
+    public static ArrayList<Act> jsonToActList(String json){
+        ArrayList<Act> acts = new ArrayList<Act>();
+
+        try {
+            JSONArray ja = new JSONArray(json);
+            for (int i = 0; i <= ja.length(); i++) {
+                JSONObject rec = ja.getJSONObject(i);
+                acts.add(jsonToAct(rec.toString()));
+            }
+        } catch (Exception e) {
+            Log.e("PARSE_LIST_ACT",e.getMessage());
+            return null;
+        }
+        return acts;
+    }
+
+    public static Act getTimes(Act ativ, String ativStr) throws JSONException {
         JSONObject jsonObj = new JSONObject(ativStr);
         String tempoEst = jsonObj.getString("tempoEstimado");
         if(tempoEst != null){
@@ -64,7 +83,7 @@ public class Util {
         return ativ;
     }
 
-    public Act jsonToAct(String json){
+    public static Act jsonToAct(String json){
         Act act;
 
         try {
@@ -91,6 +110,11 @@ public class Util {
             act = null;
         }
         return act;
+    }
+    public static void error(String logMsg,String msgError, Context mContext) {
+        Log.e(logMsg, msgError);
+        Toast myToast = Toast.makeText(mContext, mContext.getString(R.string.error), Toast.LENGTH_SHORT);
+        myToast.show();
     }
 
     public static String getUrl(int url, Context ctx) {

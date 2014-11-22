@@ -175,7 +175,7 @@ public class FamilyActivity extends Activity {
                     success = true;
                 }
             }catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
+                Util.error("ERROR_CONNECTION", e.getMessage(),mContext);
                 success = false;
             }
             return success;
@@ -192,9 +192,7 @@ public class FamilyActivity extends Activity {
                 Intent myIntent = new Intent(FamilyActivity.this, ProductionActivity.class);
                 FamilyActivity.this.startActivity(myIntent);
             }else {
-                Log.e("ERROR_CREATE_USER_ACT", getString(R.string.error));
-                Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
-                myToast.show();
+                Util.error("ERROR_CREATE_USER_ACT", getString(R.string.error),mContext);
             }
         }
         @Override

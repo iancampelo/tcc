@@ -13,22 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 
 
 public class ProductionActivity extends Activity {
     public EditText inpTimePre, inpTimeElapsed, inpActProd;
     private static Act act = null;
-    public ImageButton btnPauseTime, btnPlayTime, btnNextProd,btnAddNote;
+    public ImageButton btnPlayPauseTime, btnNextProd,btnAddNote;
     private Handler myHandler = new Handler();
     long timeInMillies = 0L;
     long timeSwap = 0L;
     long finalTime = 0L;
     private String note;
     private long startTime = 0L;
+    private static boolean playClick = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,22 +43,21 @@ public class ProductionActivity extends Activity {
         inpActProd.setHint(act.getNome());
         act.getTempoEstimado().getTime();
         inpTimePre.setText(getTimeAct());
-        btnPlayTime = (ImageButton) findViewById(R.id.btnPlayTime);
-        btnPlayTime.setOnClickListener(new View.OnClickListener() {
+        btnPlayPauseTime = (ImageButton) findViewById(R.id.btnPlayPauseTime);
+        btnPlayPauseTime.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startTime = SystemClock.uptimeMillis();
-                myHandler.postDelayed(updateTimerMethod, 0);
-
+                if(!playClick) {
+                    startTime = SystemClock.uptimeMillis();
+                    myHandler.postDelayed(updateTimerMethod, 0);
+                    playClick=true;
+                    btnPlayPauseTime.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_pause));
+                }else{
+                    timeSwap += timeInMillies;
+                    myHandler.removeCallbacks(updateTimerMethod);
+                    playClick=false;
+                    btnPlayPauseTime.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_play));
+                }
             }
-
-        });
-        btnPauseTime = (ImageButton) findViewById(R.id.btnPauseTime);
-        btnPauseTime.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                timeSwap += timeInMillies;
-                myHandler.removeCallbacks(updateTimerMethod);
-            }
-
         });
 
         btnNextProd = (ImageButton)findViewById(R.id.btnNextProd);
@@ -88,6 +86,8 @@ public class ProductionActivity extends Activity {
                 final EditText input = new EditText(v.getContext());
                 input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 builder.setView(input);
+                if(note!= null)
+                    input.setText(note);
                 builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -78,7 +79,8 @@ public class AtividadeResource{
 
 		Atividade ativ = gson.fromJson(ativStr, Atividade.class);
 
-		ativ = getTimes(ativ,ativStr);
+		String newAtiv = ativStr.replace('\n', ' ');
+		ativ = getTimes(ativ,newAtiv);
 
 		return adao.inserir(ativ) ? "S":"N";
 	}
@@ -207,15 +209,15 @@ public class AtividadeResource{
 
 	/**
 	 * Metodo responsavel por definir o indice KMA para uma atividade
-	 * @param Json String (Atividade)
-	 * @return Atividade kma
+	 * @param Json String (Usuario)
+	 * @return String valor kma
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/getKma")
+	@Path("/getKmaMedio")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Atividade getKma(String ativStr) throws Exception{
+	public String getKmaMedio(String userStr) throws Exception{
 		AtividadeDao adao = null;
 		Atividade atividade = null;
 		Usuario usuario = new Usuario();
@@ -229,9 +231,7 @@ public class AtividadeResource{
 
 		adao = adao.getInstancia();
 
-		atividade = gson.fromJson(ativStr, Atividade.class);
-		usuario.setId(atividade.getUid());
-		atividade = getTimes(atividade, ativStr);
+		usuario = gson.fromJson(userStr, Usuario.class);
 		atividades = adao.listar(usuario);
 
 		for (Atividade ativ : atividades) {
@@ -249,9 +249,7 @@ public class AtividadeResource{
 			}
 		}
 
-		atividade.setKma(calcularKma(paramA, paramB, paramC, paramD));
-
-		return atividade;
+		return String.valueOf(calcularKma(paramA, paramB, paramC, paramD));
 	}
 
 	/**
@@ -274,7 +272,7 @@ public class AtividadeResource{
 	@Path("/getKmb")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	private Atividade getKmb (String ativStr) throws Exception{
+	private String getKmb (String ativStr) throws Exception{
 		Atividade ativ = null;
 		AtividadeDao adao = null;
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
@@ -287,9 +285,8 @@ public class AtividadeResource{
 
 		adao = adao.getInstancia();
 
-		adao.atualizar(ativ);
+		return adao.atualizar(ativ)?"S":"N";
 
-		return ativ;
 	}
 
 	/**
@@ -348,8 +345,8 @@ public class AtividadeResource{
 
 		return adao.consultarKmbMedio(usuario);
 	}
-	
-	
+
+
 	/**
 	 * Metodo responsavel por consultar o kma médio
 	 * @param Json String (Usuario)
@@ -357,25 +354,61 @@ public class AtividadeResource{
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/getKmaMedio")
+	@Path("/setKmaKmb")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getKmaMedio(String usuarioStr){
-		Usuario usuario = null;
+	public String setKmaKmb(String ativString){
+		Atividade ativ = null;
 		AtividadeDao adao = null;
 		Gson gson = new Gson();
 
-		usuario = gson.fromJson(usuarioStr, Usuario.class);
+		ativ = gson.fromJson(ativString, Atividade.class);
 
 		adao = adao.getInstancia();
 
-		return adao.consultarKmaMedio(usuario);
+		if(ativ.getPredicao() == -1 && ativ.getResultado() == -1){
+			ativ.setKma(1);//resultado incorreto, predição incorreta
+			ativ.setKmb(0);
+		}
+		else if(ativ.getPredicao() == 0 && ativ.getResultado() == -1){ 
+			ativ.setKma(-0.5f);//resultado incorreto, predição parcial
+			ativ.setKmb(-0.5f);
+		}
+		else if(ativ.getPredicao() == 1 && ativ.getResultado() == -1){ 
+			ativ.setKma(-1);//resultado incorreto, predição correta
+			ativ.setKmb(-1);
+		}
+		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 0){ 
+			ativ.setKma(-0.5f);//resultado parcial, predição incorreta
+			ativ.setKma(0.5f);
+		}
+		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 0){ 
+			ativ.setKma(1);//resultado parcial, predição parcial
+			ativ.setKma(0);
+		}
+		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 0){ 
+			ativ.setKma(-0.5f);//resultado parcial, predição correta
+			ativ.setKma(-0.5f);
+		}
+		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 1){ 
+			ativ.setKma(1);
+			ativ.setKma(0);
+		}
+		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 1){ 
+			ativ.setKma(-0.5f);
+			ativ.setKma(0.5f);
+		}
+		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 1){ 
+			ativ.setKma(-1);
+			ativ.setKma(1);
+		}
+		return adao.atualizar(ativ)?"S":"N";
 	}
 
 	/**
 	 * Metodo responsavel por consultar o nivel do usuario
 	 * @param Json String (Usuario)
-	 * @return Float kma
+	 * @return int Nivel
 	 * @throws Exception
 	 */
 	@POST
@@ -383,34 +416,23 @@ public class AtividadeResource{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getNivel(String usuarioStr){
-		/*
-		 	List ativs = getAtividades(usuarioStr);
-			if(getKmbMedio(usuarioStr)==1){
-				switch ativs.size(){
-					case 2:
-						return 1;
-						break;
-					case 4:
-						return 2;
-						break;
-					default:
-						return 0;
-						break;
+		try{		
+			ArrayList<Atividade> ativs;
+			ativs = listarAtividades(usuarioStr);
+			if(Float.valueOf(getKmaMedio(usuarioStr))==1){
+				switch (ativs.size()){
+				case 0:
+					return "1";
+				case 1:
+				case 2:
+					return "2";
+				default:
+					return "3";
 				}
 			}
-			else
-				//make something cool!;
-
-		 */
-
-		Usuario usuario = null;
-		AtividadeDao adao = null;
-		Gson gson = new Gson();
-
-		usuario = gson.fromJson(usuarioStr, Usuario.class);
-
-		adao = adao.getInstancia();
-
-		return adao.consultarKmbMedio(usuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

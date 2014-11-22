@@ -249,7 +249,7 @@ public class LoginActivity extends Activity{
                         success = false;
                 }
             }catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
+                Util.error("ERROR_CONNECTION", e.getMessage(),mContext);
                 success = false;
             }
             return success;
@@ -284,9 +284,7 @@ public class LoginActivity extends Activity{
                                         }
                                     } catch (Exception ex) {
                                         String err = (ex.getMessage()==null)?getString(R.string.error):ex.getMessage();
-                                        Log.e("ERROR_CREATE_USER_ACT", err);
-                                        Toast myToast = Toast.makeText(mContext, err, Toast.LENGTH_SHORT);
-                                        myToast.show();
+                                        Util.error("ERROR_CREATE_USER_ACT", err,mContext);
                                     }
                                     break;
 
@@ -397,7 +395,7 @@ public class LoginActivity extends Activity{
                     success = false;
             }catch (Exception e){
                 String err = (e.getMessage()==null)?getString(R.string.error):e.getMessage();
-                Log.e("ERROR_CREATE_USER_ACT", err);
+                Util.error("ERROR_CREATE_USER_ACT", err,mContext);
                 success = false;
             }
             return success;
@@ -415,8 +413,7 @@ public class LoginActivity extends Activity{
                 LoginActivity.this.startActivity(myIntent);
             }
             else {
-                Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
-                myToast.show();
+                Util.error("ERROR_CREATE_USER","error",mContext);
             }
         }
     }

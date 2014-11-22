@@ -70,4 +70,5 @@
     <string name="close_confirm">Tem certeza que deseja sair?</string>
     <string name="offline">Você está sem internet</string>
     <string name="offline_msg">Por favor ligue a internet e volte aqui</string>
+    <string name="no_activity_yet">Você não possui nenhuma atividade</string>
 </resources>

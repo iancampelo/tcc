@@ -19,9 +19,9 @@ public class Enumerators{
     }
 
     enum EnumSpinPrediction {
-        INCORRECT(1, R.string.incorrect),
-        P_CORRECT(2, R.string.partially_correct),
-        CORRECT(3, R.string.correct);
+        INCORRECT(-1, R.string.incorrect),
+        P_CORRECT(0, R.string.partially_correct),
+        CORRECT(1, R.string.correct);
 
         private int idString, id;
 

@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class PostReflectionActivity extends Activity {
     private EditText inpActPost, inpTimeExe;
@@ -37,6 +39,7 @@ public class PostReflectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_reflection);
+        mContext = getApplicationContext();
         load();
     }
 
@@ -84,6 +87,8 @@ public class PostReflectionActivity extends Activity {
                     if (!act.getAnotacoes().isEmpty())
                         input.setText(act.getAnotacoes() + "\n");
                 }
+                if(note!= null)
+                    input.setText(note);
                 builder.setView(input);
                 builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -120,7 +125,6 @@ public class PostReflectionActivity extends Activity {
                             .show();
                 }
                 saveAct();
-
             }
         });
         setGauge();
@@ -131,7 +135,6 @@ public class PostReflectionActivity extends Activity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-
     private void setGauge() {
         //TODO fazer calculo do KMB da atividade desenvolvida e do kma
         //if(Act.media != 0)
@@ -141,27 +144,22 @@ public class PostReflectionActivity extends Activity {
         gaugeRed.setVisibility(View.INVISIBLE);
         gaugeBlue.setVisibility(View.VISIBLE);
         txtStatus.setText(getString(R.string.optimistic));
-
     }
-
     private String getTimeActElapsed() {
         return Integer.toString(act.getTempoGasto().getHours())+":"+Integer.toString(act.getTempoGasto().getMinutes())+
                 ":"+Integer.toString(act.getTempoGasto().getSeconds());
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent settings = new Intent(PostReflectionActivity.this,SettingsActivity.class);
             PostReflectionActivity.this.startActivity(settings);
-
         }
         if(id == R.id.action_logout){
             Intent logout = new Intent(PostReflectionActivity.this, LoginActivity.class);
@@ -169,56 +167,59 @@ public class PostReflectionActivity extends Activity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     private boolean saveAct() {
         success = false;
-
         Util.showProgress(true,mContext,mScrollView,mProgressView);
+
+        try {
+            new SetKmaKmbTask().execute().get();
+        } catch (Exception e) {
+            Util.error("SET_KMA_KMB_ERROR",e.getMessage(),mContext);
+        }
+
         mActSaveTask = new ActSaveTask();
-        mActSaveTask.execute();
+        try {
+            mActSaveTask.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         Util.showProgress(false,mContext,mScrollView,mProgressView);
         return success;
     }
 
     public class ActSaveTask extends AsyncTask<Void, Void, Boolean> {
-
         @Override
         protected Boolean doInBackground(Void... params) {
             success = false;
-
             try {
                 client = new IntegrateWS(Util.getUrl(R.string.url_ws_alter_act,mContext));
                 client.AddHeader("Accept", "application/json");
                 client.AddHeader("Content-type", "application/json");
                 client.AddParam("content", act.toJsonAct());
-
                 client.Execute(RequestMethod.POST);
                 if (client.getResponseCode() == 200) {
                     success = true;
                 }
             }catch (Exception e) {
-                Log.e("ERROR_CONNECTION", e.getMessage());
+                Util.error("ERROR_CONNECTION", e.getMessage(),mContext);
                 success = false;
             }
             return success;
         }
-
         @Override
         protected void onPostExecute(final Boolean success) {
             mActSaveTask = null;
             Util.showProgress(false, mContext, mScrollView, mProgressView);
-
-
             if (success) {
                 finish();
-                Intent myIntent = new Intent(PostReflectionActivity.this, ProductionActivity.class);
+                Intent myIntent = new Intent(PostReflectionActivity.this, StatsActivity.class);
                 PostReflectionActivity.this.startActivity(myIntent);
             }else {
-                Log.e("ERROR_CREATE_USER_ACT", getString(R.string.error));
-                Toast myToast = Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT);
-                myToast.show();
+                Util.error("ERROR_ON_SAVE_ACT_POST",getResources().getString(R.string.error),mContext);
             }
         }
         @Override
@@ -226,9 +227,41 @@ public class PostReflectionActivity extends Activity {
             mActSaveTask = null;
             Util.showProgress(false,mContext,mScrollView,mProgressView);
         }
-
     }
 
 
 
+    public class SetKmaKmbTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            success = false;
+            try {
+                client = new IntegrateWS(Util.getUrl(R.string.url_ws_set_kma_kmb,mContext));
+                client.AddHeader("Accept", "application/json");
+                client.AddHeader("Content-type", "application/json");
+                client.AddParam("content", act.toJsonAct());
+                client.Execute(RequestMethod.POST);
+                if (client.getResponseCode() == 200) {
+                    success = true;
+                }
+            }catch (Exception e) {
+                Util.error("ERROR_SET_KMA_KMB",e.getMessage(),mContext);
+                success = false;
+            }
+            return success;
+        }
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mActSaveTask = null;
+            Util.showProgress(false, mContext, mScrollView, mProgressView);
+            if (!success) {
+                Util.error("ERROR_CREATE_USER_ACT", getString(R.string.error),mContext);
+            }
+        }
+        @Override
+        protected void onCancelled() {
+            mActSaveTask = null;
+            Util.showProgress(false,mContext,mScrollView,mProgressView);
+        }
+    }
 }
