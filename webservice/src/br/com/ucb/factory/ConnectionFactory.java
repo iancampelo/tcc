@@ -18,7 +18,7 @@ public class ConnectionFactory {
 	private static final String SENHA   = "root";
 	
 	/** 
-	 * Método responsavel por criar a conexao com o banco de dados
+	 * Mï¿½todo responsavel por criar a conexao com o banco de dados
 	 * @return Connection
 	 */
 	public static Connection criarConexao() {
@@ -28,7 +28,7 @@ public class ConnectionFactory {
 			return DriverManager.getConnection(URL, USUARIO, SENHA);
 		}
 		catch (Exception e) {
-			System.out.println("Erro ao criar conexão com o banco: "+URL);
+			System.out.println("Erro ao criar conexÃ£o com o banco: "+URL);
 		}
 		
 		return conn;
@@ -52,7 +52,7 @@ public class ConnectionFactory {
 				ps.close();
 			}
 		}catch(Exception e){
-			System.out.println("Erro ao fechar conexão com o banco: "+URL);
+			System.out.println("Erro ao fechar conexï¿½o com o banco: "+URL);
 		}
 	}
 	

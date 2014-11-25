@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class FamilyActivity extends Activity {
     public EditText inpActFam,inpProblem,inpObjv;
@@ -153,7 +155,13 @@ public class FamilyActivity extends Activity {
 
         Util.showProgress(true,mContext,mScrollView,mProgressView);
         mActSaveTask = new ActSaveTask();
-        mActSaveTask.execute();
+        try {
+            mActSaveTask.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         Util.showProgress(false,mContext,mScrollView,mProgressView);
         return success;
     }
@@ -171,6 +179,7 @@ public class FamilyActivity extends Activity {
                 client.AddParam("content", act.toJsonAct());
 
                 client.Execute(RequestMethod.POST);
+                String a = client.getResponse();
                 if (client.getResponseCode() == 200) {
                     success = true;
                 }
@@ -188,6 +197,7 @@ public class FamilyActivity extends Activity {
 
 
             if (success) {
+                act.setId(Integer.parseInt(client.getResponse().replace('\n',' ').trim()));
                 finish();
                 Intent myIntent = new Intent(FamilyActivity.this, ProductionActivity.class);
                 FamilyActivity.this.startActivity(myIntent);

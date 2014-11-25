@@ -91,6 +91,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="assistente.br.ucb.tcc.assistentereflexivo.PostReflectionActivity" />
         </activity>
+        <activity
+            android:name=".ListActivity"
+            android:label="@string/title_activity_list" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

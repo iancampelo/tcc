@@ -71,4 +71,11 @@
     <string name="offline">Você está sem internet</string>
     <string name="offline_msg">Por favor ligue a internet e volte aqui</string>
     <string name="no_activity_yet">Você não possui nenhuma atividade</string>
+    <string name="act_list">Lista de atividades</string>
+    <string name="problem_understand">Compreensão</string>
+    <string name="activity_goal">Objetivo</string>
+    <string name="title_activity_evaluation">Avaliação</string>
+    <string name="title_activity_stats">Estatísticas</string>
+    <string name="title_activity_list">Listagem das atividades</string>
+
 </resources>

@@ -97,6 +97,7 @@ public class MainActivity extends Activity {
         gaugeBlue = (ImageView)findViewById(R.id.gaugeBlue);
         gaugeRed = (ImageView)findViewById(R.id.gaugeRed);
         gaugeGreen = (ImageView)findViewById(R.id.gaugeGreen);
+        kmaMedio = -123125123123f;
     }
     /*
     [-1, -0.25]
@@ -118,15 +119,15 @@ public class MainActivity extends Activity {
             mAuthTask.execute((Void) null);
         }
 
-        if(kmaMedio==null){
+        if(kmaMedio<-1){
             try {
                 mKmaTask = new KmaTask();
                 mKmaTask.execute((Void)null).get();
             } catch (Exception e) {
-                Log.e("MAIN_AVG_KMA_GET",e.getMessage());
+                Util.error("MAIN_AVG_KMA_GET",e.getMessage(),mContext);
             }
         }
-        if(kmaMedio != null){
+        if(kmaMedio>=-1){
             if(isBetween(kmaMedio,0.5F,1F)){
                 gaugeGreen.setVisibility(View.INVISIBLE);
                 gaugeRed.setVisibility(View.VISIBLE);
@@ -156,14 +157,11 @@ public class MainActivity extends Activity {
     public static boolean isBetween(Float x, Float lower, Float upper) {
         return (x>=lower && x <= upper);
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -251,6 +249,7 @@ public class MainActivity extends Activity {
                     if (client.getResponseCode() == 200) {
                         if (a != null) {
                             kmaMedio = Float.parseFloat(a);
+                            success = true;
                         }
                     }
                 }

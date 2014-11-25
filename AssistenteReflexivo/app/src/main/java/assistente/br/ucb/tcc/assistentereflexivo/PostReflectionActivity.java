@@ -85,7 +85,7 @@ public class PostReflectionActivity extends Activity {
                 input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 if(act.getAnotacoes() != null) {
                     if (!act.getAnotacoes().isEmpty())
-                        input.setText(act.getAnotacoes() + "\n");
+                        input.setText(act.getAnotacoes() + " ");
                 }
                 if(note!= null)
                     input.setText(note);
@@ -124,7 +124,12 @@ public class PostReflectionActivity extends Activity {
                             })
                             .show();
                 }
-                saveAct();
+                if(saveAct()){
+                    finish();
+                    Intent myIntent = new Intent(PostReflectionActivity.this, StatsActivity.class);
+                    PostReflectionActivity.this.startActivity(myIntent);
+                }
+
             }
         });
         setGauge();
@@ -137,6 +142,13 @@ public class PostReflectionActivity extends Activity {
     }
     private void setGauge() {
         //TODO fazer calculo do KMB da atividade desenvolvida e do kma
+
+        try {
+            new SetKmaKmbTask().execute().get();
+        } catch (Exception e) {
+            Util.error("SET_KMA_KMB_ERROR",e.getMessage(),mContext);
+        }
+
         //if(Act.media != 0)
         //switch(act.media)
         //case 1:
@@ -172,13 +184,6 @@ public class PostReflectionActivity extends Activity {
     private boolean saveAct() {
         success = false;
         Util.showProgress(true,mContext,mScrollView,mProgressView);
-
-        try {
-            new SetKmaKmbTask().execute().get();
-        } catch (Exception e) {
-            Util.error("SET_KMA_KMB_ERROR",e.getMessage(),mContext);
-        }
-
         mActSaveTask = new ActSaveTask();
         try {
             mActSaveTask.execute().get();
@@ -214,11 +219,7 @@ public class PostReflectionActivity extends Activity {
         protected void onPostExecute(final Boolean success) {
             mActSaveTask = null;
             Util.showProgress(false, mContext, mScrollView, mProgressView);
-            if (success) {
-                finish();
-                Intent myIntent = new Intent(PostReflectionActivity.this, StatsActivity.class);
-                PostReflectionActivity.this.startActivity(myIntent);
-            }else {
+            if (!success) {
                 Util.error("ERROR_ON_SAVE_ACT_POST",getResources().getString(R.string.error),mContext);
             }
         }

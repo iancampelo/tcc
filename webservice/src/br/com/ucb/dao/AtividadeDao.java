@@ -35,7 +35,7 @@ public class AtividadeDao extends ConnectionFactory {
 	 * @param Atividade
 	 * @return Boolean
 	 */
-	public boolean inserir(Atividade ativ) {
+	public Integer inserir(Atividade ativ) {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -59,12 +59,32 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setTime		(11, ativ.getTempoGasto());
 			ps.setInt		(12, ativ.getResultado());
 
-			return ps.executeUpdate() > 0;
+			boolean success = false;
+			success = ps.executeUpdate() > 0; 
+			ResultSet rs = null;	
+			Integer ab = null;
+			if(success){
+
+				sql = "select max(id) id from atividade where uid = ?";
+				fecharConexao(conn, ps, null);
+				conn = criarConexao();
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, ativ.getUid());
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					ab = rs.getInt("id");
+				}
+			}
+			else
+				return null;
+
+			return ab;
+
 
 		} catch (Exception e) {
 			System.out.println("Erro ao inserir atividade: " + e);
 			e.printStackTrace();
-			return false;
+			return null;
 		} finally {
 			fecharConexao(conn, ps, null);
 		}
@@ -269,7 +289,7 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setInt(1, user.getId());
 			rs = ps.executeQuery();
 
-			
+
 			while (rs.next()) {
 				a = rs.getString("qtd");
 			}

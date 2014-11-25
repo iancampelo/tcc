@@ -7,15 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -70,8 +66,8 @@ public class StatsActivity extends Activity {
     }
 
     private void load() {
-        mScrollView     = findViewById(R.id.ScrlViewEval);
-        mProgressView   = findViewById(R.id.eval_progress);
+        mScrollView     = findViewById(R.id.ScrlViewStats);
+        mProgressView   = findViewById(R.id.stats_progress);
         gradeKma        = (TextView)findViewById(R.id.textView);
         gradeKmb        = (TextView)findViewById(R.id.textView3);
         gaugeBlueKma    = (ImageView)findViewById(R.id.imageViewBlue);
@@ -94,72 +90,21 @@ public class StatsActivity extends Activity {
         btnShowActs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //--------------------
-
                 getActList();
-
-//                LayoutInflater li = LayoutInflater.from(mContext);
-//                View view= li.inflate(R.layout.list_acts, null);
-//
-//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-//                alertDialogBuilder.setView(view);
-//
-//
-//
-//
-//                ListView lv2 = (ListView) getActivity().findViewById(R.id.toplist);
-//                ArrayList<SearchResultsToping> results1 = new ArrayList<SearchResultsToping>();
-//                SearchResultsToping sr1;
-//                sr1 = new SearchResultsToping();
-//                sr1.setToppingname("cheese");
-//                results1.add(sr1);
-//                MyCustomBaseAdapterTop arrayAdapter=new MyCustomBaseAdapterTop(getActivity(), results1);
-//                lv2.setAdapter(arrayAdapter);
-//                lv2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-//                        // TODO Auto-generated method stub
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> arg0) {
-//                        // TODO Auto-generated method stub
-//
-//                    }
-//
-//                });
-//
-//                alertDialogBuilder
-//                        .setCancelable(false)
-//                        .setPositiveButton("OK",new DialogInterface.OnClickListener()
-//                public void onClick(DialogInterface dialog,int id) {
-//                })
-//                .setNegativeButton("Cancel",  new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog,int id) {
-//                        dialog.cancel()
-//                    }
-//                });
-//
-//                // create alert dialog
-//                AlertDialog alertDialog = alertDialogBuilder.create();
-//                // show it
-//                alertDialog.show();
             }
         });
 
 
-
-        //------------
-
-
-        finish();
     }
 
     private void getActList() {
         Util.showProgress(true,mContext,mScrollView,mProgressView);
         mListTask = new ListActsTask();
-        mListTask.execute((Void) null);
+        try {
+            mListTask.execute((Void) null).get();
+        } catch (Exception e) {
+            Util.error("GET_ACTS",e.getMessage().toString(),mContext);
+        }
         Util.showProgress(false,mContext,mScrollView,mProgressView);
     }
 
@@ -201,7 +146,6 @@ public class StatsActivity extends Activity {
 
     public class ListActsTask extends AsyncTask<Void, Void, Boolean> {
 
-
         private IntegrateWS client = null;
         ListActsTask() {}
 
@@ -221,11 +165,11 @@ public class StatsActivity extends Activity {
                     client.getErrorMessage();
                     if (client.getResponseCode() == 200) {
                         if (a != null) {
-                            acts = Util.jsonToActList(a);
-                            if(acts==null)
-                                success = false;
+                           acts = (Util.jsonToActList(a));
+                            if(acts!=null)
+                                success = true;
                         } else
-                            success = true;
+                            success = false;
                     }
                 }
                 else
@@ -239,10 +183,18 @@ public class StatsActivity extends Activity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            if(success) {
+                Intent intent = new Intent(mContext, ListActivity.class);
+                intent.putExtra("acts",acts);
+                startActivity(intent);
+            }else{
+                Util.error("ERROR_CONNECTION", getString(R.string.error),mContext);
+            }
         }
 
         @Override
         protected void onCancelled() {
+            mListTask.notifyAll();
             mListTask = null;
             Util.showProgress(false,mContext,mScrollView,mProgressView);
         }

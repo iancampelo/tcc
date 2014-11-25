@@ -2,9 +2,6 @@ package assistente.br.ucb.tcc.assistentereflexivo;
 
 import android.app.Application;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
@@ -51,27 +48,21 @@ public class User extends Application implements Serializable  {
     }
 
 //GET
-    @JsonProperty("usuario")
     public String getUsername() {
         return username;
     }
-    @JsonProperty("senha")
     public String getPassword() {
         return password;
     }
-    @JsonProperty("nome")
     public String getName() {
         return name;
     }
-    @JsonProperty("aniversario")
     public String getBirthday() {
         return birthday;
     }
-    @JsonProperty("funcao")
     public String getFuncao() {
         return funcao;
     }
-    @JsonProperty("id")
     public int getUserId() {
         return userId;
     }

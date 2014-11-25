@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Reflective Assistant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -59,6 +60,8 @@
     <string name="offline">You are offline</string>
     <string name="offline_msg">Please turn on your internet and came back</string>
     <string name="no_activity_yet">You don\'t have any activity</string>
+    <string name="act_list">Act list</string>
+    <string name="title_activity_list">List Activity</string>
 
     <string-array name="predict_options">
         <item>@string/incorrect</item>
@@ -71,11 +74,12 @@
         <item>@string/high</item>
     </string-array>
 
-    <!--CONNECT SERVER STRINGS-->
+    <!-- CONNECT SERVER STRINGS -->
 
-    <!--<string name="url_server">http://192.168.0.128:8080/webservice</string>-->
+
+    <!-- <string name="url_server">http://192.168.0.128:8080/webservice</string> -->
     <string name="url_server">http://192.168.1.4:8080/webservice</string>
-    <!--<string name="url_server">http://10.70.245.252:8080/webservice</string>-->
+    <!-- <string name="url_server">http://10.70.245.252:8080/webservice</string> -->
 
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
     <string name="url_ws_create_user">/usuario/cadastrarUsuario</string>
@@ -88,5 +92,6 @@
     <string name="url_ws_set_kma_kmb">/atividade/setKmaKmb</string>
     <string name="url_ws_get_avg_kmb">/atividade/getKmbMedio</string>
     <string name="url_ws_get_level">/atividade/getNivel</string>
+
 
 </resources>

@@ -82,7 +82,7 @@ public class AtividadeResource{
 		String newAtiv = ativStr.replace('\n', ' ');
 		ativ = getTimes(ativ,newAtiv);
 
-		return adao.inserir(ativ) ? "S":"N";
+		return adao.inserir(ativ).toString();
 	}
 
 	public Atividade getTimes(Atividade ativ, String ativStr) throws JSONException{
@@ -96,14 +96,18 @@ public class AtividadeResource{
 			}
 		}
 
-		String tmpG = jsonObj.getString("tempoGasto");
-		if(tmpG != null){
-			if(!tmpG.contains("null")){
-				if(!tmpG.isEmpty()){
-					ativ.setTempoGasto(Time.valueOf(tmpG));
+		if(!jsonObj.isNull("tempoGasto")){
+			String tmpG = jsonObj.getString("tempoGasto");
+			if(tmpG != null){
+				if(!tmpG.contains("null")){
+					if(!tmpG.isEmpty()){
+						ativ.setTempoGasto(Time.valueOf(tmpG));
+					}
 				}
 			}
 		}
+		else
+			ativ.setTempoGasto(Time.valueOf("00:00:00"));
 		return ativ;
 	}
 
@@ -189,14 +193,11 @@ public class AtividadeResource{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Atividade> listarAtividades(String usuario) throws Exception{		
-		System.out.println("-----------Aqui--------------");
 		AtividadeDao adao = null;
 		ArrayList<Atividade> atividades = new ArrayList<Atividade>();
-
 		UsuarioDao udao = null;
 		Usuario user = new Usuario();
 		Gson gsonU = new Gson();
-
 		udao = udao.getInstancia();
 		user = gsonU.fromJson(usuario, Usuario.class);
 		user = udao.consultar(user.getUsuario());
@@ -226,7 +227,7 @@ public class AtividadeResource{
 
 		float paramA = 0; // numero de vezes que disse que teria sucesso e teve
 		float paramB = 0; // numero de vezes que disse que nao teria sucesso e teve
-		float paramC = 0; // numero de vezes que disse que teria sucesso e n�o teve
+		float paramC = 0; // numero de vezes que disse que teria sucesso e não teve
 		float paramD = 0; // numero de vezes que disse que nao teria sucesso e nao teve
 
 		adao = adao.getInstancia();
@@ -235,13 +236,13 @@ public class AtividadeResource{
 		atividades = adao.listar(usuario);
 
 		for (Atividade ativ : atividades) {
-			if(ativ.getPredicao() == 1 && ativ.getResultado() == 1){
+			if((ativ.getPredicao() == 1 && ativ.getResultado() == 1)||(ativ.getPredicao()==-1 && ativ.getResultado()==-1)){
 				paramA++;
 			}
-			else if(ativ.getPredicao() == 0 && ativ.getResultado() == 1){
+			else if(ativ.getPredicao() == 0 && (ativ.getResultado() == 1)||ativ.getResultado()==-1){
 				paramB++;
 			}
-			else if(ativ.getPredicao() == 1 && ativ.getResultado() == 0){
+			else if((ativ.getPredicao()==1||ativ.getPredicao()==-1) && ativ.getResultado() == 0){
 				paramC++;
 			}
 			else if(ativ.getPredicao() == 0 && ativ.getResultado() == 0){
@@ -357,12 +358,13 @@ public class AtividadeResource{
 	@Path("/setKmaKmb")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String setKmaKmb(String ativString){
+	public String setKmaKmb(String ativString) throws Exception{
 		Atividade ativ = null;
 		AtividadeDao adao = null;
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();;
 
 		ativ = gson.fromJson(ativString, Atividade.class);
+		ativ = getTimes(ativ, ativString);
 
 		adao = adao.getInstancia();
 
