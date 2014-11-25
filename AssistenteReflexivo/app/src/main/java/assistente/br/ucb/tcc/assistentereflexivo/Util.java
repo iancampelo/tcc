@@ -26,6 +26,16 @@ import java.util.ArrayList;
  * Created by ian.campelo on 11/5/14.
  */
 public class Util {
+    private static Context mContext;
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public static void setmContext(Context _mContext) {
+        mContext = _mContext;
+    }
+
     public static User jsonToUser(String json){
         User user = null;
 
@@ -51,11 +61,22 @@ public class Util {
         try {
             JSONObject jsonObject = new JSONObject(json);
 
-            JSONArray ja = jsonObject.getJSONArray("atividade");
-            for (int i = 0; i < ja.length(); i++) {
-                JSONObject rec = ja.getJSONObject(i);
-                acts.add(jsonToAct(rec.toString()));
+            if(!jsonObject.isNull("atividade")) {
+
+                Object item = jsonObject.get("atividade");
+                if(item instanceof JSONArray) {
+                    JSONArray ja = jsonObject.getJSONArray("atividade");
+                    for (int i = 0; i < ja.length(); i++) {
+                        JSONObject rec = ja.getJSONObject(i);
+                        acts.add(jsonToAct(rec.toString()));
+                    }
+                }else{
+                    JSONObject jo = (JSONObject)jsonObject;
+                    acts.add(jsonToAct(jo.toString()));
+                }
             }
+            else
+                return null;
         } catch (Exception e) {
             Log.e("PARSE_LIST_ACT",e.getCause().toString());
             return null;
@@ -87,6 +108,7 @@ public class Util {
             ativ.setTempoGasto(Time.valueOf("00:00:00"));
         return ativ;
     }
+
     public static ArrayList<String> actsToNames(ArrayList<Act> acts){
         ArrayList<String> _acts = new ArrayList<String>();
         for (Act act : acts) {
@@ -97,24 +119,28 @@ public class Util {
 
     public static Act jsonToAct(String json){
         Act act;
+        User user = (User)mContext;
 
+        //TODO arrumar quando tiver só uma atividade, do Jean viado!
         try {
             act = new Act();
 
             JSONObject jsonObj = new JSONObject(json);
 
-            act.setUserid(jsonObj.getInt("uid"));
             act.setNome(jsonObj.getString("nome"));
             act.setPredicao(jsonObj.getInt("predicao"));
             act.setEstrategia(jsonObj.getString("estrategia"));
             act.setRecursos(jsonObj.getString("recursos"));
             act.setGrauAtencao(jsonObj.getString("grauAtencao"));
-
             act.setObjetivo(jsonObj.getString("objetivo"));
             act.setResultado(jsonObj.getInt("resultado"));
             act.setId(jsonObj.getInt("id"));
             act = getTimes(act,json);
 
+            if(jsonObj.isNull("uid"))
+                act.setUserid(user.getUserId());
+            else
+                act.setUserid(jsonObj.getInt("uid"));
             if(jsonObj.isNull("comprensao"))
                 act.setComprensao(null);
             else
@@ -138,6 +164,7 @@ public class Util {
         }
         return act;
     }
+
     public static void error(String logMsg,String msgError, Context mContext) {
         if(msgError==null)Log.e(logMsg, "Error"); else Log.e(logMsg, msgError);
         Toast myToast = Toast.makeText(mContext, mContext.getString(R.string.error), Toast.LENGTH_SHORT);

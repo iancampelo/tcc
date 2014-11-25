@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,7 @@ public class StatsActivity extends Activity {
         load();
         setGauge(gradeKma,true);
         setGauge(gradeKmb,false);
+        Util.setmContext(mContext);
     }
 
     @Override
@@ -151,6 +153,7 @@ public class StatsActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            Looper.prepare();
             acts = new ArrayList<Act>();
             boolean success = false;
             try {

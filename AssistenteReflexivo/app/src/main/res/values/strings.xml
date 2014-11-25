@@ -78,7 +78,7 @@
 
 
     <!-- <string name="url_server">http://192.168.0.128:8080/webservice</string> -->
-    <string name="url_server">http://192.168.1.4:8080/webservice</string>
+    <string name="url_server">http://192.168.43.186:8080/webservice</string>
     <!-- <string name="url_server">http://10.70.245.252:8080/webservice</string> -->
 
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
