@@ -31,7 +31,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends Activity{
-    private final String EMAIL_VALIDATE = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{3,})$";
+    private final String EMAIL_VALIDATE = /*"[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)*@[a-zA-Z]+[a-zA-Z0-9]*([\\\\.|\\\\-|_][a-zA-Z0-9]+)+"*/
+    "[a-zA-Z0-9]+[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]*\\.+[a-z]{2,4}";
     private UserLoginTask mAuthTask = null;
     private EditText mPasswordView,mEmailView,inputName,inputFuncao,inputBirthday;
     private View mProgressView;
@@ -141,15 +142,15 @@ public class LoginActivity extends Activity{
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString().toLowerCase();
-        String password = mPasswordView.getText().toString();
+        String email = mEmailView.getText().toString().toLowerCase().trim();
+        String password = mPasswordView.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
 
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;

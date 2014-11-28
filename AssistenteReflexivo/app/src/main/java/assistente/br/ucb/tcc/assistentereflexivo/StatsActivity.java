@@ -118,7 +118,7 @@ public class StatsActivity extends Activity {
             gaugeGreenKma.setVisibility(View.VISIBLE);
             gaugeRedKma.setVisibility(View.INVISIBLE);
             gaugeBlueKma.setVisibility(View.INVISIBLE);
-            txtStatus.setText(getResources().getString(R.string.optimistic));
+            txtStatus.setText(getResources().getString(R.string.realistic));
         }else{
             //if(Act.mediaKma != NULL)
             //switch(act.media)

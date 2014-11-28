@@ -71,8 +71,6 @@ public class EvaluationActivity extends Activity {
             public void onClick(View view) {
 
                 act.setResultado(Enumerators.EnumSpinPrediction.findIDbyString(spinEval.getSelectedItem().toString()));
-
-                finish();
                 Intent intent = new Intent(view.getContext(), PostReflectionActivity.class);
                 startActivity(intent);
             }

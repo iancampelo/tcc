@@ -19,16 +19,16 @@ public class Act extends User implements Serializable{
     private String  comprensao;
     private String  objetivo;
     private String  anotacoes;
-    private int     kma ;
+    private Double kma ;
     private Time    tempoGasto;
-    private int     kmb;
+    private Double kmb;
     private int     resultado;
 
     public Act() {}
 
     public Act(int id,String nome, Time tempoEstimado, int predicao, String estrategia,
                String recursos, String grauAtencao, String comprensao, String objetivo,
-               String anotacoes, int kma, Time tempoGasto, int kmb, int uid, int resultado) {
+               String anotacoes, Double kma, Time tempoGasto, Double kmb, int uid, int resultado) {
         setId(id);
         setNome(nome);
         setTempoEstimado(tempoEstimado);
@@ -48,7 +48,7 @@ public class Act extends User implements Serializable{
 
     //Getters
 
-    public float getKmb() {
+    public Double getKmb() {
         return kmb;
     }
 
@@ -88,7 +88,7 @@ public class Act extends User implements Serializable{
         return resultado;
     }
 
-    public float getKma() {
+    public Double getKma() {
         return kma;
     }
 
@@ -114,7 +114,7 @@ public class Act extends User implements Serializable{
         this.id = id;
     }
 
-    public void setKmb(int kmb) {
+    public void setKmb(Double kmb) {
         this.kmb = kmb;
     }
 
@@ -158,7 +158,7 @@ public class Act extends User implements Serializable{
         this.anotacoes = anotacoes;
     }
 
-    public void setKma(int kma) {
+    public void setKma(Double kma) {
         this.kma = kma;
     }
 
@@ -179,8 +179,6 @@ public class Act extends User implements Serializable{
         Act act = (Act) o;
 
         if (id != act.id) return false;
-        if (Float.compare(act.kma, kma) != 0) return false;
-        if (Float.compare(act.kmb, kmb) != 0) return false;
         if (predicao != act.predicao) return false;
         if (resultado != act.resultado) return false;
         if (userid != act.userid) return false;
@@ -192,6 +190,8 @@ public class Act extends User implements Serializable{
             return false;
         if (grauAtencao != null ? !grauAtencao.equals(act.grauAtencao) : act.grauAtencao != null)
             return false;
+        if (kma != null ? !kma.equals(act.kma) : act.kma != null) return false;
+        if (kmb != null ? !kmb.equals(act.kmb) : act.kmb != null) return false;
         if (nome != null ? !nome.equals(act.nome) : act.nome != null) return false;
         if (objetivo != null ? !objetivo.equals(act.objetivo) : act.objetivo != null) return false;
         if (recursos != null ? !recursos.equals(act.recursos) : act.recursos != null) return false;
@@ -217,9 +217,9 @@ public class Act extends User implements Serializable{
         result = 31 * result + (comprensao != null ? comprensao.hashCode() : 0);
         result = 31 * result + (objetivo != null ? objetivo.hashCode() : 0);
         result = 31 * result + (anotacoes != null ? anotacoes.hashCode() : 0);
-        result = 31 * result + (kma != +0.0f ? Float.floatToIntBits(kma) : 0);
+        result = 31 * result + (kma != null ? kma.hashCode() : 0);
         result = 31 * result + (tempoGasto != null ? tempoGasto.hashCode() : 0);
-        result = 31 * result + (kmb != +0.0f ? Float.floatToIntBits(kmb) : 0);
+        result = 31 * result + (kmb != null ? kmb.hashCode() : 0);
         result = 31 * result + resultado;
         return result;
     }

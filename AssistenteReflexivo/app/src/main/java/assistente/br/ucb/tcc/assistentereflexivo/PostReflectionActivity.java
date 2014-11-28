@@ -141,8 +141,7 @@ public class PostReflectionActivity extends Activity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
     private void setGauge() {
-        //TODO fazer calculo do KMB da atividade desenvolvida e do kma
-
+        Util.showProgress(true, mContext, mScrollView, mProgressView);
         try {
             new SetKmaKmbTask().execute().get();
         } catch (Exception e) {
@@ -158,8 +157,9 @@ public class PostReflectionActivity extends Activity {
         txtStatus.setText(getString(R.string.optimistic));
     }
     private String getTimeActElapsed() {
-        return Integer.toString(act.getTempoGasto().getHours())+":"+Integer.toString(act.getTempoGasto().getMinutes())+
+                String a = Integer.toString(act.getTempoGasto().getHours())+":"+Integer.toString(act.getTempoGasto().getMinutes())+
                 ":"+Integer.toString(act.getTempoGasto().getSeconds());
+        return a;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,6 +182,7 @@ public class PostReflectionActivity extends Activity {
     }
 
     private boolean saveAct() {
+        setGauge();
         success = false;
         Util.showProgress(true,mContext,mScrollView,mProgressView);
         mActSaveTask = new ActSaveTask();

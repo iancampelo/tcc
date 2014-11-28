@@ -71,8 +71,7 @@ public class Util {
                         acts.add(jsonToAct(rec.toString()));
                     }
                 }else{
-                    JSONObject jo = (JSONObject)jsonObject;
-                    acts.add(jsonToAct(jo.toString()));
+                    acts.add(jsonToAct(jsonObject.toString()));
                 }
             }
             else
@@ -86,7 +85,7 @@ public class Util {
 
     public static Act getTimes(Act ativ, String ativStr) throws JSONException {
         JSONObject jsonObj = new JSONObject(ativStr);
-        String tempoEst = jsonObj.getString("tempoEstimado");
+        String tempoEst = jsonObj.optString("tempoEstimado",null);
         if(tempoEst != null){
             if(!tempoEst.contains("null")){
                 if(!tempoEst.isEmpty()){
@@ -95,7 +94,7 @@ public class Util {
             }
         }
         if(!jsonObj.isNull("tempoGasto")){
-            String tmpG = jsonObj.getString("tempoGasto");
+            String tmpG = jsonObj.optString("tempoGasto",null);
             if(tmpG != null){
                 if(!tmpG.contains("null")){
                     if(!tmpG.isEmpty()){
@@ -127,36 +126,20 @@ public class Util {
 
             JSONObject jsonObj = new JSONObject(json);
 
-            act.setNome(jsonObj.getString("nome"));
-            act.setPredicao(jsonObj.getInt("predicao"));
-            act.setEstrategia(jsonObj.getString("estrategia"));
-            act.setRecursos(jsonObj.getString("recursos"));
-            act.setGrauAtencao(jsonObj.getString("grauAtencao"));
-            act.setObjetivo(jsonObj.getString("objetivo"));
-            act.setResultado(jsonObj.getInt("resultado"));
-            act.setId(jsonObj.getInt("id"));
+            act.setNome(jsonObj.optString("nome",null));
+            act.setPredicao(jsonObj.optInt("predicao"));
+            act.setEstrategia(jsonObj.optString("estrategia",null));
+            act.setRecursos(jsonObj.optString("recursos",null));
+            act.setGrauAtencao(jsonObj.optString("grauAtencao",null));
+            act.setObjetivo(jsonObj.optString("objetivo",null));
+            act.setResultado(jsonObj.optInt("resultado"));
+            act.setId(jsonObj.optInt("id"));
+            act.setComprensao(jsonObj.optString("comprensao",null));
+            act.setAnotacoes(jsonObj.optString("anotacoes",null));
+            act.setKma(jsonObj.optDouble("kma"));
+            act.setKmb(jsonObj.optDouble("kmb"));
+            act.setUserid(jsonObj.optInt("uid",user.getUserId()));
             act = getTimes(act,json);
-
-            if(jsonObj.isNull("uid"))
-                act.setUserid(user.getUserId());
-            else
-                act.setUserid(jsonObj.getInt("uid"));
-            if(jsonObj.isNull("comprensao"))
-                act.setComprensao(null);
-            else
-                act.setComprensao(jsonObj.getString("comprensao"));
-            if(jsonObj.isNull("anotacoes"))
-                act.setAnotacoes(null);
-            else
-                act.setAnotacoes(jsonObj.getString("anotacoes"));
-            if(jsonObj.isNull("kma"))
-                act.setKma(Integer.parseInt(null));
-            else
-                act.setKma(jsonObj.getInt("kma"));
-            if(jsonObj.isNull("kmb"))
-                act.setKmb(Integer.parseInt(null));
-            else
-                act.setKmb(jsonObj.getInt("kmb"));
         }
         catch (Exception e){
             Log.e("ERRO_PARSER_UTIL_ACT",e.getMessage());

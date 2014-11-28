@@ -144,7 +144,6 @@ public class FamilyActivity extends Activity {
         if(id == R.id.action_logout){
             Intent logout = new Intent(FamilyActivity.this, LoginActivity.class);
             FamilyActivity.this.startActivity(logout);
-            finish();
         }
         return super.onOptionsItemSelected(item);
 

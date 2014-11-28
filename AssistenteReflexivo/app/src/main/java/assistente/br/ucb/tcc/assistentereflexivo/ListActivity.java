@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
-
 
 public class ListActivity extends Activity {
     private static Act act;
@@ -20,8 +20,6 @@ public class ListActivity extends Activity {
     private static ArrayList<Act> acts;
     private static View mScrollView,mProgressView;
     private static Context mContext;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,35 @@ public class ListActivity extends Activity {
             list.setLayoutParams(params);
 
             rl.addView(list);
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    setActContext(acts.get(position));
+                    finish();
+                    Intent intent = new Intent(mContext, PostReflectionActivity.class);
+                    startActivity(intent);
+
+                }
+            });
         }
+    }
+
+    private void setActContext(Act _act) {
+        act.setAnotacoes(_act.getAnotacoes());
+        act.setKma(_act.getKma());
+        act.setId(_act.getId());
+        act.setComprensao(_act.getComprensao());
+        act.setEstrategia(_act.getEstrategia());
+        act.setUserid(_act.getUserId());
+        act.setGrauAtencao(_act.getGrauAtencao());
+        act.setKmb(_act.getKmb());
+        act.setNome(_act.getNome());
+        act.setTempoGasto(_act.getTempoGasto());
+        act.setTempoEstimado(_act.getTempoEstimado());
+        act.setPredicao(_act.getPredicao());
+        act.setResultado(_act.getResultado());
+        act.setRecursos(_act.getRecursos());
+        act.setObjetivo(_act.getObjetivo());
     }
 
 
