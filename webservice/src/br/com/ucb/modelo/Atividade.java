@@ -27,10 +27,10 @@ public class Atividade implements Serializable{
 	@Expose private String     	comprensao;
 	@Expose private String     	objetivo;
 	@Expose private String     	anotacoes;
-	@Expose private float      	kma;
+	@Expose private Double     	kma;
 	private Time  				tempoGasto;
 	@Expose private int        	resultado;
-	@Expose private float 	   	kmb;
+	@Expose private Double 	   	kmb;
 	
 	public Atividade() {
 	}
@@ -123,11 +123,11 @@ public class Atividade implements Serializable{
 		this.anotacoes = anotacoes;
 	}
 
-	public float getKma() {
+	public Double getKma() {
 		return kma;
 	}
 
-	public void setKma(float kma) {
+	public void setKma(Double kma) {
 		this.kma = kma;
 	}
 
@@ -147,11 +147,11 @@ public class Atividade implements Serializable{
 		this.resultado = resultado;
 	}
 
-	public float getKmb() {
+	public Double getKmb() {
 		return kmb;
 	}
 
-	public void setKmb(float kmb) {
+	public void setKmb(Double kmb) {
 		this.kmb = kmb;
 	}
 
@@ -168,8 +168,8 @@ public class Atividade implements Serializable{
 		result = prime * result
 				+ ((grauAtencao == null) ? 0 : grauAtencao.hashCode());
 		result = prime * result + id;
-		result = prime * result + Float.floatToIntBits(kma);
-		result = prime * result + Float.floatToIntBits(kmb);
+		result = prime * result + ((kma == null) ? 0 : kma.hashCode());
+		result = prime * result + ((kmb == null) ? 0 : kmb.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result
 				+ ((objetivo == null) ? 0 : objetivo.hashCode());
@@ -216,9 +216,15 @@ public class Atividade implements Serializable{
 			return false;
 		if (id != other.id)
 			return false;
-		if (Float.floatToIntBits(kma) != Float.floatToIntBits(other.kma))
+		if (kma == null) {
+			if (other.kma != null)
+				return false;
+		} else if (!kma.equals(other.kma))
 			return false;
-		if (Float.floatToIntBits(kmb) != Float.floatToIntBits(other.kmb))
+		if (kmb == null) {
+			if (other.kmb != null)
+				return false;
+		} else if (!kmb.equals(other.kmb))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)

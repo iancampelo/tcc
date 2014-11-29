@@ -48,7 +48,7 @@ import br.com.ucb.modelo.Usuario;
  * @author Jean Silvestre
  *
  */
-@Path("/atividade")
+@Path("atividade")
 public class AtividadeResource{
 	@GET
 	@Path("/hello")
@@ -63,7 +63,7 @@ public class AtividadeResource{
 	 * @param Json String (Atividade)
 	 */
 	@POST
-	@Path("/cadastrarAtividade")
+	@Path("cadastrarAtividade")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String cadastrarAtividade(String ativStr) throws Exception{		
@@ -72,14 +72,9 @@ public class AtividadeResource{
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		adao = adao.getInstancia();
 
-		System.out.println(ativStr);
-
-		Time tm = Time.valueOf("00:23:43");
-		System.out.println(tm.toString());
-
 		Atividade ativ = gson.fromJson(ativStr, Atividade.class);
 
-		String newAtiv = ativStr.replace('\n', ' ');
+		String newAtiv = ativStr.replace('\n', ' ').trim();
 		ativ = getTimes(ativ,newAtiv);
 
 		return adao.inserir(ativ).toString();
@@ -117,7 +112,7 @@ public class AtividadeResource{
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/alterarAtividade")
+	@Path("alterarAtividade")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String alterarAtividade(String ativStr) throws Exception{		
@@ -139,7 +134,7 @@ public class AtividadeResource{
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/excluirAtividade")
+	@Path("excluirAtividade")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String excluirAtividade(String ativStr) throws Exception{		
@@ -163,7 +158,7 @@ public class AtividadeResource{
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/consultarAtividade")
+	@Path("consultarAtividade")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Atividade consultarAtividade(String ativStr) throws Exception{		
@@ -189,7 +184,7 @@ public class AtividadeResource{
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/listarAtividades")
+	@Path("listarAtividades")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Atividade> listarAtividades(String usuario) throws Exception{		
@@ -215,7 +210,7 @@ public class AtividadeResource{
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/getKmaMedio")
+	@Path("getKmaMedio")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getKmaMedio(String userStr) throws Exception{
@@ -236,16 +231,16 @@ public class AtividadeResource{
 		atividades = adao.listar(usuario);
 
 		for (Atividade ativ : atividades) {
-			if((ativ.getPredicao() == 1 && ativ.getResultado() == 1)||(ativ.getPredicao()==-1 && ativ.getResultado()==-1)){
+			if((ativ.getPredicao() == 1d && ativ.getResultado() == 1d)||(ativ.getPredicao()==-1d && ativ.getResultado()==-1d)){
 				paramA++;
 			}
-			else if(ativ.getPredicao() == 0 && (ativ.getResultado() == 1)||ativ.getResultado()==-1){
+			else if(ativ.getPredicao() == 0d && (ativ.getResultado() == 1d)||ativ.getResultado()==-1d){
 				paramB++;
 			}
-			else if((ativ.getPredicao()==1||ativ.getPredicao()==-1) && ativ.getResultado() == 0){
+			else if((ativ.getPredicao()==1d||ativ.getPredicao()==-1d) && ativ.getResultado() == 0d){
 				paramC++;
 			}
-			else if(ativ.getPredicao() == 0 && ativ.getResultado() == 0){
+			else if(ativ.getPredicao() == 0d && ativ.getResultado() == 0d){
 				paramD++;
 			}
 		}
@@ -270,7 +265,7 @@ public class AtividadeResource{
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/getKmb")
+	@Path("getKmb")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	private String getKmb (String ativStr) throws Exception{
@@ -297,31 +292,31 @@ public class AtividadeResource{
 	 */
 	private void calcularKmb (Atividade ativ){
 		if(ativ.getPredicao() == -1 && ativ.getResultado() == -1){
-			ativ.setKmb(0);
+			ativ.setKmb(0d);
 		}
-		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 0){ 
-			ativ.setKmb(0.5f);
+		else if(ativ.getPredicao() == -1d && ativ.getResultado() == 0d){ 
+			ativ.setKmb(0.5d);
 		}
-		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 1){ 
-			ativ.setKmb(1);
+		else if(ativ.getPredicao() == -1d && ativ.getResultado() == 1d){ 
+			ativ.setKmb(1d);
 		}
-		else if(ativ.getPredicao() == 0 && ativ.getResultado() == -1){ 
-			ativ.setKmb(-0.5f);
+		else if(ativ.getPredicao() == 0d && ativ.getResultado() == -1d){ 
+			ativ.setKmb(-0.5d);
 		}
-		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 0){ 
-			ativ.setKmb(0);
+		else if(ativ.getPredicao() == 0d && ativ.getResultado() == 0d){ 
+			ativ.setKmb(0d);
 		}
-		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 1){ 
-			ativ.setKmb(0.5f);
+		else if(ativ.getPredicao() == 0d && ativ.getResultado() == 1d){ 
+			ativ.setKmb(0.5d);
 		}
-		else if(ativ.getPredicao() == 1 && ativ.getResultado() == -1){ 
-			ativ.setKmb(-1);
+		else if(ativ.getPredicao() == 1d && ativ.getResultado() == -1d){ 
+			ativ.setKmb(-1d);
 		}
-		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 0){ 
-			ativ.setKmb(-0.5f);
+		else if(ativ.getPredicao() == 1d && ativ.getResultado() == 0d){ 
+			ativ.setKmb(-0.5d);
 		}
-		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 1){ 
-			ativ.setKmb(0);
+		else if(ativ.getPredicao() == 1d && ativ.getResultado() == 1d){ 
+			ativ.setKmb(0d);
 		}
 	}
 
@@ -332,7 +327,7 @@ public class AtividadeResource{
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/getKmbMedio")
+	@Path("getKmbMedio")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getKmbMedio(String usuarioStr){
@@ -355,54 +350,54 @@ public class AtividadeResource{
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/setKmaKmb")
+	@Path("setKmaKmb")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String setKmaKmb(String ativString) throws Exception{
 		Atividade ativ = null;
 		AtividadeDao adao = null;
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();;
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
 
 		ativ = gson.fromJson(ativString, Atividade.class);
 		ativ = getTimes(ativ, ativString);
 
 		adao = adao.getInstancia();
 
-		if(ativ.getPredicao() == -1 && ativ.getResultado() == -1){
-			ativ.setKma(1);//resultado incorreto, predição incorreta
-			ativ.setKmb(0);
+		if(ativ.getPredicao() == -1d && ativ.getResultado() == -1d){
+			ativ.setKma(1d);//resultado incorreto, predição incorreta
+			ativ.setKmb(0d);
 		}
-		else if(ativ.getPredicao() == 0 && ativ.getResultado() == -1){ 
-			ativ.setKma(-0.5f);//resultado incorreto, predição parcial
-			ativ.setKmb(-0.5f);
+		else if(ativ.getPredicao() == 0d && ativ.getResultado() == -1d){ 
+			ativ.setKma(-0.5d);//resultado incorreto, predição parcial
+			ativ.setKmb(-0.5d);
 		}
-		else if(ativ.getPredicao() == 1 && ativ.getResultado() == -1){ 
-			ativ.setKma(-1);//resultado incorreto, predição correta
-			ativ.setKmb(-1);
+		else if(ativ.getPredicao() == 1d && ativ.getResultado() == -1d){ 
+			ativ.setKma(-1d);//resultado incorreto, predição correta
+			ativ.setKmb(-1d);
 		}
-		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 0){ 
-			ativ.setKma(-0.5f);//resultado parcial, predição incorreta
-			ativ.setKma(0.5f);
+		else if(ativ.getPredicao() == -1d && ativ.getResultado() == 0d){ 
+			ativ.setKma(-0.5d);//resultado parcial, predição incorreta
+			ativ.setKma(0.5d);
 		}
-		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 0){ 
-			ativ.setKma(1);//resultado parcial, predição parcial
-			ativ.setKma(0);
+		else if(ativ.getPredicao() == 0d && ativ.getResultado() == 0d){ 
+			ativ.setKma(1d);//resultado parcial, predição parcial
+			ativ.setKma(0d);
 		}
-		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 0){ 
-			ativ.setKma(-0.5f);//resultado parcial, predição correta
-			ativ.setKma(-0.5f);
+		else if(ativ.getPredicao() == 1d && ativ.getResultado() == 0d){ 
+			ativ.setKma(-0.5d);//resultado parcial, predição correta
+			ativ.setKma(-0.5d);
 		}
-		else if(ativ.getPredicao() == 1 && ativ.getResultado() == 1){ 
-			ativ.setKma(1);
-			ativ.setKma(0);
+		else if(ativ.getPredicao() == 1d && ativ.getResultado() == 1d){ 
+			ativ.setKma(1d);
+			ativ.setKma(0d);
 		}
-		else if(ativ.getPredicao() == 0 && ativ.getResultado() == 1){ 
-			ativ.setKma(-0.5f);
-			ativ.setKma(0.5f);
+		else if(ativ.getPredicao() == 0d && ativ.getResultado() == 1d){ 
+			ativ.setKma(-0.5d);
+			ativ.setKma(0.5d);
 		}
-		else if(ativ.getPredicao() == -1 && ativ.getResultado() == 1){ 
-			ativ.setKma(-1);
-			ativ.setKma(1);
+		else if(ativ.getPredicao() == -1d && ativ.getResultado() == 1d){ 
+			ativ.setKma(-1d);
+			ativ.setKma(1d);
 		}
 		return adao.atualizar(ativ)?"S":"N";
 	}
@@ -414,7 +409,7 @@ public class AtividadeResource{
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/getNivel")
+	@Path("getNivel")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getNivel(String usuarioStr){

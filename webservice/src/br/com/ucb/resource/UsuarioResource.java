@@ -17,7 +17,7 @@ import com.google.gson.Gson;
  * @author Jean Silvestre
  *
  */
-@Path("/usuario")
+@Path("usuario")
 public class UsuarioResource {
 	
 	/**
@@ -26,7 +26,7 @@ public class UsuarioResource {
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/cadastrarUsuario")
+	@Path("cadastrarUsuario")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String cadastrarUsuario(String userStr) throws Exception{		
@@ -48,7 +48,7 @@ public class UsuarioResource {
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/alterarUsuario")
+	@Path("alterarUsuario")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String alterarUsuario(String userStr){		
@@ -68,7 +68,7 @@ public class UsuarioResource {
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/excluirUsuario")
+	@Path("excluirUsuario")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String excluirUsuario(String userStr){		
@@ -89,7 +89,7 @@ public class UsuarioResource {
 	 * @throws Exception 
 	 */
 	@POST
-	@Path("/consultarUsuario")
+	@Path("consultarUsuario")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Usuario consultarUsuario(String userStr){		

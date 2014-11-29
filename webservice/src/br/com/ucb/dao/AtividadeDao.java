@@ -153,9 +153,9 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setObjetivo	 (rs.getString	 ("objetivo"));
 				ativ.setAnotacoes	 (rs.getString	 ("anotacoes"));
 				ativ.setTempoGasto	 (rs.getTime	 ("tempo_gasto"));
-				ativ.setKma			 (rs.getFloat    ("kma"));
+				ativ.setKma			 (rs.getDouble    ("kma"));
 				ativ.setResultado	 (rs.getInt      ("resultado"));
-				ativ.setKmb			 (rs.getFloat	 ("kmb"));
+				ativ.setKmb			 (rs.getDouble	 ("kmb"));
 
 				return ativ;
 			} else {
@@ -206,9 +206,9 @@ public class AtividadeDao extends ConnectionFactory {
 				ativ.setObjetivo	 (rs.getString   ("objetivo"));
 				ativ.setAnotacoes	 (rs.getString   ("anotacoes"));
 				ativ.setTempoGasto	 (rs.getTime	 ("tempo_gasto")); 
-				ativ.setKma			 (rs.getFloat    ("kma"));
+				ativ.setKma			 (rs.getDouble   ("kma"));
 				ativ.setResultado	 (rs.getInt  	 ("resultado"));
-				ativ.setKmb          (rs.getFloat	 ("kmb"));
+				ativ.setKmb          (rs.getDouble	 ("kmb"));
 
 				Atividades.add(ativ);
 			}
@@ -239,7 +239,7 @@ public class AtividadeDao extends ConnectionFactory {
 		String sql = "update atividade set "+
 				"nome = ?, tempo_estimado = ?, predicao = ?, estrategia = ?, recursos = ?, grau_atencao = ?, "+
 				"comprensao = ?, objetivo = ?, anotacoes = ?, tempo_gasto = ?, kma = ?, resultado = ? , kmb = ?"+
-				"where id = ?";
+				" where id = ?";
 		try {
 			conn = criarConexao();
 			ps = conn.prepareStatement(sql);
@@ -254,9 +254,15 @@ public class AtividadeDao extends ConnectionFactory {
 			ps.setString	(8,  ativ.getObjetivo());
 			ps.setString	(9,  ativ.getAnotacoes());
 			ps.setTime 		(10, ativ.getTempoGasto());
-			ps.setFloat 	(11, ativ.getKma());
+			if(ativ.getKma()!=null&&ativ.getKma()!=Double.NaN)
+				ps.setDouble 	(11, ativ.getKma());
+			else
+				ps.setDouble 	(11, Double.NaN);
 			ps.setInt   	(12, ativ.getResultado());
-			ps.setFloat 	(13, ativ.getKmb());
+			if(ativ.getKma()!=null&&ativ.getKmb()!=Double.NaN)
+				ps.setDouble 	(13, ativ.getKmb());
+			else
+				ps.setDouble 	(13, Double.NaN);
 			ps.setInt		(14, ativ.getId());
 
 			return ps.executeUpdate() > 0 ? true : false;

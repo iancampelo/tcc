@@ -21,10 +21,10 @@ CREATE TABLE atividade (
   comprensao varchar(200) default NULL,
   objetivo varchar(200) default NULL,
   anotacoes varchar(200) default NULL,
-  kma float default NULL,
+  kma double default NULL,
   tempo_gasto time default NULL,
   resultado int(11) default NULL,
-  kmb float default NULL,
+  kmb double default NULL,
   PRIMARY KEY  (id),
   KEY uid (uid),
   CONSTRAINT atividade_ibfk_1 FOREIGN KEY (uid) REFERENCES usuario (id)
