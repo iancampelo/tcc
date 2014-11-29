@@ -37,8 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView"
+                android:id="@+id/txtKmbStats"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
 
@@ -46,8 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView3"
+                android:id="@+id/txtKmaStats"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true" />
 
@@ -57,7 +55,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/kmb"
                 android:id="@+id/textView4"
-                android:layout_above="@+id/imageViewGreen2"
+                android:layout_above="@+id/imgGreenKma"
                 android:layout_alignStart="@+id/txtActStats" />
 
             <TextView
@@ -72,60 +70,60 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewBlue"
+                android:id="@+id/imgBlueKmb"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/gauge_blue"
-                android:layout_above="@+id/textView"
-                android:layout_alignEnd="@+id/textView"
+                android:layout_above="@+id/txtKmbStats"
+                android:layout_alignEnd="@+id/txtKmbStats"
                 android:layout_below="@+id/textView4" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewGreen"
+                android:id="@+id/imgGreenKmb"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/gauge_green"
-                android:layout_above="@+id/textView"
-                android:layout_alignEnd="@+id/textView"
+                android:layout_above="@+id/txtKmbStats"
+                android:layout_alignEnd="@+id/txtKmbStats"
                 android:layout_below="@+id/textView4" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewRed"
+                android:id="@+id/imgRedKmb"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/gauge_red"
-                android:layout_above="@+id/textView"
-                android:layout_alignEnd="@+id/textView"
+                android:layout_above="@+id/txtKmbStats"
+                android:layout_alignEnd="@+id/txtKmbStats"
                 android:layout_below="@+id/textView4" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewBlue2"
+                android:id="@+id/imgBlueKma"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/gauge_blue"
-                android:layout_above="@+id/textView"
-                android:layout_toEndOf="@+id/textView"
-                android:layout_alignStart="@+id/textView3"
+                android:layout_above="@+id/txtKmbStats"
+                android:layout_toEndOf="@+id/txtKmbStats"
+                android:layout_alignStart="@+id/txtKmaStats"
                 android:layout_below="@+id/textView5" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewGreen2"
+                android:id="@+id/imgGreenKma"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/gauge_green"
-                android:layout_above="@+id/textView"
-                android:layout_toEndOf="@+id/textView"
-                android:layout_alignStart="@+id/textView3"
+                android:layout_above="@+id/txtKmbStats"
+                android:layout_toEndOf="@+id/txtKmbStats"
+                android:layout_alignStart="@+id/txtKmaStats"
                 android:layout_below="@+id/textView5" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewRed2"
+                android:id="@+id/imgRedKma"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/gauge_red"
-                android:layout_above="@+id/textView"
-                android:layout_toEndOf="@+id/textView"
-                android:layout_alignStart="@+id/textView3"
+                android:layout_above="@+id/txtKmbStats"
+                android:layout_toEndOf="@+id/txtKmbStats"
+                android:layout_alignStart="@+id/txtKmaStats"
                 android:layout_below="@+id/textView5" />
             <ImageButton
                 android:layout_width="wrap_content"

@@ -77,8 +77,7 @@
     <!-- CONNECT SERVER STRINGS -->
 
 
-    <!-- <string name="url_server">http://192.168.0.128:8080/webservice</string> -->
-    <string name="url_server">http://192.168.0.128:8080/webservice</string>
+    <string name="url_server">http://10.70.245.252:8080/webservice</string>
     <!-- <string name="url_server">http://10.70.245.252:8080/webservice</string> -->
 
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
@@ -92,6 +91,7 @@
     <string name="url_ws_set_kma_kmb">/atividade/setKmaKmb</string>
     <string name="url_ws_get_avg_kmb">/atividade/getKmbMedio</string>
     <string name="url_ws_get_level">/atividade/getNivel</string>
+    <string name="random">Random</string>
 
 
 </resources>

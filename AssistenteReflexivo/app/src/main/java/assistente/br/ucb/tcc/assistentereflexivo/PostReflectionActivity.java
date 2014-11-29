@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
@@ -35,11 +33,19 @@ public class PostReflectionActivity extends Activity {
     private View mProgressView, mScrollView;
     private static Context mContext = null;
     private boolean success;
+    private static Float kmbMedio = null;
+    private SetKmaKmbTask mKmaTask = null;
+    private static boolean fromList = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_reflection);
         mContext = getApplicationContext();
+        Intent a = getIntent();
+        if(a!=null){
+            fromList = a.hasExtra("fromList");
+        }
         load();
     }
 
@@ -70,10 +76,10 @@ public class PostReflectionActivity extends Activity {
         inpTimeExe.setText(getTimeActElapsed());
         inpActPost = (EditText)findViewById(R.id.inpActPost);
         inpActPost.setText(act.getNome());
-        gaugeBlue = (ImageView)findViewById(R.id.imageViewBlue);
-        gaugeGreen = (ImageView)findViewById(R.id.imageViewGreen);
-        gaugeRed = (ImageView)findViewById(R.id.imageViewRed);
-        txtStatus = (TextView)findViewById(R.id.textView3);
+        gaugeBlue = (ImageView)findViewById(R.id.imgBlueKmb);
+        gaugeGreen = (ImageView)findViewById(R.id.imgGreenKmb);
+        gaugeRed = (ImageView)findViewById(R.id.imgRedKmb);
+        txtStatus = (TextView)findViewById(R.id.txtKMBStatus);
         btnAddNote = (ImageButton)findViewById(R.id.btnAddNotePost);
         btnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,22 +148,64 @@ public class PostReflectionActivity extends Activity {
     }
     private void setGauge() {
         Util.showProgress(true, mContext, mScrollView, mProgressView);
-        try {
-            new SetKmaKmbTask().execute().get();
-        } catch (Exception e) {
-            Util.error("SET_KMA_KMB_ERROR",e.getMessage(),mContext);
+        if(!fromList) {
+            try {
+                new SetKmaKmbTask().execute().get();
+            } catch (Exception e) {
+                Util.error("SET_KMA_KMB_ERROR", e.getMessage(), mContext);
+            }
         }
+        if(act.getKmb() >=-1d){
+            if(isBetween(act.getKmb(),0.25d,1d)){
+                gaugeGreen.setVisibility(View.INVISIBLE);
+                gaugeRed.setVisibility(View.INVISIBLE);
+                gaugeBlue.setVisibility(View.VISIBLE);
+                txtStatus.setText(getResources().getString(R.string.optimistic));
+            }
+            else if(isBetween(act.getKmb(),-1d,-0.25d)){
+                gaugeGreen.setVisibility(View.INVISIBLE);
+                gaugeRed.setVisibility(View.VISIBLE);
+                gaugeBlue.setVisibility(View.INVISIBLE);
+                txtStatus.setText(getResources().getString(R.string.pessimistic));
+            }
+            else if(act.getKmb()==0){
+                gaugeGreen.setVisibility(View.VISIBLE);
+                gaugeRed.setVisibility(View.INVISIBLE);
+                gaugeBlue.setVisibility(View.INVISIBLE);
+                txtStatus.setText(getResources().getString(R.string.realistic));
+            }
+            else {
+                gaugeGreen.setVisibility(View.INVISIBLE);
+                gaugeRed.setVisibility(View.INVISIBLE);
+                gaugeBlue.setVisibility(View.VISIBLE);
+                txtStatus.setText(getResources().getString(R.string.random));
+            }
+        }
+        Util.showProgress(false,mContext,mScrollView,mProgressView);
+    }
 
-        //if(Act.media != 0)
-        //switch(act.media)
-        //case 1:
-        gaugeGreen.setVisibility(View.INVISIBLE);
-        gaugeRed.setVisibility(View.INVISIBLE);
-        gaugeBlue.setVisibility(View.VISIBLE);
-        txtStatus.setText(getString(R.string.optimistic));
+    /*
+    0
+￼
+0 Realista
+O aprendiz faz uma estimativa exata de seu conhecimento, tendo uma alta KMA.
+
+[0.25, 1]
+Otimista
+O aprendiz tende a estimar que pode resolver os problemas, mas ele não consegue, na maioria das situações
+
+[-1, -0.25]
+Pessimista
+O aprendiz tende a estimativa de que não pode resolver os problemas, mas ele consegue
+[-0.25, 0.25]
+Randômico
+     */
+
+    public static boolean isBetween(Double x, Double lower, Double upper) {
+        return (x>=lower && x <= upper);
     }
     private String getTimeActElapsed() {
-                String a = Integer.toString(act.getTempoGasto().getHours())+":"+Integer.toString(act.getTempoGasto().getMinutes())+
+        String a = Integer.toString(act.getTempoGasto().getHours())+":"+Integer.toString(act.getTempoGasto().getMinutes())+
                 ":"+Integer.toString(act.getTempoGasto().getSeconds());
         return a;
     }
@@ -231,8 +279,6 @@ public class PostReflectionActivity extends Activity {
         }
     }
 
-
-
     public class SetKmaKmbTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -243,7 +289,10 @@ public class PostReflectionActivity extends Activity {
                 client.AddHeader("Content-type", "application/json");
                 client.AddParam("content", act.toJsonAct());
                 client.Execute(RequestMethod.POST);
+                String a = client.getResponse();
                 if (client.getResponseCode() == 200) {
+                    if(a!=null)
+                        kmbMedio = Float.parseFloat(a);
                     success = true;
                 }
             }catch (Exception e) {

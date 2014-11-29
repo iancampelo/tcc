@@ -119,7 +119,7 @@ public class MainActivity extends Activity {
             mAuthTask.execute((Void) null);
         }
 
-        if(kmaMedio<-1){
+        if(kmaMedio<-12312f){
             try {
                 mKmaTask = new KmaTask();
                 mKmaTask.execute((Void)null).get();
@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
                 Util.error("MAIN_AVG_KMA_GET",e.getMessage(),mContext);
             }
         }
-        if(kmaMedio>=-1){
+        if(kmaMedio>=-12312f){
             if(isBetween(kmaMedio,0.5F,1F)){
                 gaugeGreen.setVisibility(View.INVISIBLE);
                 gaugeRed.setVisibility(View.VISIBLE);

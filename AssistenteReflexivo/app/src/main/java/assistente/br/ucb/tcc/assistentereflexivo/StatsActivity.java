@@ -28,6 +28,9 @@ public class StatsActivity extends Activity {
     private static ArrayList<Act> acts;
     private static View mScrollView,mProgressView;
     private ListActsTask mListTask;
+    private KmaKmbTask mKmaKmbTask = null;
+    private static Float indiceMedio = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,6 @@ public class StatsActivity extends Activity {
         act = (Act)mContext;
         user = (User)mContext;
         load();
-        setGauge(gradeKma,true);
-        setGauge(gradeKmb,false);
         Util.setmContext(mContext);
     }
 
@@ -70,17 +71,17 @@ public class StatsActivity extends Activity {
     private void load() {
         mScrollView     = findViewById(R.id.ScrlViewStats);
         mProgressView   = findViewById(R.id.stats_progress);
-        gradeKma        = (TextView)findViewById(R.id.textView);
-        gradeKmb        = (TextView)findViewById(R.id.textView3);
-        gaugeBlueKma    = (ImageView)findViewById(R.id.imageViewBlue);
-        gaugeRedKma     = (ImageView)findViewById(R.id.imageViewRed);
-        gaugeGreenKma   = (ImageView)findViewById(R.id.imageViewGreen);
-        gaugeBlueKmb    = (ImageView)findViewById(R.id.imageViewBlue2);
-        gaugeGreenKmb   = (ImageView)findViewById(R.id.imageViewGreen2);
-        gaugeRedKmb     = (ImageView)findViewById(R.id.imageViewRed2);
+        gradeKmb        = (TextView)findViewById(R.id.txtKmbStats);
+        gradeKma        = (TextView)findViewById(R.id.txtKmaStats);
+        gaugeBlueKmb    = (ImageView)findViewById(R.id.imgBlueKmb);
+        gaugeRedKmb     = (ImageView)findViewById(R.id.imgRedKmb);
+        gaugeGreenKmb   = (ImageView)findViewById(R.id.imgGreenKmb);
+        gaugeBlueKma    = (ImageView)findViewById(R.id.imgBlueKma);
+        gaugeGreenKma   = (ImageView)findViewById(R.id.imgGreenKma);
+        gaugeRedKma     = (ImageView)findViewById(R.id.imgRedKma);
         btnBackAdd      = (ImageButton)findViewById(R.id.btnBackAdd);
         btnShowActs     = (ImageButton) findViewById(R.id.btnShowActs);
-
+        indiceMedio     = -123125123123f;
         btnBackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +97,8 @@ public class StatsActivity extends Activity {
             }
         });
 
+        setGauge(gradeKma,true);
+        setGauge(gradeKmb,false);
 
     }
 
@@ -112,23 +115,84 @@ public class StatsActivity extends Activity {
 
     private void setGauge(TextView txtStatus, boolean isKma) {
         if(isKma) {
-            //if(Act.mediaKma != NULL)
-            //switch(act.media)
-            //case 1:
-            gaugeGreenKma.setVisibility(View.VISIBLE);
-            gaugeRedKma.setVisibility(View.INVISIBLE);
-            gaugeBlueKma.setVisibility(View.INVISIBLE);
-            txtStatus.setText(getResources().getString(R.string.realistic));
+            Util.showProgress(true,mContext,mScrollView,mProgressView);
+
+
+            if(indiceMedio <-12312f){
+                try {
+                    mKmaKmbTask = new KmaKmbTask(R.string.url_ws_get_avg_kma);
+                    mKmaKmbTask.execute((Void) null).get();
+                } catch (Exception e) {
+                    Util.error("MAIN_AVG_KMA_GET",e.getMessage(),mContext);
+                }
+            }
+            if(indiceMedio >=-12312f){
+                if(isBetween(indiceMedio,0.5F,1F)){
+                    gaugeGreenKma.setVisibility(View.INVISIBLE);
+                    gaugeRedKma.setVisibility(View.VISIBLE);
+                    gaugeBlueKma.setVisibility(View.INVISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.optimistic));
+
+                }
+                else if(isBetween(indiceMedio,-0.25F,0.25F)){
+                    gaugeGreenKma.setVisibility(View.VISIBLE);
+                    gaugeRedKma.setVisibility(View.INVISIBLE);
+                    gaugeBlueKma.setVisibility(View.INVISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.realistic));
+                }
+                else{
+                    gaugeGreenKma.setVisibility(View.INVISIBLE);
+                    gaugeRedKma.setVisibility(View.INVISIBLE);
+                    gaugeBlueKma.setVisibility(View.VISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.pessimistic));
+                }
+            }
+
+            Util.showProgress(false, mContext, mScrollView, mProgressView);
         }else{
-            //if(Act.mediaKma != NULL)
-            //switch(act.media)
-            //case 1:
-            gaugeGreenKmb.setVisibility(View.INVISIBLE);
-            gaugeRedKmb.setVisibility(View.VISIBLE);
-            gaugeBlueKmb.setVisibility(View.INVISIBLE);
-            txtStatus.setText(getResources().getString(R.string.pessimistic));
+            if(indiceMedio<-12312f){
+
+                try {
+                    mKmaKmbTask = new KmaKmbTask(R.string.url_ws_get_avg_kmb);
+                    mKmaKmbTask.execute((Void) null).get();
+                } catch (Exception e) {
+                    Util.error("MAIN_AVG_KMB_GET",e.getMessage(),mContext);
+                }
+
+            }
+
+            if(act.getKmb() >=-1d){
+                if(isBetween(Float.parseFloat(act.getKmb().toString()),0.25f,1f)){
+                    gaugeGreenKmb.setVisibility(View.INVISIBLE);
+                    gaugeRedKmb.setVisibility(View.INVISIBLE);
+                    gaugeBlueKmb.setVisibility(View.VISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.optimistic));
+                }
+                else if(isBetween(Float.parseFloat(act.getKmb().toString()),-1f,-0.25f)){
+                    gaugeGreenKmb.setVisibility(View.INVISIBLE);
+                    gaugeRedKmb.setVisibility(View.VISIBLE);
+                    gaugeBlueKmb.setVisibility(View.INVISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.pessimistic));
+                }
+                else if(act.getKmb()==0){
+                    gaugeGreenKmb.setVisibility(View.VISIBLE);
+                    gaugeRedKmb.setVisibility(View.INVISIBLE);
+                    gaugeBlueKmb.setVisibility(View.INVISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.realistic));
+                }
+                else {
+                    gaugeGreenKmb.setVisibility(View.INVISIBLE);
+                    gaugeRedKmb.setVisibility(View.INVISIBLE);
+                    gaugeBlueKmb.setVisibility(View.VISIBLE);
+                    txtStatus.setText(getResources().getString(R.string.random));
+                }
+            }
+            Util.showProgress(false,mContext,mScrollView,mProgressView);
         }
 
+    }
+    public static boolean isBetween(Float x, Float lower, Float upper) {
+        return (x>=lower && x <= upper);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -168,7 +232,7 @@ public class StatsActivity extends Activity {
                     client.getErrorMessage();
                     if (client.getResponseCode() == 200) {
                         if (a != null) {
-                           acts = (Util.jsonToActList(a));
+                            acts = (Util.jsonToActList(a));
                             if(acts!=null)
                                 success = true;
                         } else
@@ -202,4 +266,51 @@ public class StatsActivity extends Activity {
             Util.showProgress(false,mContext,mScrollView,mProgressView);
         }
     }
+    public class KmaKmbTask extends AsyncTask<Void, Void, Boolean> {
+        private IntegrateWS client = null;
+        private int url;
+        KmaKmbTask(int _url) {
+            url = _url;
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean success = false;
+            try {
+                if (user.getUsername() != null) {
+                    client = new IntegrateWS(Util.getUrl(url,mContext));
+                    client.AddHeader("Accept", "application/json");
+                    client.AddHeader("Content-type", "application/json");
+                    client.AddParam("content", user.toJson());
+
+                    client.Execute(RequestMethod.POST);
+                    String a = client.getResponse();
+                    client.getErrorMessage();
+                    if (client.getResponseCode() == 200) {
+                        if (a != null) {
+                            indiceMedio = Float.parseFloat(a);
+                            success = true;
+                        }
+                    }
+                }
+                else
+                    success = false;
+            }catch (Exception e) {
+                Util.error("ERROR_CONNECTION", e.getMessage(),mContext);
+                success = false;
+            }
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+        }
+
+        @Override
+        protected void onCancelled() {
+            mKmaKmbTask = null;
+            Util.showProgress(false,mContext,mScrollView,mProgressView);
+        }
+    }
+
+
 }

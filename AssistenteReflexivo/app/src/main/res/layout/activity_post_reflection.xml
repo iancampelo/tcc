@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_grade_kmb"
-                android:id="@+id/textView"
+                android:id="@+id/txtKmbStats"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="54dp"
                 android:layout_below="@+id/inpTimeExe" />
@@ -75,43 +75,43 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewBlue"
+                android:id="@+id/imgBlueKmb"
                 android:src="@drawable/gauge_blue"
                 android:layout_toEndOf="@+id/txtActPost"
-                android:layout_alignBottom="@+id/textView3"
+                android:layout_alignBottom="@+id/txtKmaStats"
                 android:layout_below="@+id/inpTimeExe" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewRed"
+                android:id="@+id/imgRedKmb"
                 android:src="@drawable/gauge_red"
                 android:layout_toEndOf="@+id/txtActPost"
-                android:layout_alignBottom="@+id/textView3"
+                android:layout_alignBottom="@+id/txtKmaStats"
                 android:layout_below="@+id/textView2" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageViewGreen"
+                android:id="@+id/imgGreenKmb"
                 android:src="@drawable/gauge_green"
                 android:layout_toEndOf="@+id/txtActPost"
-                android:layout_alignBottom="@+id/textView3"
+                android:layout_alignBottom="@+id/txtKmaStats"
                 android:layout_below="@+id/textView2"
-                android:layout_alignEnd="@+id/imageViewBlue" />
+                android:layout_alignEnd="@+id/imgBlueKmb" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView3"
+                android:id="@+id/txtKmaStats"
                 android:layout_marginTop="48dp"
-                android:layout_toStartOf="@+id/imageViewBlue"
-                android:layout_below="@+id/textView" />
+                android:layout_toStartOf="@+id/imgBlueKmb"
+                android:layout_below="@+id/txtKmbStats" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/textView2"
-                android:layout_toEndOf="@+id/textView"
+                android:layout_toEndOf="@+id/txtKmbStats"
                 android:layout_marginLeft="36dp"
                 android:layout_below="@+id/inpTimeExe" />
             <ImageButton
@@ -129,6 +129,14 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/inpTimeExe"
                 android:layout_alignTop="@+id/btnAddNotePost" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtKMBStatus"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_toStartOf="@+id/btnNextPost"
+                android:layout_below="@+id/imgBlueKmb" />
 
         </RelativeLayout>
     </ScrollView>

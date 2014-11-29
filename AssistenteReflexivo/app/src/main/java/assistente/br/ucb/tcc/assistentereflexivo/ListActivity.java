@@ -56,6 +56,7 @@ public class ListActivity extends Activity {
                     setActContext(acts.get(position));
                     finish();
                     Intent intent = new Intent(mContext, PostReflectionActivity.class);
+                    intent.putExtra("fromList",true);
                     startActivity(intent);
 
                 }
