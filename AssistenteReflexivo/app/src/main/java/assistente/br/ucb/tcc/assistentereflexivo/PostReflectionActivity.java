@@ -33,9 +33,6 @@ public class PostReflectionActivity extends Activity {
     private View mProgressView, mScrollView;
     private static Context mContext = null;
     private boolean success;
-    private static Float kmbMedio = null;
-    private SetKmaKmbTask mKmaTask = null;
-    private static boolean fromList = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +40,6 @@ public class PostReflectionActivity extends Activity {
         setContentView(R.layout.activity_post_reflection);
         mContext = getApplicationContext();
         Intent a = getIntent();
-        if(a!=null){
-            fromList = a.hasExtra("fromList");
-        }
         load();
     }
 
@@ -148,13 +142,7 @@ public class PostReflectionActivity extends Activity {
     }
     private void setGauge() {
         Util.showProgress(true, mContext, mScrollView, mProgressView);
-        if(!fromList) {
-            try {
-                new SetKmaKmbTask().execute().get();
-            } catch (Exception e) {
-                Util.error("SET_KMA_KMB_ERROR", e.getMessage(), mContext);
-            }
-        }
+
         if(act.getKmb() >=-1d){
             if(isBetween(act.getKmb(),0.25d,1d)){
                 gaugeGreen.setVisibility(View.INVISIBLE);
@@ -279,40 +267,5 @@ Randômico
         }
     }
 
-    public class SetKmaKmbTask extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            success = false;
-            try {
-                client = new IntegrateWS(Util.getUrl(R.string.url_ws_set_kma_kmb,mContext));
-                client.AddHeader("Accept", "application/json");
-                client.AddHeader("Content-type", "application/json");
-                client.AddParam("content", act.toJsonAct());
-                client.Execute(RequestMethod.POST);
-                String a = client.getResponse();
-                if (client.getResponseCode() == 200) {
-                    if(a!=null)
-                        kmbMedio = Float.parseFloat(a);
-                    success = true;
-                }
-            }catch (Exception e) {
-                Util.error("ERROR_SET_KMA_KMB",e.getMessage(),mContext);
-                success = false;
-            }
-            return success;
-        }
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mActSaveTask = null;
-            Util.showProgress(false, mContext, mScrollView, mProgressView);
-            if (!success) {
-                Util.error("ERROR_CREATE_USER_ACT", getString(R.string.error),mContext);
-            }
-        }
-        @Override
-        protected void onCancelled() {
-            mActSaveTask = null;
-            Util.showProgress(false,mContext,mScrollView,mProgressView);
-        }
-    }
+
 }

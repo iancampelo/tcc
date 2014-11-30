@@ -116,8 +116,6 @@ public class StatsActivity extends Activity {
     private void setGauge(TextView txtStatus, boolean isKma) {
         if(isKma) {
             Util.showProgress(true,mContext,mScrollView,mProgressView);
-
-
             if(indiceMedio <-12312f){
                 try {
                     mKmaKmbTask = new KmaKmbTask(R.string.url_ws_get_avg_kma);
@@ -149,32 +147,30 @@ public class StatsActivity extends Activity {
             }
 
             Util.showProgress(false, mContext, mScrollView, mProgressView);
+            indiceMedio     = -123125123123f;
         }else{
             if(indiceMedio<-12312f){
-
                 try {
                     mKmaKmbTask = new KmaKmbTask(R.string.url_ws_get_avg_kmb);
                     mKmaKmbTask.execute((Void) null).get();
                 } catch (Exception e) {
                     Util.error("MAIN_AVG_KMB_GET",e.getMessage(),mContext);
                 }
-
             }
-
-            if(act.getKmb() >=-1d){
-                if(isBetween(Float.parseFloat(act.getKmb().toString()),0.25f,1f)){
+            if(indiceMedio >=-1.2312f){
+                if(isBetween(indiceMedio,0.25f,1f)){
                     gaugeGreenKmb.setVisibility(View.INVISIBLE);
                     gaugeRedKmb.setVisibility(View.INVISIBLE);
                     gaugeBlueKmb.setVisibility(View.VISIBLE);
                     txtStatus.setText(getResources().getString(R.string.optimistic));
                 }
-                else if(isBetween(Float.parseFloat(act.getKmb().toString()),-1f,-0.25f)){
+                else if(isBetween(indiceMedio,-1f,-0.25f)){
                     gaugeGreenKmb.setVisibility(View.INVISIBLE);
                     gaugeRedKmb.setVisibility(View.VISIBLE);
                     gaugeBlueKmb.setVisibility(View.INVISIBLE);
                     txtStatus.setText(getResources().getString(R.string.pessimistic));
                 }
-                else if(act.getKmb()==0){
+                else if(indiceMedio==0){
                     gaugeGreenKmb.setVisibility(View.VISIBLE);
                     gaugeRedKmb.setVisibility(View.INVISIBLE);
                     gaugeBlueKmb.setVisibility(View.INVISIBLE);
@@ -188,8 +184,8 @@ public class StatsActivity extends Activity {
                 }
             }
             Util.showProgress(false,mContext,mScrollView,mProgressView);
+            indiceMedio     = -123125123123f;
         }
-
     }
     public static boolean isBetween(Float x, Float lower, Float upper) {
         return (x>=lower && x <= upper);

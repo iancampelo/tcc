@@ -62,6 +62,7 @@
     <string name="no_activity_yet">You don\'t have any activity</string>
     <string name="act_list">Act list</string>
     <string name="title_activity_list">List Activity</string>
+    <string name="random">Random</string>
 
     <string-array name="predict_options">
         <item>@string/incorrect</item>
@@ -77,8 +78,9 @@
     <!-- CONNECT SERVER STRINGS -->
 
 
-    <string name="url_server">http://10.70.245.252:8080/webservice</string>
+    <!--<string name="url_server">http://10.70.245.252:8080/webservice</string>-->
     <!-- <string name="url_server">http://10.70.245.252:8080/webservice</string> -->
+    <string name="url_server">http://192.168.1.4:8080/webservice</string>
 
     <string name="url_ws_get_user">/usuario/consultarUsuario</string>
     <string name="url_ws_create_user">/usuario/cadastrarUsuario</string>
@@ -91,7 +93,6 @@
     <string name="url_ws_set_kma_kmb">/atividade/setKmaKmb</string>
     <string name="url_ws_get_avg_kmb">/atividade/getKmbMedio</string>
     <string name="url_ws_get_level">/atividade/getNivel</string>
-    <string name="random">Random</string>
 
 
 </resources>

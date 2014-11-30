@@ -158,6 +158,7 @@ public class Util {
         return ctx.getString(R.string.url_server)+ctx.getString(url);
     }
 
+    //TODO TESTING WITH INVISIBLE
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static void showProgress(final boolean show , Context ctx, final View mainForm, final View prgForm) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -166,16 +167,16 @@ public class Util {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             final int shortAnimTime = ctx.getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mainForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            mainForm.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
             mainForm.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mainForm.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mainForm.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
                 }
             });
 
-            prgForm.setVisibility(show ? View.VISIBLE : View.GONE);
+            prgForm.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             prgForm.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
@@ -186,8 +187,8 @@ public class Util {
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            prgForm.setVisibility(show ? View.VISIBLE : View.GONE);
-            mainForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            prgForm.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+            mainForm.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
         }
     }
 
