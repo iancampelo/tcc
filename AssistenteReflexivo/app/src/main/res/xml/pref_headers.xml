@@ -7,9 +7,4 @@
         android:title="@string/pref_header_general" />
     <!--@TODO Exclude the Notifications part-->
 
-
-    <header
-        android:fragment="assistente.br.ucb.tcc.assistentereflexivo.SettingsActivity$DataSyncPreferenceFragment"
-        android:title="@string/pref_header_data_sync" />
-
 </preference-headers>

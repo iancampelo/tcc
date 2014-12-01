@@ -305,9 +305,8 @@ public class LoginActivity extends Activity{
 
                     inputName = new EditText(mContext);
                     inputName.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-                    inputName.setHint(getResources().getString(R.string.name));
-                    inputName.setTextColor(Color.BLACK);
                     inputName.setHint(getString(R.string.name));
+                    inputName.setTextColor(Color.BLACK);
                     layout.addView(inputName);
 
                     inputFuncao = new EditText(mContext);
@@ -319,10 +318,10 @@ public class LoginActivity extends Activity{
                     inputBirthday = new EditText(mContext);
                     inputBirthday.addTextChangedListener(Util.insert("##/##/####", inputBirthday));
                     inputBirthday.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    inputBirthday.setTextColor(Color.BLACK);
                     inputBirthday.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-                    inputBirthday.setHint(getResources().getString(R.string.name));
                     inputBirthday.setHint(getString(R.string.birthday));
+                    inputBirthday.setTextColor(Color.BLACK);
+
                     layout.addView(inputBirthday);
 
                     builder.setMessage(R.string.confirm_registry);

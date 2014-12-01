@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_statistics"
                 android:id="@+id/btnStats"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_alignTop="@+id/btnNewAct"
                 android:layout_toEndOf="@+id/gaugeBlue" />
 

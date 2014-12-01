@@ -42,7 +42,6 @@ public class PostReflectionActivity extends Activity {
         Intent a = getIntent();
         load();
     }
-
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -61,7 +60,6 @@ public class PostReflectionActivity extends Activity {
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
-
     private void load() {
         act = (Act)getApplicationContext();
         mProgressView = findViewById(R.id.post_progress);
@@ -171,24 +169,6 @@ public class PostReflectionActivity extends Activity {
         }
         Util.showProgress(false,mContext,mScrollView,mProgressView);
     }
-
-    /*
-    0
-￼
-0 Realista
-O aprendiz faz uma estimativa exata de seu conhecimento, tendo uma alta KMA.
-
-[0.25, 1]
-Otimista
-O aprendiz tende a estimar que pode resolver os problemas, mas ele não consegue, na maioria das situações
-
-[-1, -0.25]
-Pessimista
-O aprendiz tende a estimativa de que não pode resolver os problemas, mas ele consegue
-[-0.25, 0.25]
-Randômico
-     */
-
     public static boolean isBetween(Double x, Double lower, Double upper) {
         return (x>=lower && x <= upper);
     }
@@ -216,7 +196,6 @@ Randômico
         }
         return super.onOptionsItemSelected(item);
     }
-
     private boolean saveAct() {
         setGauge();
         success = false;
@@ -232,7 +211,6 @@ Randômico
         Util.showProgress(false,mContext,mScrollView,mProgressView);
         return success;
     }
-
     public class ActSaveTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -266,6 +244,4 @@ Randômico
             Util.showProgress(false,mContext,mScrollView,mProgressView);
         }
     }
-
-
 }

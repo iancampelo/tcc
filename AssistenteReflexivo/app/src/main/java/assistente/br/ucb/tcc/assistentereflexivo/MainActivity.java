@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,13 +14,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.concurrent.ExecutionException;
-
 
 public class MainActivity extends Activity {
 
     private ImageView gaugeBlue, gaugeRed, gaugeGreen;
-    private ImageButton btnAddActivity, statsActivity;
+    private ImageButton btnAddActivity, btnStatsActivity;
     private TextView txtMain,txtAvgAct;
     private static Act act = null;
     private static User user= null;
@@ -30,6 +27,7 @@ public class MainActivity extends Activity {
     private KmaTask mKmaTask = null;
     private View mProgressView, mScrollView;
     private static Float kmaMedio = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,18 +35,8 @@ public class MainActivity extends Activity {
         act = (Act)mContext;
         user = (User)mContext;
         setContentView(R.layout.activity_main);
-        //TODO Fazer método que pega todas as atividade do usuário e faz a média, do status das atividades
-        //TODO O nível KMB não pode ser String, pois temos que ver em qual nível ele esta, então a comparação de níveis vai ser
-        //TODO if(nivel == 0 /*pessimista*/)
-        //TODO switch(qntAtividades)
-        //TODO case: >2 {nível 1}
-        //TODO case: >4 {nível 2}
-        //TODO case: >5 {nível 3}
-        //TODO case: >6 {nivel 4}
-        //TODO default: nível 0
         load();
         setGauge();
-        btnAddActivity = (ImageButton) findViewById(R.id.btnNewAct);
         btnAddActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -58,9 +46,7 @@ public class MainActivity extends Activity {
 
             }
         });
-
-        statsActivity = (ImageButton) findViewById(R.id.btnStats);
-        statsActivity.setOnClickListener(new View.OnClickListener(){
+        btnStatsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, StatsActivity.class);
@@ -90,6 +76,8 @@ public class MainActivity extends Activity {
                 .show();
     }
     private void load() {
+        btnAddActivity = (ImageButton) findViewById(R.id.btnNewAct);
+        btnStatsActivity = (ImageButton) findViewById(R.id.btnStats);
         mProgressView = findViewById(R.id.main_progress);
         mScrollView = findViewById(R.id.ScrlViewMain);
         txtMain = (TextView)findViewById(R.id.txtAvgMain);
@@ -99,19 +87,6 @@ public class MainActivity extends Activity {
         gaugeGreen = (ImageView)findViewById(R.id.gaugeGreen);
         kmaMedio = -123125123123f;
     }
-    /*
-    [-1, -0.25]
-    Baixo KMA
-    Estudante não estimou corretamente seu conhecimento na maioria das situações
-
-    [-0.25, 0.5]
-    Médio KMA
-    O estudante, por vezes, estimou corretamente, mas pouco freqüentes foram as estimativas parcialmente erradas ou completamente erradas.
-
-    [0.5, 1]￼
-    Alto KMA
-    O estudante estimou corretamente seus conhecimentos na maioria das vezes.
-    */
     private void setGauge() {
         Util.showProgress(true,mContext,mScrollView,mProgressView);
         if(user.getUserId()==0){
@@ -127,33 +102,47 @@ public class MainActivity extends Activity {
                 Util.error("MAIN_AVG_KMA_GET",e.getMessage(),mContext);
             }
         }
+
+
+        /*
+
+[-1, -0.25]
+Baixo KMA
+Estudante não estimou corretamente seu conhecimento na maioria das situações
+[-0.25, 0.5]
+Médio KMA
+O estudante, por vezes, estimou corretamente, mas pouco freqüentes foram as estimativas parcialmente erradas ou completamente erradas.
+[0.5, 1]
+￼
+Alto KMA
+
+         */
         if(kmaMedio>=-12312f){
             if(isBetween(kmaMedio,0.5F,1F)){
                 gaugeGreen.setVisibility(View.INVISIBLE);
                 gaugeRed.setVisibility(View.VISIBLE);
                 gaugeBlue.setVisibility(View.INVISIBLE);
-                txtMain.setText(getResources().getString(R.string.optimistic));
-                txtAvgAct.setText(getString(R.string.main_average_value));
+                txtMain.setText(getResources().getString(R.string.high));
             }
-            else if(isBetween(kmaMedio,-0.25F,0.25F)){
+            else if(isBetween(kmaMedio,-0.25F,0.5F)){
                 gaugeGreen.setVisibility(View.VISIBLE);
                 gaugeRed.setVisibility(View.INVISIBLE);
                 gaugeBlue.setVisibility(View.INVISIBLE);
-                txtMain.setText(getResources().getString(R.string.realistic));
-                txtAvgAct.setText(getString(R.string.main_average_value));
+                txtMain.setText(getResources().getString(R.string.middle));
+
             }
             else{
                 gaugeGreen.setVisibility(View.INVISIBLE);
                 gaugeRed.setVisibility(View.INVISIBLE);
                 gaugeBlue.setVisibility(View.VISIBLE);
-                txtMain.setText(getResources().getString(R.string.pessimistic));
-                txtAvgAct.setText(getString(R.string.main_average_value));
-            }
-        }
+                txtMain.setText(getResources().getString(R.string.low));
 
+            }
+            txtAvgAct.setText(getString(R.string.main_average_value));
+            btnStatsActivity.setVisibility(View.VISIBLE);
+        }
         Util.showProgress(false,mContext,mScrollView,mProgressView);
     }
-
     public static boolean isBetween(Float x, Float lower, Float upper) {
         return (x>=lower && x <= upper);
     }
@@ -176,7 +165,6 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     public class UserTask extends AsyncTask<Void, Void, Boolean> {
         private User usuario;
         private IntegrateWS client = null;
@@ -227,8 +215,6 @@ public class MainActivity extends Activity {
             Util.showProgress(false,mContext,mScrollView,mProgressView);
         }
     }
-
-
     public class KmaTask extends AsyncTask<Void, Void, Boolean> {
         private IntegrateWS client = null;
         KmaTask() {}
@@ -272,6 +258,4 @@ public class MainActivity extends Activity {
             Util.showProgress(false,mContext,mScrollView,mProgressView);
         }
     }
-
-
 }

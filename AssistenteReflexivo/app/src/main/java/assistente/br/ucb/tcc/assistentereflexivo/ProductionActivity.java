@@ -11,6 +11,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -21,11 +22,8 @@ public class ProductionActivity extends Activity {
     public EditText inpTimePre, inpTimeElapsed, inpActProd;
     private static Act act = null;
     public ImageButton btnPlayPauseTime, btnNextProd,btnAddNote;
-    private Handler myHandler = new Handler();
-    long timeInMillies = 0L;
-    long timeSwap = 0L;
-    long finalTime = 0L;
     private String note;
+    private Chronometer timeElapsed;
     private long startTime = 0L;
     private static boolean playClick = false;
     @Override
@@ -43,58 +41,47 @@ public class ProductionActivity extends Activity {
         inpActProd.setHint(act.getNome());
         act.getTempoEstimado().getTime();
         inpTimePre.setText(getTimeAct());
+        timeElapsed  = (Chronometer) findViewById(R.id.chrono);
+        timeElapsed.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
+            @Override
+            public void onChronometerTick(Chronometer cArg) {
+                long time = SystemClock.elapsedRealtime() - cArg.getBase();
+                int h   = (int)(time /3600000);
+                int m = (int)(time - h*3600000)/60000;
+                int s= (int)(time - h*3600000- m*60000)/1000 ;
+                String hh = h < 10 ? "0"+h: h+"";
+                String mm = m < 10 ? "0"+m: m+"";
+                String ss = s < 10 ? "0"+s: s+"";
+                cArg.setText(hh+":"+mm+":"+ss);
+            }
+        });
         btnPlayPauseTime = (ImageButton) findViewById(R.id.btnPlayPauseTime);
         btnPlayPauseTime.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(!playClick) {
-                    startTime = SystemClock.uptimeMillis();
-                    myHandler.postDelayed(updateTimerMethod, 0);
+                    timeElapsed.setBase(SystemClock.elapsedRealtime()+startTime);
+                    timeElapsed.start();
                     playClick=true;
                     btnPlayPauseTime.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_pause));
                 }else{
-                    timeSwap += timeInMillies;
-                    myHandler.removeCallbacks(updateTimerMethod);
+                    startTime = timeElapsed.getBase() - SystemClock.elapsedRealtime();
+                    timeElapsed.stop();
                     playClick=false;
                     btnPlayPauseTime.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_play));
                 }
             }
         });
-
-        /* TODO Implement new chronometer
-        Chronometer timeElapsed  = (Chronometer) findViewById(R.id.chronomete);
-timeElapsed.setOnChronometerTickListener(new OnChronometerTickListener(){
-        @Override
-            public void onChronometerTick(Chronometer cArg) {
-            long time = SystemClock.elapsedRealtime() - cArg.getBase();
-            int h   = (int)(time /3600000);
-            int m = (int)(time - h*3600000)/60000;
-            int s= (int)(time - h*3600000- m*60000)/1000 ;
-            String hh = h < 10 ? "0"+h: h+"";
-            String mm = m < 10 ? "0"+m: m+"";
-            String ss = s < 10 ? "0"+s: s+"";
-            cArg.setText(hh+":"+mm+":"+ss);
-        }
-    });
-    timeElapsed.setBase(SystemClock.elapsedRealtime());
-    timeElapsed.start();
-         */
-
         btnNextProd = (ImageButton)findViewById(R.id.btnNextProd);
         btnNextProd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                //Pause time
-                timeSwap += timeInMillies;
-                myHandler.removeCallbacks(updateTimerMethod);
+                timeElapsed.stop();
                 act.setTempoGasto(getTimeFromField());
                 act.setAnotacoes(note);
                 finish();
                 Intent intent = new Intent(view.getContext(), EvaluationActivity.class);
                 startActivity(intent);
             }
-
-
         });
-
         btnAddNote = (ImageButton) findViewById(R.id.btnAddNote);
         btnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,30 +106,11 @@ timeElapsed.setOnChronometerTickListener(new OnChronometerTickListener(){
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
             }
         });
 
     }
-
-    private Runnable updateTimerMethod = new Runnable() {
-
-        //TODO Add hours in the stopwatch
-        public void run() {
-            timeInMillies = SystemClock.uptimeMillis() - startTime;
-            finalTime = timeSwap + timeInMillies;
-            int seconds = (int) (finalTime / 1000);
-            int minutes = seconds / 60;
-            seconds = seconds % 60;
-            int milliseconds = (int) (finalTime % 1000);
-            inpTimeElapsed.setText("" + minutes + ":"
-                    + String.format("%02d", seconds) + ":"
-                    + String.format("%03d", milliseconds));
-            myHandler.postDelayed(this, 0);
-        }
-
-    };
 
     private String getTimeAct() {
         return Integer.toString(act.getTempoEstimado().getHours())+":"+Integer.toString(act.getTempoEstimado().getMinutes())+
@@ -150,11 +118,11 @@ timeElapsed.setOnChronometerTickListener(new OnChronometerTickListener(){
     }
 
     private Time getTimeFromField(){
-        String[] times = inpTimeElapsed.getText().toString().split(":");
+        String[] times = timeElapsed.getText().toString().split(":");
         Time time = new Time(0);
-        time.setSeconds(Integer.parseInt(times[0]));
+        time.setSeconds(Integer.parseInt(times[2]));
         time.setMinutes(Integer.parseInt(times[1]));
-        time.setHours(Integer.parseInt(times[2]));
+        time.setHours(Integer.parseInt(times[0]));
         return time;
     }
 

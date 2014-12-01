@@ -129,20 +129,20 @@ public class StatsActivity extends Activity {
                     gaugeGreenKma.setVisibility(View.INVISIBLE);
                     gaugeRedKma.setVisibility(View.VISIBLE);
                     gaugeBlueKma.setVisibility(View.INVISIBLE);
-                    txtStatus.setText(getResources().getString(R.string.optimistic));
+                    txtStatus.setText(getResources().getString(R.string.high));
 
                 }
-                else if(isBetween(indiceMedio,-0.25F,0.25F)){
+                else if(isBetween(indiceMedio,-0.25F,0.5F)){
                     gaugeGreenKma.setVisibility(View.VISIBLE);
                     gaugeRedKma.setVisibility(View.INVISIBLE);
                     gaugeBlueKma.setVisibility(View.INVISIBLE);
-                    txtStatus.setText(getResources().getString(R.string.realistic));
+                    txtStatus.setText(getResources().getString(R.string.middle));
                 }
                 else{
                     gaugeGreenKma.setVisibility(View.INVISIBLE);
                     gaugeRedKma.setVisibility(View.INVISIBLE);
                     gaugeBlueKma.setVisibility(View.VISIBLE);
-                    txtStatus.setText(getResources().getString(R.string.pessimistic));
+                    txtStatus.setText(getResources().getString(R.string.low));
                 }
             }
 
